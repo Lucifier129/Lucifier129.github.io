@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="gb2312">
+	<title>自定义元素实现瀑布流布局</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+	<style type="text/css">a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}table{border-collapse:collapse;border-spacing:0}a{text-decoration:none}a,button,input,textarea{-webkit-tap-highlight-color:rgba(255,255,255,0)}body{-webkit-text-size-adjust:none} a,img{-webkit-tap-highlight-color:rgba(255,255,255,0)}input:focus{outline:0}
+
+#container {position:relative; max-width: 640px;margin:0 auto;}
+#container waterfall-item { position:absolute; width: 50%; box-sizing:border-box; -webkit-box-sizing:border-box;}
+#container waterfall-item img { width: 100%;}
+#container waterfall-item:nth-child(2n+1) { left:0; border-right:5px solid #fff;border-left:10px solid #fff;}
+#container waterfall-item:nth-child(2n) { right:0;border-left:5px solid #fff;border-right:10px solid #fff;}
+</style>
+</head>
+<body>
+	<h1 style="text-align:center; padding:10px 0;">自定义元素实现瀑布流布局</h1>
+	<div id="container">
+		<!--新html元素，默认显示5个-->
+		<!-- <waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (1).jpg" alt=""></waterfall-item>
+		<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (2).jpg" alt=""></waterfall-item>
+		<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (3).jpg" alt=""></waterfall-item>
+		<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (4).jpg" alt=""></waterfall-item>
+		<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (5).jpg" alt=""></waterfall-item> -->
+	</div>
+	<script type="text/javascript" src="vendor/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript">
+		 //单例模式
+		({
+			//容器
+			container: $('#container'),
+			//暂存器
+			fragment: $('head'),
+			//存放高度值的数组
+			top: [0, 0],
+			//高度的最大值
+			maxHeight: 0,
+			//初始化
+			init: function() {
+				this.register().addScroll().get();
+			},
+			//注册新html元素：waterfall-item
+			register: function() {
+				var that = this;
+				var container = this.container;
+				//新元素继承HTMLElement
+				var proto = Object.create(HTMLElement.prototype);
+				//当元素添加进文档时，自动触发attachedCallback
+				proto.attachedCallback = function() {
+					var $target = $(this);
+					//如果处于暂存器中，则返回
+					if ($target.parent()[0] === that.fragment[0]) return;
+					//求其索引
+					var index = $target.index();
+					//根据索引获取top值
+					var top = that.top[index];
+					//根据该元素的top与height，计算下下一个元素的top值
+					var lastHeight = that.top[index + 2] = $target.height() + top + 10;
+					$target.css('top', top);
+					//计算最大高度
+					lastHeight > that.maxHeight && container.height(that.maxHeight = lastHeight);
+				};
+				//注册waterfall-item
+				document.registerElement('waterfall-item', {
+					prototype: proto
+				});
+				return this;
+			},
+			//添加新元素
+			append: function(items) {
+				items = $(items);
+				var container = this.container;
+				var count = 0;
+				//暂存器中加载完全部图片，再放入瀑布流容器中
+				var length = items.find('img').on('load', function() {
+					++count === length && container.append(items);
+				}).length;
+				this.fragment.append(items);
+			},
+			//添加滚动事件，当滚动条抵达底部区域，请求数据
+			addScroll: function() {
+				var $win = $(window);
+				var that = this;
+				$win.on('scroll.waterfall', function() {
+					var $win = $(this);
+					var scrollTop = $win.scrollTop();
+					var winHeight = $win.height();
+					var docHeight = $(document).height();
+					var diff = scrollTop + winHeight - docHeight;
+					Math.abs(diff) <= 50 && that.get();
+				});
+				return this;
+			},
+			//模拟新数据
+			get: function() {
+				this.append([
+					'<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (1).jpg" alt=""></waterfall-item>',
+					'<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (2).jpg" alt=""></waterfall-item>',
+					'<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (3).jpg" alt=""></waterfall-item>',
+					'<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (4).jpg" alt=""></waterfall-item>',
+					'<waterfall-item><img src="http://lucifier129.github.io/lab/images/waterfall (5).jpg" alt=""></waterfall-item>'
+				].sort(function() {
+					//元素随机化
+					return Math.random() - 0.5;
+				}).join(''));
+			}
+		}).init();
+	</script>
+</body>
+</html>

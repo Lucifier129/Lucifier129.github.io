@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>用CSS实现平行四边形导航栏的一种办法</title>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+body { background: #f0f0f0;}
+/* 水平垂直居中-公共类 */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+
+.wrap { width:1000px; padding-bottom:30px; margin:0 auto; border:1px solid #ddd; border-width:0 1px 1px 1px; box-shadow:0 0 3px #ccc; background:#fff;}
+.article { width:900px; margin:0 auto; font-family: 'Microsoft Yahei'; color:#333;}
+.article h1 { padding-top:30px; margin-bottom: 30px; text-align: center; font-size: 24px;}
+.article h4 { margin:10px 0;}
+.article p, .article pre { margin:12px 0; text-indent:2em; line-height: 24px; color:#444; }
+.article pre { background:#eaeaea; padding:3px 0; font-size: 12px; color:#222; word-wrap:break-word; word-spacing:normal;}
+.fl { float:left; *display:inline;}
+.img-area  { width: 100%; text-align: center;overflow:hidden;}
+.img-area img { max-width: 100%; }
+.mt20 { margin-top: 20px;}
+
+.nav { height: 80px;  text-align: center;  background: #4fb9bc; }
+.nav a, .nav a span { float:left; height:100%; margin-right:-80px; background:url(images/nav-bg.jpg) no-repeat; }
+.nav a { position:relative; z-index:1;  width:244px; font-size: 20px; line-height: 4; color:#fff;  text-decoration: none;}
+.nav a:hover { z-index:2; color:#4fb9bc; background-color:#fff; }
+.nav a, a.last:hover { background-position:right -80px; }
+.nav .last { background-position: right -160px; }
+.nav a span { width: 80px; background-position: 0 -160px;}
+.nav a:hover span { background-position: 0 0; }
+
+.color1 { background: #bf1a21;}
+.color1 a, .color1 a span { background-image: url(images/nav-bg1.jpg); }
+.color1 a:hover { color:#bf1a21; }
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="article">
+			<h1>用CSS实现平行四边形导航栏的一种办法</h1>
+			<h4><a href="https://github.com/Lucifier129">作者：Jade</a></h4>
+			<h4>时间：2014/09/15</h4>
+			<h4>正文：</h4>
+			<p>CSS盒模型的几何原型是矩形，它是特殊的平行四边形，四个夹角都是90°。而在网页设计中，有时导航栏被设计为夹角不等于90°的平行四边形，还有 hover 时变色的需求。颇令人头疼。</p>
+			<hr />
+			<p>经过摸索，有一种简单经济的方法，可以适用于纯色的平行四边形导航栏设计。需要一张雪碧图（如下图），和一个在语义化结构中属于「多余」的 span 标签。如果无意支持低版本浏览器，这个 span 标签可由伪元素替代。</p>
+			<div class="img-area"><img src="images/nav-bg.jpg" alt=""></div>
+			<p>HTML结构如下：</p>
+			<div class="img-area"><img src="images/html01.jpg" alt=""></div>
+			<p>实现思路是：z-index 属性和 margin-right 的负值相结合：</p>
+			<pre>1、所有 a 标签浮动，设置宽高，设置 position 为 relative（z-index 作用在非 static 定位的元素上），设置 z-index 为 1。</pre>
+			<pre>2、设置负的 margin-right 为雪碧图的宽，即让相继的 a 标签的前端覆盖前一个 a 标签的末端。</pre>
+			<pre>3、当 a 标签处于 hover 状态，设置背景色，设置前景色，设置 z-index 为 2，让 hover 状态的 a 标签的末端覆盖相继的 a 标签的前端。</pre>
+			<pre>4、由于最末尾的 a 标签没有相继的兄弟元素，所以要设置 last 类名，做特殊处理。</pre>
+			<pre>5、span 元素为 a 标签的子元素，设置左浮动，设置负的 margin-right 为为雪碧图的宽，弥补 a 标签文字受浮动元素的影响。</pre>
+			<pre>6、在 span 父元素处于 hover 状态下， span 改变自己的背景定位 background-position。</pre>
+			<p>CSS结构如下：</p>
+			<div class="img-area"><img src="images/css01.jpg" alt=""></div>
+			<p>实现的效果如下：</p>
+			<div class="lab-area mt20">
+				<div class="nav">
+					<a href="javascript:void(0)"><span></span>第一个</a>
+					<a href="javascript:void(0)"><span></span>第二个</a>
+					<a href="javascript:void(0)"><span></span>第三个</a>
+					<a href="javascript:void(0)"><span></span>第四个</a>
+					<a class="last" href="javascript:void(0)"><span></span>第五个</a>
+				</div>
+			</div>
+			<p>更改雪碧图的颜色为 #bf1a21 ，很容易就实现别的颜色，可编辑性强。</p>
+			<div class="lab-area">
+				<div class="color1 nav mt20">
+					<a href="javascript:void(0)"><span></span>第一个</a>
+					<a href="javascript:void(0)"><span></span>第二个</a>
+					<a href="javascript:void(0)"><span></span>第三个</a>
+					<a href="javascript:void(0)"><span></span>第四个</a>
+					<a class="last" href="javascript:void(0)"><span></span>第五个</a>
+				</div>
+			</div>
+			<p>这个实现方式，兼容 ie6 +，无须 js，在简单的业务需求场景下是不错的选择。</p>
+			<h4><a href="http://weibo.com/islucifier/">作者：Jade</a></h4>
+			<h4><a href="index.html">其他文章</a></h4>
+			<h4>转载请注明出处。</h4>
+		</div>
+	</div>
+</body>
+</html>

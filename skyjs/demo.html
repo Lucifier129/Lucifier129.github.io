@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>skyjs demo</title>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+.author, .project {position:fixed; color:#333; font-size: 18px; text-decoration: none;}
+.author {  right:1%; bottom:2%;}
+.project { left:1%; top:2%;}
+</style>
+</head>
+
+<body style="text-align: center">
+	<a class="project" href="https://github.com/Lucifier129/skyjs">skyjs</a>
+<img src="images/02.jpg" alt="">
+<ul>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+<img src="images/03.jpg" alt="">
+<a href="http://weibo.com/islucifier" class="author">作者：Jade</a>
+
+<script type="text/javascript" src="sky.min.js"></script>
+
+<script type="text/javascript" >
+	window.onload = function() {
+		var li = document.getElementsByTagName('li');
+
+		module.config = {
+			alias: {
+				'test': 'test.js',
+				'test1': 'test1.js',
+				'test3': 'test3.js',
+				'repeat': 'repeat.js'
+			},
+			/*preload: ['preload.js'],*/
+			charset: 'gbk',
+			debug: true
+		}
+
+		module.imports = ['test0.js',
+			function(data) {
+				li[0].innerHTML = data;
+			}
+		];
+
+		module.imports = ['test', 'define.js',
+			function(data) {
+				console.log(data);
+			}
+		];
+
+		module.imports = {
+			require: 'require.js',
+			paths: ['test1', 'test3'],
+			task: function(data, arr) {
+				var frag = document.createDocumentFragment();
+				for (var i = 0, len = arr.length; i < len; i += 1) {
+					frag.appendChild(document.createElement('div')).innerHTML = arr[i];
+				}
+				document.body.appendChild(frag);
+				console.log(data, arr);
+			}
+		};
+
+		module.imports = ['way.js', function(way) {
+			console.log(way);
+		}];
+
+	};
+
+</script>
+</body>
+</html>

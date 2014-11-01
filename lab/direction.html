@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>判断鼠标进出方向</title>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+body { background: #f0f0f0;}
+/* 水平垂直居中-公共类 */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+
+.wrap { width:1000px; padding-bottom:30px; margin:0 auto; border:1px solid #ddd; border-width:0 1px 1px 1px; box-shadow:0 0 3px #ccc; background:#ffffff;}
+.article { width:900px; margin:0 auto; font-family: 'Microsoft Yahei'; color:#333;}
+.article h1 { padding-top:30px; margin-bottom: 30px; text-align: center; font-size: 24px;}
+.article h4 { margin:10px 0;}
+.article p, .article pre { margin:12px 0; text-indent:2em; line-height: 24px; color:#444; }
+.article pre { background:#eaeaea; padding:3px 0; font-size: 12px; color:#222;}
+.fl { float:left; *display:inline;}
+
+.img-area { text-align: center; ;}
+.img-area img { border:1px solid #000}
+
+.lab-area { padding:15px 0;}
+.test01 { width:400px; height: 160px; margin:0 auto; line-height: 80px; font-size: 16px; text-align: center;  background:#81C0FF; color:#fff; }
+.css3-btn { background:#FF9397; padding:5px 8px; border-radius: 10%; color:#fff; cursor:pointer;}
+
+#container { width:100%;  overflow:hidden; border:1px solid #eaeaea; padding-bottom: 10px;}
+
+#container ul { width:101%;}
+
+#container ul li { position:relative; float:left; width:116px; height:79px; overflow:hidden; margin:10px 0 0 10px; background:#65c46b;}
+
+.mask { position:absolute; left:0; top:0; width:100%; height:100%; background:rgba(0, 0, 0, .5); font-size:18px; line-height:79px; color:#fff; text-align:center; display: none;}
+
+.mask {
+	 -webkit-transition:-webkit-transform 0.23s ease-out;
+	 -webkit-transform: translate3d(0, 0, 0);
+	 -webkit-backface-visibility: hidden;
+
+	  -moz-transition:-moz-transform 0.23s ease-out;
+	  -moz-transform: translate3d(0, 0, 0);
+	  -moz-backface-visibility: hidden;
+
+	  -o-transition:-o-transform 0.23s ease-out;
+	  -o-transform: translate3d(0, 0, 0);
+	  -o-backface-visibility: hidden;
+
+	  -ms-transition:-ms-transform 0.23s ease-out;
+	  -ms-transform: translate3d(0, 0, 0);
+	  -ms-backface-visibility: hidden;
+
+	  transition:transform 0.23s ease-out;
+	  transform: translate3d(0, 0, 0);
+	  backface-visibility: hidden;
+}
+
+@media \0screen\,screen\9 {
+.mask {filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#7f000000', endColorstr='#7f000000');}
+}
+
+.top {
+  -webkit-transform:rotate(-90deg);
+  -webkit-transform-origin:left top;
+
+  -moz-transform:rotate(-90deg);
+  -moz-transform-origin:left top;
+
+  -o-transform:rotate(-90deg);
+  -o-transform-origin:left top;
+
+   transform:rotate(-90deg);
+   transform-origin:left top;
+}
+
+.right {
+  -webkit-transform:rotate(90deg);
+  -webkit-transform-origin:right bottom;
+
+  -moz-transform:rotate(90deg);
+  -moz-transform-origin:right bottom;
+
+  -o-transform:rotate(90deg);
+  -o-transform-origin:right bottom;
+
+   transform:rotate(90deg);
+   transform-origin:right bottom;
+
+}
+
+.bottom {
+  -webkit-transform:rotate(90deg);
+  -webkit-transform-origin:left bottom;
+
+  -moz-transform:rotate(90deg);
+  -moz-transform-origin:left bottom;
+
+  -o-transform:rotate(90deg);
+  -o-transform-origin:left bottom;
+
+   transform:rotate(90deg);
+   transform-origin:left bottom;
+
+}
+
+.left {
+  -webkit-transform:rotate(-90deg);
+  -webkit-transform-origin:left bottom;
+
+  -moz-transform:rotate(-90deg);
+  -moz-transform-origin:left bottom;
+
+  -o-transform:rotate(-90deg);
+  -o-transform-origin:left bottom;
+
+   transform:rotate(-90deg);
+   transform-origin:left bottom;
+}
+
+.hover .mask {
+  -webkit-transform:rotate(0deg);
+  -moz-transform:rotate(0deg);
+  -ms-transform:rotate(0deg);
+  transform:rotate(0deg);
+}
+
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="article">
+			<h1>判断鼠标进出方向</h1>
+			<h4><a href="https://github.com/Lucifier129">作者：Jade</a></h4>
+			<h4>时间：2014/09/11</h4>
+			<h4>正文：</h4>
+			<p>判断鼠标进出方向，是一个很有意思的效果；当我们知道原理时，用 javascript 实现起来，非常简单。</p>
+			<hr />
+			<p>在 dom 世界中，页面上的块级元素，一般情况下会被渲染成矩形。我们划个对角线，也就将它分割为四小块（如下图）。</p>
+			<div class="img-area"><img src="images/img01.jpg" alt=""></div>
+			<p>给 dom 元素添加 mouseover 和 mouseout 事件时，能在事件对象 event 中拿到鼠标的 pageX 与 pageY 的坐标值，只需要判断该点处于四小块的哪一个，就能判定它的方向。</p>
+			<p>一个更简便的判断指标是，角度。根据矩形的宽高比，可以确定对角线的夹角的四个角度区间。鼠标在矩形上的进出点，与矩形的两条对角线的交点的连线，和 x 轴构成了一个角度。检测这个角度在哪个区间中，也能判断鼠标进出方向。</p>
+			<pre>设矩形宽高为 width 和 height。</pre>
+			<pre>左边区域角度的一半，可以由反正弦函数求得：atan = [Math.atan(height / 2,  width / 2) / Math.PI * 180];</pre>
+			<pre>左边区域的角度为： [360 -  atan] 到 [atan]</pre>
+			<pre>上边区域的角度为：  [atan] 到 [180 - atan]</pre>
+			<pre>右边区域的角度为： [180 - atan] 到 [180 + atan]</pre>
+			<pre>下边区域的角度为： [180 + atan] 到 [360 - atan]</pre>
+			<pre>dom 矩形的对角线交点 Q，距离文档左上角的坐标 x :[dom.offset().left + width / 2]; y : [dom.offset().top + height / 2]</pre>
+			<pre>鼠标进出点 P，距离文档左上角的坐标是： x : [event.pageX]; y : [event.pageY]</pre>
+			<pre>Q 点坐标与P 点坐标相减，就是 P 以 Q 为原点时它的坐标：x : [o.x - p.x]; y :[o.y - p.y]</pre>
+			<pre>javascript 的 Math 对象的 atan2(y, x) 可返回从 x 轴到点 (x,y) 之间的角度 a。</pre>
+			<pre>对 a 进行四区间的判断，即得到方向</pre>
+			<p>如下：在 mousemove 事件中取得鼠标角度和所在方向</p>
+			<div class="lab-area">
+				<div class="test01" js="mousemove: handler;">鼠标所在角度为：<span js="text:angel;"></span><br />鼠标所在方向为：<strong js="text: direction;"></strong></div>
+			</div>
+			<p>如下：根据鼠标进出方向的不同，添加不同的动画类名。<span class="css3-btn">CSS3 <em>on</em></span></p>
+			<div id="container">
+			  <ul class="clearfloat" js="on: handler; html: nodes;"></ul>
+			</div>
+			<p>这项技术，可以很简便的做出 jQuery 插件，没多少行。有兴趣了解更多，<a href="javascript:location = 'view-source:' + location">可查看本文源码。</a></p>
+			<div class="img-area"><img src="images/img02.jpg" alt=""></div>
+			<p></p>
+			<h4><a href="http://weibo.com/islucifier/">作者：Jade</a></h4>
+			<h4><a href="index.html">其他文章</a></h4>
+			<h4>转载请注明出处。</h4>
+		</div>
+	</div>
+	<script type="text/javascript" src="vendor/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="vendor/jplus-debug.js"></script>
+	<script type="text/javascript">
+		(function($) {
+			$.fn.dir = function(x, y) {
+				var self = this,
+					offset, half_size, o, angel, p, a, dir;
+				if (typeof self.data('angel') !== 'number') {
+					offset = self.offset();
+					half_size = {
+						w: self.width() / 2,
+						h: self.height() / 2
+					};
+					self.data('angel', Math.atan(half_size.h / half_size.w) / Math.PI * 180);
+					self.data('o', {
+						x: offset.left + half_size.w,
+						y: offset.top + half_size.h
+					});
+				}
+				o = self.data('o');
+				angel = self.data('angel');
+				p = {
+					x: o.x - x,
+					y: o.y - y
+				};
+				//Math.atan2 返回的值是 -π 到 π，不符合我们对角度的直觉，故取反
+				a = -(Math.atan2(p.y, p.x) / Math.PI) * 180 + 180;
+				if (a < angel || a > 360 - angel) {
+					dir = 1;
+				} else if (a >= angel && a < 180 - angel) {
+					dir = 0;
+				} else if (a >= 180 - angel && a < 180 + angel) {
+					dir = 3;
+				} else {
+					dir = 2;
+				}
+				self.data('a', a);
+				return dir;
+			};
+		}(jQuery));
+
+		$(function() {
+			var model = $('.test01').listen({
+				handler: function(e) {
+					var $this = $(this);
+					model.direction = ['上边', '右边', '下边', '左边'][$this.dir(e.pageX, e.pageY)];
+					model.angel = $this.data('a').toFixed(2) + '°';
+				},
+				angel: '{{ angel }}',
+				direction: '{{ direction }}'
+			});
+
+			var position = [{
+					left: 0,
+					top: '-100%'
+				}, {
+					left: '100%',
+					top: 0
+				}, {
+					left: 0,
+					top: '100%'
+				}, {
+					left: '-100%',
+					top: 0
+				}, {
+					left: 0,
+					top: 0
+				}],
+				text = ['从上', '从右', '从下', '从左'],
+				on_off = ['on', 'off'],
+				handler1 = ['mouseenter.first mouseleave.first', 'li',
+					function(e) {
+						var eType = e.type,
+							$this = $(this),
+							dir = $this.dir(e.pageX, e.pageY),
+							mask = $this.find('.mask'),
+							cur = classNames[dir];
+						if (eType === 'mouseenter') {
+							clearTimeout($this.data('t'));
+							mask.addClass(cur).show(0, function() {
+								$this.addClass('hover');
+							});
+
+						} else {
+							mask.removeClass(allClass).addClass(cur);
+							$this.removeClass('hover');
+							t = setTimeout(function() {
+								mask.removeClass(allClass).hide();
+							}, 230);
+							$this.data('t', t);
+						}
+					}
+				],
+				handler2 = ['mouseenter.second mouseleave.second', 'li',
+					function(e) {
+						var type = e.type,
+							dir = $(this).dir(e.pageX, e.pageY),
+							mask = $(this).find('.mask').show();
+
+						function comeIn(dir, val) {
+							mask.css(position[dir]).animate(position[4], 150).html(text[dir] + val);
+						}
+
+						function getOut(dir) {
+							mask.stop().animate(position[dir], 150);
+						}
+
+						switch (type) {
+							case 'mouseenter':
+								comeIn(dir, '进入');
+								break;
+							case 'mouseleave':
+								getOut(dir, '离开');
+								break;
+						}
+					}
+				],
+				toggle = [function() {
+					ul.off('.first');
+					slide.handler = handler2;
+				}, function() {
+					ul.off('.second');
+					ul.find('.mask').css({
+						top:0,
+						left:0
+					}).hide().empty();
+					slide.handler = handler1;
+				}].reverse();
+
+			$('.css3-btn').on('click', function() {
+				$(this).find('em').text(on_off.reverse()[0]);
+				toggle.reverse()[0]();
+			});
+
+			var ul = $('#container').find('ul'),
+				slide = ul.listen({
+					handler: handler1,
+					nodes: (function() {
+						var nodes = '';
+						for (var i = 0, len = 21; i < len; i++) {
+							nodes += '<li><div class="mask"></div></li>';
+						}
+						return nodes;
+					}())
+				}),
+				classNames = ['top', 'right', 'bottom', 'left'],
+				allClass = classNames.join(' ');
+		});
+	</script>
+</body>
+</html>

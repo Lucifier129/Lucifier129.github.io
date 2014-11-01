@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>文章列表</title>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+html { height: 100%;}
+body { background: #f0f0f0; height: 100%;}
+/* 水平垂直居中-公共类 */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+
+.wrap { width:1000px; min-height: 100%; padding:30px 0; margin:0 auto; border:1px solid #ddd; border-width:0 1px 1px 1px; box-shadow:0 0 3px #ccc; background:#ffffff;}
+.wrap p {margin:10px 0 30px 0;}
+.article-list { width:900px; margin:0 auto; font-family: 'Microsoft Yahei'; color:#333;}
+.author { margin-bottom: 10px;}
+.the-list, .author, .wrap p { text-indent: 2em; font-size: 18px;}
+.article-list { margin-top: 20px;}
+.article-list ul { width: 100%;}
+.article-list li { width: 80%; margin-bottom: 20px;}
+.article-list li span { float: right;}
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<h1 class="author">作者：<a href="https://github.com/Lucifier129" target="_blank">Jade</a></h1>
+		<p>兴趣：前端</p>
+		<h2 class="the-list">文章列表：</h2>
+		<div class="article-list">
+			<ul>
+				<li><a href="center.html">CSS水平垂直居中的一种通用策略</a><span>2014.08.23</span></li>
+				<li><a href="direction.html">判断鼠标进出方向</a><span>2014.09.11</span></li>
+				<li><a href="delay.html">animation-delay 与队列动画</a><span>2014.09.14</span></li>
+				<li><a href="parallelogram.html">用CSS实现平行四边形导航栏的一种办法</a><span>2014.09.15</span></li>
+				<li><a href="waterfall.html">自定义元素实现瀑布流布局</a><span>2014.10.27</span></li>
+			</ul>
+		</div>
+		<h2 class="the-list">git作品列表：</h2>
+		<div class="article-list">
+			<ul>
+				<li><a href="https://github.com/Lucifier129/skyjs">模块加载器：sky.js</a></li>
+				<li><a href="https://github.com/Lucifier129/jplus">jQuery MVVM组件： jplus.js</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

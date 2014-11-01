@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CSS水平垂直居中的一种通用策略</title>
+<!--说最佳实践，是标题党，减少争议-->
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+body { background: #f0f0f0;}
+/* 水平垂直居中-公共类 */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+
+.wrap { width:1000px; padding-bottom:30px; margin:0 auto; border:1px solid #ddd; border-width:0 1px 1px 1px; box-shadow:0 0 3px #ccc; background:#ffffff;}
+.article { width:900px; margin:0 auto; font-family: 'Microsoft Yahei'; color:#333;}
+.article h1 { padding-top:30px; margin-bottom: 30px; text-align: center; font-size: 18px;}
+.article h4 { margin:10px 0;}
+.article p, .article pre { margin:12px 0; text-indent:2em; line-height: 24px; color:#444; }
+.fl { float:left; *display:inline;}
+
+.user-case-list { list-style: circle;}
+.user-case-list .c-wrap { width:800px;  height:400px;margin:0 auto; text-align: center; border:2px solid #999; box-shadow: inset 0 0 300px #666; -webkit-transform: translate(0, 0, 0);  -moz-transform: translate(0, 0, 0); transform: translate(0, 0, 0);}
+ .exam-img-ctn,  .exam-block{ cursor:move; }
+ p.exam-text { width:60%; margin:0 auto;}
+  .exam-block { width:100px; height: 100px; margin:0 auto; background:#345cbb;}
+ .exam-inline-block .exam-block { display:inline-block; *display:inline; *zoom:1; margin:3px;}
+.test { background:url(http://ww3.sinaimg.cn/bmiddle/c0788b86gw1ejln9bepwzj20go0fy3zr.jpg) 50% no-repeat; }
+
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="article">
+			<h1>CSS水平垂直居中的一种通用策略</h1>
+			<h4><a href="http://weibo.com/islucifier/">作者：Jade</a></h4>
+			<h4>时间：2014/08/23</h4>
+			<h4>正文：</h4>
+			<p>你可能在别的地方听过「水平垂直居中的 N 种办法」，但在这里，只会认真介绍一种。基于它的特性，这种定位策略可以叫做「死活要居中」。</p>
+			<hr />
+			<ul class="user-case-list">
+				<li>
+					<h2>图片水平垂直自适应居中：</h2>
+					<p>这是一个在 CSS 中比较困难的问题。主要难点在于 IE6 和 IE7 不支持 display 的 table-cell 属性，一般通过 line-height 的值来模拟；但也只能实现容器定高的情况。</p>
+					<p>看看「死活要居中」技术，能否通吃 IE6+，欢迎在各个浏览器中测试以下场景：</p>
+					<div class="exam-img-ctn c-wrap">
+						<div class="c-inner">
+							<img class="exam-img" src="http://ww3.sinaimg.cn/bmiddle/718878b5gw1ejlk90wijrj21400qoti6.jpg" />
+						</div>
+					</div>
+					<p><strong>测试方式</strong>：点击图片，移动鼠标，进行缩放；再次点击图片，则取消。</p>
+				</li>
+				<li>
+					<h2>多行文字水平垂直自适应居中：</h2>
+					<p>单行文字的水平垂直居中，太过简单，不必多言；多行文字时的处理方式，就没那么容易了。</p>
+					<p>然而，这对「死活要居中」技术来说，轻而易举。在该死的 IE6 与 IE7 中尽情测试吧</p>
+					<div class="exam-text-ctn c-wrap">
+						<div class="c-inner">
+							<p class="exam-text">我是一堆文字，不断增长的文字。我的父元素宽度为其父元素的60%。</p>
+						</div>
+					</div>
+					<p><strong>测试方式</strong>：点击文本框，每个1秒，复制一次初始值；再次点击时取消。</p>
+				</li>
+				<li>
+					<h2>普通块级元素水平垂直自适应居中：</h2>
+					<p>这个应该是最经典的场景。「死活要居中」同样适用。</p>
+					<div class="exam-block-ctn c-wrap">
+						<div class="c-inner">
+							<div class="exam-block"></div>
+						</div>
+					</div>
+					<p><strong>测试方式</strong>：点击色块，移动鼠标，进行缩放；再次点击色块，则取消。</p>
+				</li>
+				<li>
+					<h2>一列与多列行内块级元素水平垂直自适应居中：</h2>
+					<p>这种需求，是升级版的多行文字水平垂直居中，有时它会带来巨大麻烦。然而，「死活要居中」仍然表现得游刃有余。</p>
+					<div class="c-wrap test exam-inline-block">
+						<div class="c-inner"><div class="exam-block"></div></div>
+					</div>
+					<p><strong>测试方式</strong>：点击色块容器，每个1秒，复制一次色块；再次点击时取消。双击时，添加左浮动类名，再次双击是，则取消。</p>
+				</li>
+			</ul>
+			<hr />
+			<p>尽管上面的案例使用了一些 js，但它都与水平垂直自适应居中无关，仅仅添加节点或者改变元素的宽高罢。</p>
+			<p>案例有限，只反映了在固定宽高的容器内，元素的水平垂直自适应居中的情况。然而实际上，「死活要居中」策略也适用于容器宽高变化不定的情况。可在开放者工具中直接修改容器的尺寸，可见其效。</p>
+			<h3>CSS实现原理：</h3>
+			<p>总共需要三层元素。在支持 display 的 table 和 tabel-cell 的浏览器中，最外层为 display: table, 第二层为 display: table-cell; vertical-align: middle; 就能做到垂直居中。剩下的，当最里层为行内元素时，最外层设置 text-align 的值为 center 即水平居中。当最里层为块级元素时，其 margin 值为 0 auto 即水平居中。到这里，都是经典方案。</p>
+			<p>接下来，要对 IE6 和 IE7 做 hack 处理。知识点为：margin 的 关键字 auto。</p>
+			<p>一般情况下我们用它来实现块级元素的水平居中；因为默认情况下，文档的书写模式 writing-mode 是从左到右，遇边界则考虑折行，从上之下无限延展。左右有界，上下无边，auto 能根据左右之间明确的界限分配空间，而上下则不行，默认为 0。</p>
+			<p>当我们将书写模式改变为，从上到下，从右至左，像中国古诗词那样的排版方式时，auto 值就能上下均分剩余空间，左右的 auto 值则默认为0。</p>
+			<p>hack 方式呼之欲出，将最外层的书写模式设置为 writing-mode：tb-rl；第二层的 margin 设置为 auto 0；然后将书写模式恢复一般状态 writing-mode:lr-tb; 如此，第二层负责垂直居中，最里层负责水平居中，即大功告成。</p>
+			<p>将两种写法合并成公共类，就得到了「死活要居中」的 CSS 写法，如下图：</p>
+			<img src="images/c-wrap.jpg" alt="">
+			<p>这种 hack 并非完美，也有副作用。</p>
+			<p>其一是，IE6 下背景图居中时，各种凌乱，如果你用了「死活要居中」，并且还需要设置背景图，最好的方法是在外部再包裹一层，不要将背景图放在书写模式非正常的元素中。如果你要兼容 IE6 的话。</p>
+			<p>其二是，在 IE6 和 IE7 中，即便最里层是块级元素，最外层的 text-align: center; 也能让它居中，有时这未必是我们要的效果。</p>
+			<p>还有其他一些问题，有待大家一起发掘。总的而言，「死活要居中」方案，能够胜任大多数场景，是为不错的选择。如果对该方法的使用细节还有疑问，请直接查看本文源码。</p>
+			<h4><a href="http://weibo.com/islucifier/">作者：Jade</a></h4>
+			<h4><a href="index.html">其他文章</a></h4>
+			<h4>转载请注明出处。</h4>
+		</div>
+	</div>
+	<script type="text/javascript" src="vendor/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript">
+		(function($) {
+			var $doc = $(document);
+
+			function Handler(elem) {
+				this.elem = elem;
+			};
+
+			Handler.prototype = {
+				start: function(e) {
+					var self = this;
+					e.stopPropagation();
+					self.coor = {
+						x: e.pageX,
+						y: e.pageY
+					};
+					self.size = {
+						width: self.elem.width(),
+						height: self.elem.height()
+					};
+					$doc.on({
+						mousemove: function(e) {
+							self.move(e);
+						}
+					});
+				},
+				move: function(e) {
+					this.elem.css({
+						width: this.size.width + e.pageX - this.coor.x,
+						height: this.size.height + e.pageY - this.coor.y
+					});
+				},
+				end: function() {
+					$doc.off('mousemove');
+				},
+				init: function() {
+					var self = this;
+					self.elem.toggle(function(e) {
+						self.start(e);
+					}, function() {
+						self.end();
+					});
+				}
+			};
+			$.fn.scale = function() {
+				this.each(function() {
+					(new Handler($(this))).init();
+				});
+			};
+
+		}(jQuery));
+
+		$(function() {
+			$('.exam-img').add('.exam-block-ctn .exam-block').scale();
+
+			function Append(elem, node, eTarget) {
+				this.elem = elem;
+				this.node = node;
+				this.eTarget = eTarget;
+			}
+
+			Append.prototype = {
+				append: function() {
+					var self = this;
+					self.elem.append(self.node.nodeName ? $(self.node).clone() : self.node);
+					this.timer = setTimeout(function() {
+						self.append();
+					}, this.speed || 1000);
+				},
+				start: function() {
+					this.append();
+				},
+				end: function() {
+					clearTimeout(this.timer);
+				},
+				init: function() {
+					var self = this;
+					$(self.eTarget).toggle(function() {
+						self.start();
+					}, function() {
+						self.end();
+					});
+				}
+			};
+
+			var text = new Append($('.exam-text'), null, null);
+			text.node = text.elem.text();
+			text.eTarget = text.elem.parent();
+			text.init();
+
+			var block = new Append(null, $('.exam-inline-block').on('dblclick', function() {
+					$(this).find('.exam-block').toggleClass('fl');
+				}).find('.exam-block')[0], null);
+			block.elem = $(block.node).parent();
+			block.eTarget = block.elem;
+			block.init();
+		});
+	</script>
+</body>
+</html>

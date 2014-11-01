@@ -1,0 +1,408 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Jigsaw puzzle</title>
+<script src="lab/vendor/jquery-1.7.2.min.js"></script>
+<style type="text/css">
+/* init css*/
+body, div, span, h1, h2, h3, h4, h5, h6, hr, p, blockquote, strong, var, b, u, i, center, dl, dt, dd, ul, ol, li, prea, address, fieldset, form, fieldset, label, legend, button, input, textarea, th, td { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: none;}
+body { color: #444; font-size:100%; font-family: Helvetica, Tahoma, Arial,"Microsoft YaHei", "微软雅黑", STXihei, "华文细黑",  SimSun, "宋体", Heiti, "黑体", sans-serif; }
+ul, ol { list-style-type: none; }
+select, input, img, select { vertical-align: middle; }
+button, input, select, textarea { font-size: 100%; }
+li { list-style-type: none; vertical-align: top; }
+img { vertical-align: middle; border: 0px; margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+a { border: 0; }
+del { text-decoration: line-through; }
+em { font-style: normal; }
+legend { color: #222; }
+fieldset { border: 0; }
+a { color: #666; text-decoration: none; }
+a:hover { color: #bf1a21; text-decoration: none; }
+
+.clearfloat:before,.clearfloat:after {content:"";display:table;}
+.clearfloat:after { clear:both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat { zoom:1; }
+
+/* main */
+
+body { background:#eaeaea;}
+
+#puzzle { position:absolute; left:50%; top:50%; margin:-250px 0 0 -250px;min-width:500px; min-height:500px; _width:auto; _width:500px; _height:auto; _height:500px;  border:5px solid #666; background:#fff; -webkit-user-select:none;}
+
+.item { position:absolute; top:0; left:0; border:1px solid #aaa;  overflow:hidden;}
+
+.item.selected { opacity:1;}
+
+.item.selected .mask { background:rgba(155,202,121,0.6); border-radius:50%; }
+
+@media \0screen\,screen\9 {
+.item.selected .mask {filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#999bca79', endColorstr='#999bca79');}
+}
+
+.item img { width:500px;}
+
+.mask { width:100%; height:100%; position:absolute; left:0; top:0; background:rgba(155,202,121,0); -webkit-transition:all 1s ease;-moz-transition:all 1s ease;-o-transition:all 1s ease;transition:all 1s ease;}
+
+.levelList { width:300px; height:360px; position:absolute; top:50%; left:50%; margin:-180px 0 0 -150px; }
+
+.levelList li { width:100%; height:40px; margin-bottom:40px; background:#6699cc; font-size:18px;  line-height:40px; text-align:center; color:#fff; ; border-radius:10px;}
+
+li.opt { cursor:pointer}
+
+li.opt:hover { background:#9bca79; }
+
+.span { display: block;  width: 40px;  height: 40px;  position: absolute;  font-size: 30px; left: 50%;  margin-left:  -20px; bottom: -20px; color: #6699cc;}
+
+#form { width:100%; height:30px;  position:absolute; top:50%; margin-top:-300px;  text-align:center;}
+
+#file, #cue, #test { width:200px; height:30px; font-size:16px; line-height:30px; text-indent:5px; border:1px solid #6699cc; color:#9bca79; }
+
+#btn, #try { width:100px; height:30px; margin-left:10px;  text-align:center; background:#6699cc; border:0; cursor:pointer; color:#fff; font-weight:bold; outline:none; }
+
+#cue { position:absolute; top:0px; left:50%; margin-left:-153px; text-align:left; border:0;}
+
+#noZuoNoDie { position:absolute; left:5%; top:50%; margin-top:-250px; width:360px; }
+
+.tips { color:#999; margin-top:10px; line-height:28px;}
+
+.tips strong { color:#f00;}
+
+#copyRight { position:fixed; bottom:1%; right:1%;}
+</style>
+</head>
+
+<body>
+<div id="puzzle"></div>
+<div id="noZuoNoDie">
+    <input id="test" type="text" value="在这里输入数字"><input id="try" type="button" value="点击测试">
+    <p class="tips">说明：此测试旨在探索浏览器的处理能力。IE、Firefox、Chrome、Safari等浏览器，在处理DOM与计算小数的能力上各不相同。当DOM元素数量多到一定程度时，动画效果将消失。而对小数计算精度不足，图片之间将可能产生缝隙。</p>
+    <p class="tips">例子：输入数字10，点击测试，拼图格子数量将变成10*10，以此类推。</p>
+    <p class="tips"><strong>警示</strong>：输入数字过大，有可能超出您的浏览器的处理能力，导致浏览器崩溃，甚至电脑死机；请确定当前您的浏览器或电脑内没有需要保存的数据！</p>
+</div>
+<div id="copyRight">
+  <p>作者：<a href="http://weibo.com/islucifier" target="_blank">Lucifier</a></p>
+</div>
+
+<script type="text/javascript">
+//作者：Lucifier
+//微博：http://weibo.com/islucifier
+  $(function() {
+	  var puzzle = {
+		  area: $('#puzzle'),
+		  //初始化
+		  init: function() {
+			this.drawIndex().getLevel().createInput().toDie();
+		  },
+
+		  //提供换图控件
+		  createInput: function() {
+		  	var that = this,
+		  	form = $('<form></form>'),
+		  	file = $('<input>').attr('type', 'text'),
+		  	btn = $('<input>').attr({
+		  		type: 'button',
+		  		value: '更换图片'}),
+		  	cue = $('<div>请将图片网址粘贴在<span>这里</span></div>');
+
+		  	form.append(cue, file, btn).appendTo(document.body)[0].id = 'form';
+		  	file[0].id = 'file';
+
+		  	btn.on('click', function() {
+		  		var i, src = file.val(), srcArray = that.state.src, len = srcArray.length;
+		  		if (src.length === 0) {
+		  			alert('请输入网址!');
+		  			return;
+		  		}  else if (srcArray[0] === src) {
+		  				that.play();
+		  				return;
+		  			}
+		  		for (i= 0; i < len; i += 1) {
+		  			if (srcArray[i] === src) {
+		  				srcArray.unshift(srcArray.splice(i, 1)[0]);
+		  				that.play();
+		  				return;
+		  			}
+		  		}
+		  		srcArray .unshift(src);
+		  		that.play();
+		  	})[0].id = 'btn';
+
+		  	cue.one('click', function() {
+		  		$(this).animate({top: '-35px'}, 'fast', function() {
+		  			file.focus();
+		  		}).find('span').html('下面');
+		  	})[0].id = 'cue';
+
+		  	return this;
+		  },
+
+		  //开始游戏
+		  play: function() {
+		  	var that = this, levelList = this.area.find('.levelList');
+
+		  	if( levelList.css('marginLeft') === '300px') {
+		  		start();
+		  		return;
+		  	}
+
+		  	levelList.animate({marginLeft: '300px'}, function() {
+		  		levelList.animate({width: '100px'}, function() {
+		  			$('<li>恢复顺序</li>').addClass('opt').appendTo(levelList).on('click', function() {
+		  				that.recover();
+		  			}).parent().css('height', '445px').animate({marginTop: '-=35px'});
+		  			start();
+		  		});
+		  	});
+
+		  	function start() {
+		  		var item = that.area.find('.item');
+		  		if (item.size()) {
+		  			item.remove();
+		  		}
+		  		that.draw().mix().area.off('click').on('click', '.item', function() {
+		  				that.addEvent($(this));
+		  		});
+		  	}
+
+		  },
+
+		  //状态管理
+		  state: {
+		  	  level:3,
+			  minLevel: 3,
+			  maxLevel:21,
+			  position: [],
+			  src: ['images/baby.jpg'],
+			  defaultImg: 'images/baby.jpg'
+		  },
+
+		  //绘制拼图界面
+		  draw: function() {
+		  	var that = this, layout = that.getLayout(), len = layout.length, frag = document.createDocumentFragment(), i;
+
+			 for (i = 0; i < len; i += 1) {
+			 	frag.appendChild(that.createCell(layout[i]));
+			 }
+			 that.area[0].appendChild(frag);
+			 return this;
+		  },
+
+		  //绘制起始界面
+		  drawIndex: function() {
+			  var ul = $('<ul></ul>'),
+			  span = $('<span>◆</span>').addClass('span'),
+			  li0 = $('<li>选择难度</li>').css('position', 'relative').append(span),
+			  li1 = $('<li>3*3</li>'),
+			  li2 = $('<li>4*4</li>'),
+			  li3 =$('<li>5*5</li>'),
+			  li4 = $('<li>随机难度</li>');
+			  
+			  ul.addClass('levelList').append(li0, li1, li2, li3, li4).appendTo(this.area).find('li').not(li0).addClass('opt');
+			  return this;
+		  },
+		  
+		 //创建拼图格子
+		  createCell: function(style) {
+			 var that = this, div = $('<div></div>'),
+			  img = $('<img>') .attr('src', this.state.src[0]).css({
+			  	marginLeft: -style.left + 'px',
+			  	marginTop: -style.top + 'px'
+			  }).on('error', function() {
+			  	$(this).attr('src', that.state.defaultImg);
+			  }),
+			  mask = $('<div></div>').addClass('mask'),
+			  w = this.area.innerWidth() / this.state.level;  
+  
+			  div.addClass('item').append(img, mask).css({
+				  width: w + 'px',
+				  height: w + 'px',
+				  left: style.left + 'px',
+				  top: style.top + 'px'
+				}).data('original', {
+					left: style.left,
+					top: style.top
+				});
+				
+			  return div[0];
+		  },
+
+		  //获取布局
+		  getLayout: function() {
+		  	var num = Math.pow(this.state.level, 2),
+		  	w = this.area.innerWidth() / this.state.level,
+		  	layout = [],
+		  	i = 0;
+
+		  	do {
+		  		layout[layout.length] = {
+		  			left: (i % this.state.level) *  w,
+		  			top: ((i / this.state.level)|0) * w
+		  		};
+		  		i += 1;
+		  	} while (num -= 1);
+
+		  	this.state.position = layout;
+		  	return layout;
+		  },
+
+		  //选择难度
+		  getLevel: function() {
+			  var that = this;
+			  this.area.find('.levelList').on('click', 'li', function() {
+				  var i = $(this).index();
+
+				  switch(i) {
+					case 0:
+					break;
+					
+					case 1:
+					that.state.level = 3;
+					that.play();
+					break;
+					 
+					case 2:
+					that.state.level = 4;
+					that.play();
+					break;
+					
+					case 3:
+					that.state.level = 5;
+					that.play();
+					break;
+
+					case 4:
+					that.state.level = (Math.random() * (that.state.maxLevel - that.state.minLevel) + that.state.minLevel) | 0;
+					that.play();
+					break;
+				  }
+			  });
+
+			  return this;
+		  },
+		  
+		  //添加事件
+		  addEvent: function(elem) {
+		  	var that = this;
+		  	if (elem.siblings().hasClass('selected')) {
+		  		that.exchange(elem);
+		  		return;
+		  	};
+
+		  	elem.toggleClass('selected').siblings().removeClass('selected');
+		  },
+
+		  //弄乱顺序
+		  mix: function() {
+		  	var item = this.area.children('.item').removeClass('selected'),
+		  	position = this.state.position.slice().sort(function() {
+		  		return 0.5 - Math.random();
+		  	}), i = 0;
+
+		  	do {
+		  		item.eq(i).animate(position.shift());
+		  		i += 1;
+		  	} while (position.length);
+
+		  	return this;
+		  },
+
+		  //恢复顺序
+		  recover: function() {
+		  	var that = this, item = that.area.off('click').children('.item'), len = item.length, elem, i;
+		  	
+		  	for (i = 0; i < len; i += 1) {
+		  		elem = item.eq(i);
+		  		elem.animate(elem.data('original'), 1000);
+		  	}
+		  	item.css('border', 'none');
+		  },
+		  
+		  //检测顺序
+		  check: function() {
+		  	var that = this, item = that.area.children('.item'), len = item.length, elem, position, original, i;
+
+		  	for (i = 0; i < len; i += 1) {
+		  		elem = item.eq(i);
+		  		position = elem.position();
+		  		original = elem.data('original');
+		  		if (Math.abs(position.left - original.left) > 1 || Math.abs(position.top - original.top) > 1) {
+		  			return;
+		  		}
+		  	}
+		  	item.off('click');
+		  	alert('恭喜你过了难度' + that.state.level + '级！');
+		  	item.css('border', 'none');
+		  },
+
+		  //交换顺序
+		  exchange: function(elem) {
+		  	var selected = $('.selected'), that = this;
+		  	
+		  	if (elem.is(':animated') || selected.is(':animated')) {
+		  		return;
+		  	}
+		  	elem.css('z-index', 10).animate(selected.position(), function() {
+		  		elem.css('z-index', 0);
+		  	});
+		  	selected.css('z-index', 10).animate(elem.position(), function() {
+		  		selected.removeClass('selected').css('z-index', 0);
+		  		that.check();
+		  	});
+		  },
+
+		  //浏览器能力测试
+		  toDie: function() {
+		  	var that = this, noZuoNoDie = $('#noZuoNoDie'), test = $('#test'), $try = $('#try');
+
+		  	test.on('focus blur', function(e) {
+		  		var defaultValue = this.defaultValue, type = e.type;
+		  		switch(type) {
+		  			case 'focus':
+		  			if (test.val() === defaultValue) {
+		  			test.val('');
+		  		       }
+		  			break;
+
+		  			case 'blur':
+		  			if (!test.val().length) {
+		  				test.val(defaultValue);
+		  			}
+		  			break;
+		  		}
+		  	});
+
+		  	$try.on('click', function() {
+		  		var value = parseInt(test.val());
+		  		
+		  		console.log(value);
+		  		 if (typeof value !== 'number' || value !== value) {
+		  			alert('请输入正确格式的数字');
+		  			return;
+		  		} else if (!value.toString().length) {
+		  			alert('不要留空');
+		  			return;
+		  		} else if (value === 0) {
+		  			alert('不要输入0！')
+		  			return;
+		  		}
+
+		  		value = Math.abs(value);
+
+		  		that.state.level = value;
+		  		that.play();
+		  	});
+		  }
+	  };
+	  puzzle.init();
+  });
+</script>
+</body>
+</html>

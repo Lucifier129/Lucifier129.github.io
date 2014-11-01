@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=1200,initial-scale=1.0">
+<title>animation-delay 与队列动画</title>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+html { height: 100%;}
+body { background: #f0f0f0; height: 100%;}
+/* 水平垂直居中-公共类 */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+
+.wrap {background:#261237; font-family: "Microsoft YaHei"; color:#fff;}
+.wrap a { color:#fff; text-decoration: underline;}
+.wrap h1 { height: 80px; line-height: 80px; font-size: 30px; text-align: center;}
+.wrap h4 { font-weight: normal;}
+.wrap p, .wrap h4  { width: 80%; margin:0 auto; font-size: 18px; line-height: 36px; text-indent: 2em;}
+.inner {height: 520px; margin:0 auto; overflow:hidden;}
+.title { height: 80px; font-size: 24px; line-height: 80px; font-weight: normal; text-align: center;}
+.inner li { float:left; width: 100%; list-style: none;}
+.item { background:#fff; color:#f00; box-shadow:0 0 3px #fff; font-size: 40px;  text-align: center; }
+.list01 .item { width: 80%; height: 80px; margin: 15px auto; line-height: 2; }
+.list02 { text-align: center;}
+.list02 .item { display:inline-block; *display:inline; *zoom: 1; width: 200px; height: 450px; margin:30px 5px; line-height: 11.25; }
+.list03 .item { width: 320px; height: 85px; margin:10px auto; line-height: 2.125; }
+
+.list02 .item {
+	backface-visibility:hidden;
+	-webkit-backface-visibility:hidden;
+	-moz-backface-visibility:hidden;
+	-ms-backface-visibility:hidden;
+}
+</style>
+<!--
+	css3动画代码在下面这个文件中
+	都是从 http://ecd.tencent.com/css3/tools.html 的动画库中选的
+	小做修改
+-->
+<link rel="stylesheet" href="css/animation.css" />
+</head>
+
+<body>
+	<div class="wrap">
+		<h1 js="text: heading">{{ 标题 }}</h1>
+		<p js="html: paragraph">{{ 段落 }}</p>
+		<p js="html: paragraph">{{ 段落 }}</p>
+		<p js="html: paragraph">{{ 段落 }}</p>
+		<p js="html: paragraph">{{ 段落 }}</p>
+		<p js="html: paragraph">{{ 段落 }}</p>
+		<h2 class="title" js="text: title">{{ title }}</h2>
+		<div class="inner">
+			<ul class="list01 clearfloat" js="append: nodes;  swipeshow: settings; each: args; "></ul>
+		</div>
+		<h2 class="title" js="text: title">{{ title }}</h2>
+		<div class="inner">
+			<ul class="list02 clearfloat" js="append: nodes;  swipeshow: settings; each: args; "></ul>
+		</div>
+
+		<h2 class="title" js="text: title">{{ title }}</h2>
+		<div class="inner">
+			<ul class="list03 clearfloat" js="append: nodes;  swipeshow: settings; each: args; "></ul>
+		</div>
+		<h4><a href="http://weibo.com/islucifier/">作者：Jade</a></h4>
+		<h4><a href="index.html">其他文章</a></h4>
+		<h4>转载请注明出处。</h4>
+	</div>
+
+	<script type="text/javascript" src="vendor/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="vendor/jplus-debug.js"></script>
+	<script type="text/javascript" src="vendor/jprop-debug.js"></script>
+	<script type="text/javascript">
+		$(function() {
+
+			var nodes = '<li><div class="item" js="text: txt"></div><div class="item" js="text: txt"></div><div class="item" js="text: txt"></div><div class="item" js="text: txt"></div><div class="item" js="text: txt"></div></li>',
+				supportTouch = 'ontouchstart' in document;
+
+			var model = {
+				heading: 'animation-delay 与队列动画',
+				paragraph: [
+					'CSS3 的 animation-delay 属性，能够让简单的动画效果显得更加生动。',
+					'让一组执行相同动画的元素，前后相继的启动，产生如波浪一样的感觉。',
+					'DEMO示例是从腾讯公司的一个<a href="http://ecd.tencent.com/css3/tools.html" target="_blank">CSS3动画库</a>中，选取的几个动画效果，稍作修改，设置 delay 值。',
+					'自动播放间隔时间为3秒。在移动端取消了自动播放，可滑动以触发下一帧的队列动画，在PC端则拖动之。',
+					'<a href="css/animation.css" target="_blank">该DEMO的CSS3 动画文件点击这里</a>'
+				],
+				title: ['flipInX', 'flipInY', 'flip'],
+				nodes: new Array(4).join(nodes),
+				settings: [{
+					opts: '.list01',
+					type: null,
+					className: 'cur1',
+					auto: supportTouch ? false : true
+				}, {
+					opts: '.list02',
+					type: null,
+					className: 'cur3',
+					auto: supportTouch ? false : true
+				}, {
+					opts: '.list03',
+					type: null,
+					className: 'cur2',
+					dir: 'y',
+					auto: supportTouch ? false : true
+				}],
+				args: function() {
+					$(this).refresh({
+						txt:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+					});
+				}
+			};
+
+			$('.wrap').refresh(model);
+
+		});
+	</script>
+</body>
+</html>
