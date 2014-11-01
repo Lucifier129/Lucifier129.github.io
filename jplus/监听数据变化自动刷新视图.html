@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>jplus-监听数据变化自动刷新视图</title>
+<script type="text/javascript" src="vendor/jquery-1.7.2.min.js"></script>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+.clearfloat:before,.clearfloat:after {content:"";display:table;}
+.clearfloat:after { clear:both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat { *zoom:1; }
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+/* main */
+body { background:#f1f1f1;}
+#container { width: 900px; min-height:600px; _height:600px; margin:  0 auto; padding: 20px; border:1px solid #999; box-shadow:0 0 3px #999; background:#eaeaea;}
+.header{ height: 50px; line-height: 50px; color:#333; margin-bottom: 20px; text-align: center; color:#eb7350; background:#fff;}
+.item { width: 600px; margin:0 auto 5px auto; background:#fff; padding: 10px 10px 10px 70px;border-radius: 2px; box-shadow: 0 0 2px rgba(0,0,0,0.2);}
+.head { float: left; *display:inline; width: 50px; height: 100%; margin-left: -55px;}
+.head img { width: 100%;}
+.name { height: 26px; font-size: 16px; line-height: 26px; }
+.content {font-size: 14px; color:#333; line-height: 24px;}
+.content a { color:#eb7350;}
+.pic-area { width: 540px; margin-top: 5px;}
+.pic-area img { float: left; *display:inline; width: 250px; margin:0 10px 10px 0;}
+button { display:block; margin:0 auto; margin-bottom: 20px;}
+</style>
+</head>
+
+<body>
+	<script type="text/html" id="temp">
+	<h1 class="header" js="text: header"></h1>
+	<button>点击更新</button>
+	<!--noscan 属性：该DIV的父级以上的元素无法扫描该DIV的子元素，子元素的 js 属性由其自身管理-->
+	<div class="item" js="refresh: info" noscan>
+		<div class="head"><img js="attr-src:head"></div>
+		<h2 class="name" js="text: name"></h2>
+		<p class="content" js="html:content"></p>
+		<div class="pic-area clearfloat">
+			<img class="pic" js="attr-src:pic">
+		</div>
+	</div>
+	</script>
+
+	<div id="container"></div>
+
+
+
+<script type="text/javascript" src="vendor/sea.js"></script>
+<script type="text/javascript" src="vendor/jplus-debug.js"></script>
+<script type="text/javascript">
+	//动态模板引擎与 repeat 在某种程度上冲突
+	//repeat 出来的元素不会因为数据数量不够而被删除，它依然存在
+	//所以此案例中，图片数量都是一致的
+
+	//监听数据变化自动刷新视图，是动态模板的增强版
+	seajs.use('./data/data-for-temp3.js', function(data) {
+		//模板内容
+		var temp = $('#temp').html();
+
+		//容器
+		var container  = $('#container');
+
+		//注入模板、更新数据、调用 listen 、保存为被监听的数据模型
+		var model = container
+						.append(temp)
+						.listen({
+							header: data.header,
+							info: data.info[0]
+						});
+
+		var count = 0,
+			len = data.info.length;
+
+		$('button').on('click', function() {
+
+			count = (count + 1) % len;
+
+			//第一种：单独修改属性，自动刷新视图
+			/*model.header = '动态模板引擎 + 数据变化时自动刷新视图' + count;
+			model.info = data.info[count];*/
+
+			//第二种：调用 extend 方法批量修改,自动刷新视图
+			model.extend({
+				header: '动态模板引擎 + 数据变化时自动刷新视图' + count,
+				info: data.info[count]
+			});
+
+		});
+	});
+</script>
+</body>
+</html>

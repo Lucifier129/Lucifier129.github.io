@@ -157,6 +157,10 @@ function instantiation() {
 	return obj;
 }
 
+/*
+*@param {boolean} 再扫描 为true时重新扫描
+*@returns {object} 返回viewModel对象
+*/
 $.fn.getVM = function(rescan) {
 	var vmodel;
 	if (rescan || !(vmodel = this.data('vmodel'))) {
@@ -300,7 +304,7 @@ MVVM.prototype = {
 			case $method && isArr && multiple:
 				ret = [];
 				cloneArr = [];
-				tpl = target.eq(0);
+				tpl = target.eq(0).clone();
 				$method = $.fn[method];
 				each(value, function(i) {
 					var item = target.eq(i);
@@ -338,18 +342,33 @@ MVVM.prototype = {
 	}
 }
 
-var mvvm = new MVVM();
-
-
-$.fn.refresh = function(model, opt) {
-
-	mvvm.extend({
-		model: model,
-		vmodel: this.getVM()
-	});
-
+/**@function refresh
+ *@param {object|array} 数据模型 一个对象或多个
+ */
+$.fn.refresh = function(model) {
+	var self = this;
+	var mvvm = new MVVM();
+	if (isArray(model)) {
+		var len = model.length;
+		this.each(function(i) {
+			if (i >= len) {
+				return false;
+			}
+			mvvm.extend({
+				model: model[i],
+				vmodel: self.eq(i).getVM()
+			});
+		})
+	} else if (isObject(model)) {
+		this.each(function() {
+			mvvm.extend({
+				model: model,
+				vmodel: self.getVM()
+			});
+		});
+	}
 	return this;
-}
+};
 //observe.js
 var doc = document,
     head = doc.getElementsByTagName('head')[0],
@@ -576,7 +595,11 @@ var observer = {
 };
 
 
-
+/**@function observe
+*@param {object} 源对象
+*@param {object|function}  初始化侦听 等价于立即调用on方法
+*@returns {object} 被侦听了属性的对象
+*/
 $.observe = function(source, setters) {
     var model;
     if (!isObject(source)) return null;
@@ -584,17 +607,39 @@ $.observe = function(source, setters) {
     return isObject(setters) || isFunction(setters) ? model.on(setters) : model;
 };
 //plus.js
+
+
 extend($.fn, {
+	/**
+	*@param {object|array} api  一个或多个包含jQ方法及其参数的对象
+	*/
 	render: function(api) {
-		if (!isObject(api)) return;
 		var self = this,
 			$fn = $.fn;
-		each(api, function(key, value) {
+
+		function invoke(key, value) {
 			var $method = $fn[key];
 			$method && $method[isArray(value) ? 'apply' : 'call'](self, value);
-		});
+		}
+
+		if (isObject(api)) {
+
+			each(api, invoke);
+
+		} else if (isArray(api)) {
+
+			each(api, function() {
+				each(this, invoke);
+			});
+
+		}
+
 		return this;
 	},
+	/**
+	*@param {object} 数据模型 与refresh方法的参数相同
+	*@returns {object} 返回被侦听了属性变化的对象
+	*/
 	listen: function(model) {
 		var self = this;
 		self.refresh(model);
@@ -606,6 +651,11 @@ extend($.fn, {
 	}
 });
 
+/**@function define
+*@param {string} 作用域选择器 合法的jquery选择器
+*@param {function} 回调函数 定义一个数据模型
+*@retruns {object} 返回被侦听了属性变化的对象
+*/
 $.define = function(name, callback) {
 	var target = $(name),
 		model;
@@ -618,6 +668,9 @@ $.define = function(name, callback) {
 
 var $module = {
 	vmodel: {},
+	/**@function ready
+	*@param {function} 回调函数 当文档加载完毕vm扫描完毕时即调用
+	*/
 	ready: function(callback) {
 		var self = this;
 		$(document).ready(function() {
@@ -644,5 +697,4 @@ var $module = {
 };
 
 $.module = extend($.observe({}), $module);
-
 }(window.jQuery || window.Zepto));
