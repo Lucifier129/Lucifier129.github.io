@@ -13,11 +13,21 @@
 本文采用的写作与编码手法如下：
 
 >* 以标准实现为主，不考虑兼容性
+
 >* 函数实现以新手直觉式为主，而非jQuery源码中经过千锤百炼的版本
+
 >* 粗略搭建类jQuery式骨架，最终产物不以投入生产为目的，仅供参考
+
 >* 用最终实现的库，实现一个在现代浏览器中正常工作的轮播图效果
 
+
 注意：代码大致仿照`jQuery`，不代表跟它的内部实现以及api用法完全一样。
+
+
+全部代码打包：<a href="http://lucifier129.github.io/lab/jquery-own.js" target="_blank">猛击这里</a>
+
+轮播图实现DEMO：<a href="http://lucifier129.github.io/lab/slideshow-by-own-jquery.html" target="_blank">猛击这里</a>
+轮播图jsbin地址：<a href="http://jsbin.com/jadigewoko/1/edit?js,output" target="_blank">猛击这里</a>
 
 ##立即执行的匿名函数
 
@@ -486,15 +496,12 @@
 
 由于轮播图中用到的事件函数比较简单，故这里不再添加事件模块，就用目前的产物，尝试写一个轮播图吧。
 
-先将这个工具库输出到全局对象;
+将这个工具库输出到全局对象;
 
 ```javascript
 	window.jQuery = window.$ = jQuery;
 ```
 
-全部代码打包：<a href="http://lucifier129.github.io/lab/jquery-own.js" target="_blank">猛击这里</a>
-轮播图实现DEMO：<a href="http://lucifier129.github.io/lab/slideshow-by-own-jquery.html" target="_blank">猛击这里</a>
-轮播图jsbin地址：<a href="###" target="_blank">猛击这里</a>
 
 
 
