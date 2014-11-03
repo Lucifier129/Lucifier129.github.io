@@ -145,9 +145,10 @@ ul { list-style: none;}
 				prev: function() {
 					--count;
 					count = count < 0 ? count + size : count;
-					method.change(count);
 					if (_count) {
 						return method.choice(count);
+					} else {
+						method.change(count);
 					}
 					animated = false;
 					var last = self.last();
@@ -161,9 +162,10 @@ ul { list-style: none;}
 				//下一帧
 				next: function() {
 					count = (count + 1) % size;
-					method.change(count);
 					if (_count) {
 						return method.choice(count);
+					} else {
+						method.change(count);
 					}
 					animated = false;
 					var first = self.first();
