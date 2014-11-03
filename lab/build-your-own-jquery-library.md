@@ -493,8 +493,10 @@
 ```
 
 全部代码打包：<a href="http://lucifier129.github.io/lab/jquery-own.js" target="_blank">猛击这里</a>
+
 轮播图实现DEMO：<a href="http://lucifier129.github.io/lab/slideshow-by-own-jquery.html" target="_blank">猛击这里</a>
-轮播图jsbin地址：<a href="###" target="_blank">猛击这里</a>
+
+轮播图jsbin地址：<a href="http://jsbin.com/jadigewoko/1/edit?js,output" target="_blank">猛击这里</a>
 
 
 
