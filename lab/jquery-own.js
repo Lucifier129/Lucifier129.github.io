@@ -27,7 +27,7 @@
 
         function each(obj, callback) {
             //如果既不是对象也不是数组，不迭代，直接返回
-            if (isObject(obj) || isArray(obj)) {
+            if (!isObject(obj) && !isArray(obj)) {
                 return obj;
             }
             var len = obj.length;
@@ -56,17 +56,24 @@
             //返回被迭代的数组或对象
             return obj;
         }
+        //好用的函数，输出为静态方法
+        jQuery.each = each;
 
         function extend(target) {
             //将除target之外的所有参数保存为sources
-            var sources = slice(arguments, 1);
+            var sources = slice.call(arguments, 1);
             //迭代器each派上了用场
-            each(sources, function(key, value) {
-                target[key] = value;
+            each(sources, function() {
+                each(this, function(key, value) {
+                     target[key] = value;
+                });
             });
             //返回被扩展的对象
             return target;
         }
+
+         //好用的函数，输出为静态方法
+         jQuery.extend = extend;
 
         function pushStack(target) {
             var len = target.length;
@@ -77,7 +84,7 @@
             }
 
             //保存除target外的所有参数并转化为数组形式
-            var sources = slice.call(argument, 1);
+            var sources = slice.call(arguments, 1);
 
             each(sources, function() {
                 //this值就是sources数组中的每一项
@@ -106,7 +113,7 @@
             //可以用each迭代，用pushStack批量增加元素
             this.length = 0;
 
-            if (selector.nodeName) {
+            if (selector && selector.nodeName) {
                 //如果第一个参数为dom节点
                 //保存为this[0]
                 this[0] = selector;
@@ -117,7 +124,7 @@
             } else {
                 //原生方法处理selector选择器，如果有context上下文，则以它为起点搜索，否则以document为始
                 //要求context必须是DOM，即便是jQuery的实例也不行，因为我们只是粗糙模拟
-                var items = (context.nodeName ? context : document).querySelectorAll(selector);
+                var items = (context && context.nodeName ? context : document).querySelectorAll(selector);
 
                 pushStack(this, items);
             }
@@ -142,7 +149,7 @@
         };
 
         $.fn.extend({
-            //想不到each方法如此简单吧？
+            //each在这里很简单
             each: function(callback) {
                 return each(this, callback);
             },
@@ -166,7 +173,10 @@
                 //最后才推进新jQ实例
                 return pushStack(ret, nodes);
             },
-
+            eq: function(index) {
+                index = index >= 0 ? index : index + this.length;
+                return $(this[index]);
+            },
             children: function(selector) {
                 //返回新jQ实例
                 var ret = $();
@@ -200,7 +210,7 @@
                 var ret = $();
                 var nodes = [];
                 this.each(function() {
-                    var item = this.firseElementChild;
+                    var item = this.firstElementChild;
                     //存在第一个非文本非注释的元素节点，才推进去
                     item && nodes.push(item);
                 });
@@ -211,8 +221,8 @@
                 var ret = $();
                 var nodes = [];
                 this.each(function() {
-                    var item = this.lastElementChild();
-                    item && node.push(item);
+                    var item = this.lastElementChild;
+                    item && nodes.push(item);
                 });
                 return pushStack(ret, nodes);
             },
@@ -242,6 +252,32 @@
                 });
 
                 return pushStack(ret, nodes);
+            },
+            parent: function() {
+                var ret = $();
+                var nodes = [];
+
+                this.each(function() {
+                    var parent = this.parentNode;
+                    parent && nodes.push(parent);
+                });
+
+                return pushStack(ret, nodes);
+            },
+            index: function() {
+                var target = this[0];
+                return slice.call(target.parentNode.children).indexOf(target);
+            },
+            append: function(node) {
+                var len = this.length;
+                this[0].appendChild(node);
+                return this;
+            },
+            prepend: function(node) {
+                var len = this.length;
+                var first = this[0].firstElementChild;
+                this[0].insertBefore(node, first);
+                return this;
             }
         });
 
@@ -275,12 +311,12 @@
                 return this.each(function() {
                     var classList = this.classList;
                     //再遍历一遍，添加所有class名
-                    each(className, function() {
-                        classList.add(this);
+                    each(classNames, function(key, value) {
+                        classList.add(value);
                     });
                 });
             },
-            removeClass: function() {
+            removeClass: function(classNames) {
                 //如果不是字符串参数，直接返回this
                 if (typeof classNames !== 'string') {
                     return this;
@@ -290,10 +326,10 @@
                 return this.each(function() {
                     var classList = this.classList;
                     //再遍历一遍，删除所有class名
-                    each(className, function() {
+                    each(classNames, function(key, value) {
                         //与addClass只有一个差别
                         //许多可以合并函数来优化都没有做，只为直观
-                        classList.remove(this);
+                        classList.remove(value);
                     });
                 });
             }
@@ -317,11 +353,12 @@
                 diff[prop] = propObj[prop] - (oldValue[prop] = getStyle(elem, prop));
             }
 
+
             function move() {
                 ratio = (+new Date() - start) / duration;
                 if (ratio < 1) {
                     each(diff, function(prop) {
-                        elem.style[prop] = oldValue[prop] + this / ratio + 'px';
+                        elem.style[prop] = oldValue[prop] + this * ratio + 'px';
                     });
                     nextTick(move);
                 } else {
@@ -330,18 +367,21 @@
                     });
                     callback();
                 }
-
             }
+
+            move();
         }
+
+    function noop() {};
 
     $.fn.animate = function(propObj, duration, callback) {
         var self = this,
             len = self.length,
             count = 0;
         return self.each(function() {
-            animate(this, propObj, duration, function() {
+            animate(this, propObj, duration || 400, typeof callback === 'function' ? function() {
                 ++count === len && callback.call(self);
-            });
+            } : noop);
         });
     };
 

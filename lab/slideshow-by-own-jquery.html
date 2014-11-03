@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>用自己写得类jQuery工具库实现轮播图</title>
+<style type="text/css">
+/* css reset*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/* main */
+html { height: 100%;}
+body { background: #f0f0f0; height: 100%;}
+/* 水平垂直居中-公共类 */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+/*main*/
+ul { list-style: none;}
+.container { position:relative; width: 710px; height: 355px; overflow: hidden; margin:100px auto;  box-shadow:0 0 8px #999;}
+.slider { position:absolute; top:0; left:0;}
+.slider li { float: left; width: 710px; height: 355px;}
+.dots { position:absolute; bottom:20px; left:0; width: 100%; text-align: right;}
+.dots li { display:inline-block; width: 13px; height: 13px; margin-right:5px; border: 2px solid #fff;  background:#0AB0E8; border-radius: 50%; cursor:pointer;}
+.dots li.cur { background:#F8CD47;}
+.next, .prev { position:absolute; top:50%; width: 40px; height: 120px; margin-top:-60px; background:rgba(0, 0, 0, .4); color:#fff; font-size: 48px; line-height: 2.5; text-align: center; font-weight: 700; cursor:pointer;}
+.next { right:0;}
+.perv { left:0;}
+</style>
+</head>
+
+<body>
+	<div class="container">
+		<ul class="slider">
+			<li><img src="images/jquery01.jpg" alt=""></li>
+			<li><img src="images/jquery02.jpg" alt=""></li>
+			<li><img src="images/jquery03.jpg" alt=""></li>
+			<li><img src="images/jquery04.jpg" alt=""></li>
+			<li><img src="images/jquery05.jpg" alt=""></li>
+			<li><img src="images/jquery06.jpg" alt=""></li>
+		</ul>
+		<ul class="dots dots1">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="next next1">></div>
+		<div class="prev prev1"><</div>
+	</div>
+
+	<div class="container">
+		<ul class="slider">
+			<li><img src="images/jquery01.jpg" alt=""></li>
+			<li><img src="images/jquery02.jpg" alt=""></li>
+			<li><img src="images/jquery03.jpg" alt=""></li>
+			<li><img src="images/jquery04.jpg" alt=""></li>
+			<li><img src="images/jquery05.jpg" alt=""></li>
+			<li><img src="images/jquery06.jpg" alt=""></li>
+		</ul>
+		<ul class="dots dots2">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="next next2">></div>
+		<div class="prev prev2"><</div>
+	</div>
+
+<script type="text/javascript" src="jquery-own.js"></script>
+<script type="text/javascript">
+	;(function($) {
+		//默认参数，放在这里成为私有对象
+		var defaults = {
+			className: 'cur',
+			direction: 'x',
+			type: 'click',
+			auto: true,
+			speed: 400,
+			interval: 3000
+		};
+
+		//私有函数
+		function slideshow(options) {
+
+			var self = this,
+				//以空对象为target，不会破坏defaults的结构
+				settings = $.extend({}, defaults, options),
+				parent = this.parent(),
+				children = this.children(),
+				size = children.length,
+				distance,
+				prop;
+
+			//根据方向进行不同设置
+			if (settings.direction === 'x') {
+				distance = parseFloat(parent.css('width'));
+				prop = 'margin-left';
+				children.css('float', 'left');
+				this.css('width', size * distance + 'px')
+			} else {
+				distance = parseFloat(parent.css('height'));
+				prop = 'margin-top';
+				this.css('height,', size * distance + 'px');
+			}
+
+			var nodeList = [];
+
+			//将原始顺序记录下来
+			children.each(function() {
+				nodeList.push($(this));
+			});
+
+			var switchs, switchsList;
+
+			if (typeof settings.switchs === 'string') {
+				switchs = document.querySelector(settings.switchs);
+				switchsList = $(switchs).children();
+				switchsList.eq(0).addClass('cur');
+				if (switchs) {
+					var nodeName = switchsList[0].nodeName;
+					//切换选项区采用事件代理
+					switchs.addEventListener(settings.type, function(e) {
+						if (!animated) return;
+						var target = e.target,
+							index;
+						if (target.nodeName === nodeName) {
+							target = $(target);
+							index = target.index();
+							method.change(index).choice(index);
+						}
+					}, false);
+				}
+			}
+
+			var animated = true;
+			var count = 0;
+			var _count = 0;
+
+			var method = {
+				//上一帧
+				prev: function() {
+					--count;
+					count = count < 0 ? count + size : count;
+					method.change(count);
+					if (_count) {
+						return method.choice(count);
+					}
+					animated = false;
+					var last = self.last();
+					var propObj = {};
+					propObj[prop] = 0;
+					self.prepend(last.css(prop, -distance + 'px')[0]);
+					last.animate(propObj, settings.speed, function() {
+						animated = true;
+					});
+				},
+				//下一帧
+				next: function() {
+					count = (count + 1) % size;
+					method.change(count);
+					if (_count) {
+						return method.choice(count);
+					}
+					animated = false;
+					var first = self.first();
+					var propObj = {};
+					propObj[prop] = -distance;
+					first.animate(propObj, settings.speed, function() {
+						self.append(first.css(prop, '0px')[0]);
+						animated = true;
+					});
+				},
+				//用户自主选择某一帧
+				choice: function(index) {
+					method.change(count = index);
+					var target = nodeList[index];
+					_count = index = target.index();
+					var propObj = {};
+					propObj[prop] = -distance * index;
+					animated = false;
+					self.animate(propObj, settings.speed, function() {
+						animated = true;
+					});
+				},
+				//切换项更新
+				change: function(index) {
+					switchsList.eq(index).addClass('cur').siblings().removeClass('cur');
+					return this;
+				}
+			};
+
+			//是否自动播放
+			if (settings.auto) {
+				var timer;
+
+				function loop() {
+					timer = setInterval(method.next, settings.interval);
+				}
+
+				parent = parent[0];
+				//进入其父元素时暂停播放
+				parent.addEventListener('mouseover', function(e) {
+					e.preventDefault();
+					clearInterval(timer);
+				}, false);
+				//离开其父元素时重新播放
+				parent.addEventListener('mouseout', function(e) {
+					e.preventDefault();
+					loop();
+				}, false);
+
+				loop()
+			}
+
+			//下一帧箭头点击事件
+			if (typeof settings.next === 'string') {
+
+				settings.next = [].slice.call(document.querySelectorAll(settings.next));
+
+				$.each(settings.next, function() {
+
+					this.addEventListener('click', function(e) {
+						e.preventDefault();
+						if (!animated) return;
+						method.next();
+					}, false);
+
+				});
+			}
+
+			//上一帧箭头点击事件
+			if (typeof settings.prev === 'string') {
+
+				settings.prev = [].slice.call(document.querySelectorAll(settings.prev));
+
+				$.each(settings.prev, function() {
+
+					this.addEventListener('click', function(e) {
+						e.preventDefault();
+						if (!animated) return;
+						method.prev();
+					}, false);
+
+				});
+			}
+
+		}
+
+		//以插件形式使用
+		$.fn.slideshow = function() {
+
+			var args = [].slice.call(arguments);
+
+			return this.each(function(i) {
+				slideshow.call($(this), args[i]);
+			});
+
+		};
+
+	}(jQuery));
+
+	$(function() {
+		$('.slider').slideshow({
+			switchs: '.dots1',
+			prev: '.prev1',
+			next: '.next1'
+		}, {
+			//选项卡
+			switchs: '.dots2',
+			//选项卡事件
+			type: 'mouseover',
+			//上一帧
+			prev: '.prev2',
+			//下一帧
+			next: '.next2',
+			//默认也是自动播放
+			auto: true,
+			//滑动方向
+			direction: 'y',
+			//播放间隔
+			interval: 1000,
+			//滑动速率
+			speed: 200
+		});
+	});
+</script>
+</body>
+</html>
