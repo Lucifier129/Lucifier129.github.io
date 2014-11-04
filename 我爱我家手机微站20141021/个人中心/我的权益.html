@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="gb2312">
+	<title>我的权益</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+	<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+	<style type="text/css">a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}table{border-collapse:collapse;border-spacing:0}a{text-decoration:none}a,button,input,textarea{-webkit-tap-highlight-color:rgba(255,255,255,0)}body{-webkit-text-size-adjust:none} a,img{-webkit-tap-highlight-color:rgba(255,255,255,0)}input:focus{outline:0}
+	.clearfloat:before,.clearfloat:after {content:"";display:table;}
+.clearfloat:after { clear:both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat { *zoom:1; }
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+/*main*/
+/*公共类*/
+html { font-size: 16px;}
+body {max-width:640px; margin:0 auto;  background: #fbfbfb;}
+.layout-box {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}
+.flex1 { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1;flex: 1;}
+/*头部导航*/
+header { height: 86px; background:#e43636; text-align: center; border-bottom: 2px solid #d70e0e;}
+.go-back, .go-home { background-image:url(images/activity-sprite.png); background-repeat: no-repeat;}
+.go-back a, .go-home a { display: block; width: 100%; height: 100%;}
+.text-holder { overflow: hidden; text-indent: -999em;}
+.go-back {width: 60px; height: 100%;  background-position: 20px 27px;}
+.go-home { width: 78px; height: 100%; background-position: 20px -84px;}
+.page-title {line-height: 88px; font-size: 2.5rem; color:#fff; font-weight: 700;}
+/*滑动区域*/
+html, body { height: 100%;}
+body { overflow: hidden;}
+header { position:relative; z-index:3;}
+#container { z-index:2; position:relative; height: 100%; box-sizing: border-box;-webkit-box-sizing: border-box; border-top: 88px solid #fff; margin-top:-88px;}
+.swiper {}
+.swiper li { position:relative; background-size: 100%; background-position: center top; background-repeat: no-repeat;;}
+.swiper li .light { position:absolute; bottom:-80px; left:50%; width: 189px; height: 308px; -webkit-transform:translateX(-50%);transform:translateX(-50%);}
+.li1 { background-image:url(images/right01.jpg);}
+.li2 { background-image:url(images/right02.jpg);}
+.li3 { background-image:url(images/right03.jpg);}
+.li4 { background-image:url(images/right04.jpg);}
+.li5 { background-image:url(images/right05.jpg);}
+.li6 { background-image:url(images/right06.jpg);}
+.swipe-arrow { position:absolute; bottom:120px; left:50%; width: 36px; height: 26px; margin-left:-18px; background: url(images/swipe-arrow.png) no-repeat center top;}
+.float {
+-webkit-animation:float 1s .2s ease-in-out both infinite;
+animation:float 1s .2s ease-in-out both infinite;
+}
+
+@-webkit-keyframes float{
+	0%, 100% { -webkit-transform:translateY(-5px);}
+	50% { -webkit-transform:translateY(5px);}
+}
+@keyframes float{
+	0%, 50% { transform:translateY(-5px);}
+	50% { transform:translateY(5px);}
+}
+
+</style>
+</head>
+<body>
+	<!--最好放在body的后面，紧跟着body，body加载好之后，立刻设置缩放-->
+	<script type="text/javascript" src="../js/zoom.js"></script>
+	<!--页头-->
+	<header class="layout-box">
+		<div class="go-back text-holder"><a href="已登录.html">返回</a></div>
+		<div class="page-title flex1">我的权益</div>
+		<div class="go-home text-holder"><a href="../首页.html">首页</a></div>
+	</header>
+	<div id="container">
+		<ul class="swiper">
+			<li class="li1">
+				<div class="light"><img src="images/light01.png" alt=""></div>
+			</li>
+			<li class="li2">
+				<div class="light"><img src="images/light02.png" alt=""></div>
+			</li>
+			<li class="li3">
+				<div class="light"><img src="images/light03.png" alt=""></div>
+			</li>
+			<li class="li4">
+				<div class="light"><img src="images/light04.png" alt=""></div>
+			</li>
+			<li class="li5">
+				<div class="light"><img src="images/light05.png" alt=""></div>
+			</li>
+			<li class="li6">
+				<div class="light"><img src="images/light06.png" alt=""></div>
+			</li>
+		</ul>
+		<div class="swipe-arrow float"></div>
+	</div>
+
+	<script type="text/javascript" src="../js/jprop-debug.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$('.swiper').swipeshow({
+			dir: 'y',
+			next: '.swipe-arrow',
+			auto:false
+		});
+		$(window).on('resize', function() {
+			location.reload();
+		});
+	});
+	</script>
+</body>
+</html>

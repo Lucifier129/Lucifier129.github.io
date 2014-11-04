@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gb2312">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<!--Iphone全屏显示-->
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<!--控制状态栏显示样式-->
+<meta content="telephone=no" name="format-detection"/>
+<!--apple文字自动加链接样式去掉这个拨号链接-->
+
+<title>找回密码</title>
+<meta content="北京家具,家具市场,家居装修,家庭装修,装修建材,装饰建材" name="Keywords">
+<meta content="我爱我家北京站 - 以家庭装修和建材、家具/家居、家电团购为主营业务，提供北京区域权威专业的家装知识、装修设计方案和建材、家居、家具、家电产品导购的装修产品。" name="Description">
+<script src="../js/jquery-2.1.1.min.js"></script>
+<style type="text/css">
+html { font-size: 16px; }
+body { -webkit-text-size-adjust: none;/*避免重力感应时文字随分辨率增大而增大*/ -webkit-user-drag: none; word-break: break-all; word-wrap: break-word; }
+body, div, span, h1, h2, h3, h4, h5, h6, hr, p, blockquote, strong, var, b, u, i, center, dl, dt, dd, ul, ol, li, prea, address, fieldset, form, fieldset, label, legend, button, input, textarea, th, td { margin: 0; padding: 0;/*-webkit-tap-highlight-color:transparent;*/ }
+body, button, input, select, textarea { font: 12px/1.5 "microsoft yahei", "\9ed1\4f53", tahoma, arial; outline: none; }
+body { overflow-x: hidden; min-width: 320px; }
+ul, ol { list-style-type: none; }
+select, input, img, select { vertical-align: middle; }
+*:focus { outline: none; }
+* { box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; }
+button, input, select, textarea { font-size: 100%; }
+input[type="submit"], input[type="reset"], input[type="button"], button { -webkit-appearance: none; }
+li { list-style-type: none; vertical-align: top; }
+img { vertical-align: middle; border: 0px; margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: 0; }
+del { text-decoration: line-through; }
+em { font-style: normal; }
+.vimg-align { vertical-align: middle; }
+legend { color: #222; }
+fieldset, img { border: 0; }
+a:link, a:visited { text-decoration: none; color: #666666; -webkit-tap-highlight-color: transparent; }
+a:hover { color: #248422; text-decoration: none; -webkit-tap-highlight-color: transparent; }/*4392FB*/
+.fl { float: left; display: inline; }
+.fr { float: right; display: inline; }
+.oz { overflow: hidden; zoom: 1; }
+.oz li, .oz dt, .oz .item { float: left; }
+.clr, .clear { display: block; overflow: hidden; clear: both; height: 0; line-height: 0; font-size: 0; }
+.clearfloat:before, .clearfloat:after { content: ""; display: table; }
+.clearfloat:after { clear: both; }
+body { background: #f9f9f9; max-width: 640px; margin: 0 auto; }
+/*头部*/
+
+.header { height: 86px; position: relative; overflow: hidden; background: #e43636; border-bottom: 1px solid #b50e0f; }
+.header h1 { line-height: 86px; text-align: center; font-size: 2.5rem; color: #FFF; }
+.header .logo { display: block; text-indent: -9999em; width: 25px; height: 34px; overflow: hidden; background: url(images/yimg14.gif) no-repeat scroll; position: absolute; left: 20px; top: 27px; }
+.header .return { display: block; width: 38px; text-indent: -9999em; height: 34px; overflow: hidden; background: url(images/yimg15.gif) no-repeat scroll; position: absolute; right: 20px; top: 27px; }
+/*头部*/
+
+/*找回密码*/
+.findCode1 { padding: 110px 0px; overflow: hidden; }
+.findCode1 .ul1 { width: 550px; margin: 0 auto; display: block; }
+.findCode1 .ul1 li { height: 60px; display: block; }
+.findCode1 .ul1 li.li1 { height: 51px; line-height: 45px; padding-top: 5px; font-size: 1.75rem; color: #3b3b3b; }
+.findCode1 .ul1 li .input-tx { height: 58px; line-height: normal; padding: 0 16px; background: #FFF; border: 1px solid #d9d9d9; color: #3b3b3b; font-size: 1.75rem; width: 378px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -o-border-radius: 5px; display: inline-block; overflow: hidden; }
+.findCode1 .ul1 li .input-tx2 { height: 58px; line-height: normal; padding: 0 16px; background: #FFF; border: 1px solid #d9d9d9; color: #3b3b3b; font-size: 1.75rem; width: 378px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -o-border-radius: 5px; display: inline-block; float: left; overflow: hidden; }
+.findCode1 .ul1 li .code1 { height: 58px; line-height: normal; line-height: 58px; overflow: hidden; background: #eee; border: 1px solid #d9d9d9; color: #666; font-size: 1.375rem; width: 150px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -o-border-radius: 5px; display: inline-block; float: right; text-align: center; }
+.findCode1 .loginBtn-box { padding-top: 105px; text-align: center; }
+.findCode1 .loginBtn-box .loginBtn { display: inline-block; height: 66px; line-height: normal; text-align: center; font-size: 1.75rem; color: #FFF; background: #e43636; width: 400px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -o-border-radius: 5px; line-height: 66px; }
+
+
+
+/*找回密码*/
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="../js/zoom.js"></script> 
+<!--头部 开始-->
+
+<header class="header">
+  <h1>找回密码</h1>
+  <a href="个人中心-未登录.html" class="logo">logo</a> <!--<a href="#" class="return">首页</a> --></header>
+
+<!--头部 结束-->
+
+<!--找回密码 开始-->
+<div class="findCode1">
+  <ul class="ul1">
+    <li class="li1">请输入注册时使用的手机号码</li>
+    <li>
+      <input class="input-tx2" type="text">
+      <a href="javascript:void(0);" class="code1">获取验证码</a></li>
+    <li class="li1">输入验证码</li>
+    <li>
+      <input class="input-tx" type="text">
+    </li>
+  </ul>
+  <p class="loginBtn-box"><a href="#" class="loginBtn">确定</a></p>
+</div>
+
+<!--找回密码 结束-->
+
+</body>
+</html>

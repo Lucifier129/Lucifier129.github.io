@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gb2312">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<!--Iphone全屏显示-->
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<!--控制状态栏显示样式-->
+<meta content="telephone=no" name="format-detection"/>
+<!--apple文字自动加链接样式去掉这个拨号链接-->
+
+<title>订单详情</title>
+<meta content="北京家具,家具市场,家居装修,家庭装修,装修建材,装饰建材" name="Keywords">
+<meta content="我爱我家北京站 - 以家庭装修和建材、家具/家居、家电团购为主营业务，提供北京区域权威专业的家装知识、装修设计方案和建材、家居、家具、家电产品导购的装修产品。" name="Description">
+
+<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<style type="text/css">
+html{
+		-webkit-text-size-adjust: none;/*避免重力感应时文字随分辨率增大而增大*/
+	-webkit-user-drag:none;
+	word-break: break-all;
+	word-wrap: break-word; font-size:16px;
+}
+body, div, span, h1, h2, h3, h4, h5, h6, hr, p, blockquote, strong, var, b, u, i, center, dl, dt, dd, ul, ol, li, prea, address, fieldset, form, fieldset, label, legend, button, input, textarea, th, td { margin: 0; padding: 0;/*-webkit-tap-highlight-color:transparent;*/ }
+body, button, input, select, textarea { font:12px/1.5 "microsoft yahei","\9ed1\4f53",tahoma,arial ; outline: none;}
+body{ overflow-x: hidden; min-width:320px;}
+ul, ol { list-style-type: none; }
+select, input, img, select { vertical-align: middle; }
+*:focus { outline: none; }
+button, input, select, textarea { font-size: 100%; }
+li { list-style-type: none; vertical-align: top; }
+img { vertical-align: middle; border: 0px; margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: 0; }
+del { text-decoration: line-through; }
+em { font-style: normal; }
+.vimg-align { vertical-align: middle; }
+legend { color: #222; }
+fieldset, img { border: 0; }
+a:link, a:visited { text-decoration:none; color:#666666;-webkit-tap-highlight-color: transparent;
+ }
+a:hover{ color:#248422; text-decoration:none;-webkit-tap-highlight-color: transparent;
+}/*4392FB*/
+.fl { float: left; display: inline; }
+.fr { float: right; display: inline; }
+.oz { overflow: hidden; zoom: 1; }
+.oz li, .oz dt, .oz .item { float: left; }
+.clr, .clear { display: block; overflow: hidden; clear: both; height: 0; line-height: 0; font-size: 0; }
+
+.clearfloat:before, .clearfloat:after { content: ""; display: table; }
+.clearfloat:after { clear: both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat{ *zoom:1;}
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+.layout-box {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}
+.flex1 { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1;flex: 1;}
+
+body{background:#f9f9f9; max-width:640px; margin:0 auto;}
+
+.w640 { max-width:640px; min-width:320px; margin:0 auto; overflow: hidden; }
+.w600 { max-width: 93.75%; margin: 0 auto; }
+
+.wrap1{background:#e43636; width:100%; padding:20px 0px;height:47px; border-bottom:1px #b50e0f solid;}
+.wrap1nav1{ position:relative;}
+.wrap1nav1 h2{ text-align:center; color:#fffafa; font-size:2.5rem; line-height:47px;}
+.wrap1nav1 .lefta{ display:block; position:absolute; left:3.125%; top:50%; margin-top:-17px; width:20px; height:34px; overflow:hidden; background:url(images/left.png) no-repeat scroll 0px 0px; z-index:10; text-indent:-9999em;}
+
+
+ /*--------wrap3------*/
+.wrap3{width:100%; margin-top:20px; padding-bottom:50px;}
+.youtext{} 
+.bgfff{ background:#fff;}
+.lietext{ border:solid 1px #f0f0f0; width:598px; height:58px; text-align:right;}
+.lietext .lefttit{ min-width:220px; height:58px; float:left; background:#99cc01; text-align:center; font-size:1.875rem; color:#fff; line-height:58px;}
+.lietext .rightding{ color:#3b3b3b; line-height:58px; font-size:1.625rem; padding-right:5px;}
+
+.lietext02{ padding:20px 0px;border:solid 1px #f0f0f0; border-top:none; width:598px;}
+
+.lietext02 p{color:#666666; font-size:1.625rem; line-height:1.6em; padding-left:10px;}
+.lietext02 p.yuan{ color:#b9b9b9;}
+.lietext02 p.zhi{ color:#99cc01;}
+.lietext03{border:solid 1px #f0f0f0; border-top:none; width:598px; height:64px;}
+.lietext03 h3{ height:64px; line-height:64px;color:#666666; font-size:1.625rem;text-indent:10px;}
+.lietext03 h3 span{color:#999999;}
+.lietext04{ padding:20px 0px 60px 0px;border:solid 1px #f0f0f0; border-top:none; width:598px;}
+.lietext04 p{color:#666666; font-size:1.625rem; line-height:1.6em; text-indent:10px;}
+
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="../js/zoom.js"></script>
+<section class="wrap1">
+  <nav class="wrap1nav1 w640">
+  	<h2>订单详情</h2>
+	<a href="我的订单.html" class="lefta">左</a>
+  </nav>
+</section>
+
+
+<section class="wrap3">
+	<div class="youtext w640">
+		<div class="w600 bgfff">
+			<div class="lietext">
+				<div class="lefttit"><p>支付成功</p></div>
+				<span class="rightding">订单号：46967148</span>
+			</div>
+			<div class="lietext02">
+				<p class="item layout-box"><span class="flex1">高档真皮双人床</span><span class="flex1">数量：1</span></p>
+				<p class="item layout-box"><span class="flex1">高档真皮双人床</span><span class="flex1">数量：1</span></p>
+				<p>订单总金额：5000</p>
+				<p class="yuan">订单原价：5100</p>
+				<p>优惠：XXX元</p>
+				<p>下单时间：2014-5-1  15：20</p>
+				<p class="zhi">支付时间：2014-5-1  15：20</p>
+			</div>
+			<div class="lietext03">
+				<h3>砍价类商品备注：<span>砍价类商品不享受退货</span></h3>
+			</div>
+			<div class="lietext04">
+				<p>配送方式</p>
+				<p>金秋  13985247582</p>
+				<p>收货地址：上海市平福路xxx号xxx路xxx室</p>
+
+			</div>
+		</div>
+
+	</div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gb2312">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<!--Iphone全屏显示-->
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<!--控制状态栏显示样式-->
+<meta content="telephone=no" name="format-detection"/>
+<!--apple文字自动加链接样式去掉这个拨号链接-->
+
+<title>我的订单</title>
+<meta content="北京家具,家具市场,家居装修,家庭装修,装修建材,装饰建材" name="Keywords">
+<meta content="我爱我家北京站 - 以家庭装修和建材、家具/家居、家电团购为主营业务，提供北京区域权威专业的家装知识、装修设计方案和建材、家居、家具、家电产品导购的装修产品。" name="Description">
+
+<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<style type="text/css">
+html{-webkit-text-size-adjust: none;/*避免重力感应时文字随分辨率增大而增大*/
+	-webkit-user-drag:none;
+	word-break: break-all;
+	word-wrap: break-word; font-size:16px;
+}
+body, div, span, h1, h2, h3, h4, h5, h6, hr, p, blockquote, strong, var, b, u, i, center, dl, dt, dd, ul, ol, li, prea, address, fieldset, form, fieldset, label, legend, button, input, textarea, th, td { margin: 0; padding: 0;/*-webkit-tap-highlight-color:transparent;*/ }
+body, button, input, select, textarea { font:12px/1.5 "microsoft yahei","\9ed1\4f53",tahoma,arial ; outline: none;}
+body{ overflow-x: hidden; min-width:320px;}
+ul, ol { list-style-type: none; }
+select, input, img, select { vertical-align: middle; }
+*:focus { outline: none; }
+button, input, select, textarea { font-size: 100%; }
+li { list-style-type: none; vertical-align: top; }
+img { vertical-align: middle; border: 0px; margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: 0; }
+del { text-decoration: line-through; }
+em { font-style: normal; }
+.vimg-align { vertical-align: middle; }
+legend { color: #222; }
+fieldset, img { border: 0; }
+a:link, a:visited { text-decoration:none; color:#666666;-webkit-tap-highlight-color: transparent;
+ }
+a:hover{ color:#248422; text-decoration:none;-webkit-tap-highlight-color: transparent;
+}/*4392FB*/
+.fl { float: left; display: inline; }
+.fr { float: right; display: inline; }
+.oz { overflow: hidden; zoom: 1; }
+.oz li, .oz dt, .oz .item { float: left; }
+.clr, .clear { display: block; overflow: hidden; clear: both; height: 0; line-height: 0; font-size: 0; }
+
+.clearfloat:before, .clearfloat:after { content: ""; display: table; }
+.clearfloat:after { clear: both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat{ *zoom:1;}
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+.layout-box {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}
+.flex1 { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1;flex: 1;}
+
+body{background:#f9f9f9; max-width:640px; margin:0 auto;}
+
+.w640 { max-width:640px; min-width:320px; margin:0 auto; overflow: hidden; }
+.w600 { max-width: 93.75%; margin: 0 auto; }
+
+.wrap1{background:#e43636; width:100%; padding:20px 0px;height:47px; border-bottom:1px #b50e0f solid;}
+.wrap1nav1{ position:relative;}
+.wrap1nav1 h2{ text-align:center; color:#fffafa; font-size:2.5rem; line-height:47px;}
+.wrap1nav1 .lefta{ display:block; position:absolute; left:3.125%; top:50%; margin-top:-17px; width:20px; height:34px; overflow:hidden; background:url(images/left.png) no-repeat scroll 0px 0px; z-index:10; text-indent:-9999em;}
+
+/*--------wrap2------*/
+ 
+.wrap2{width:100%; padding-bottom:55px;}
+.headerlie{ background:#fff;}
+.mat20{ margin-top:20px;}
+.toptit{border-bottom:1px #f0f0f0 solid; border-top:1px #f0f0f0 solid; padding:17px 0px;}
+.toptit h2{ color:#3b3b3b; font-size:1.75rem; height:27px; line-height:27px; float:left; width:250px;}
+.toptit h2 a{color:#3b3b3b;}
+.toptit span.spanright{ float:right; min-width:305px; height:27px; line-height:27px; color:#999999;font-size:1.25rem; text-align:right}
+
+.lieCon{ border-bottom:1px #f0f0f0 solid;}
+.textCon{ padding-top:20px; position:relative; height:100%;  padding-bottom:20px;} 
+.lieCon > a { display: block; width: 100%; height: 100%;}
+.leftImg{float:left; width:120px; height:120px; overflow:hidden;}
+
+.leftImg img{ width:100%;}
+.righttext{ float:left; width:410px; height:120px;}
+.righttext h2{ width:95%; color:#666666; font-size:1.625rem;}
+.righttext h2 a{color:#666666;}
+.righttext h3{ width:95%; color:#999999; font-size:1.5rem; line-height:1.8em;}
+.righttext .pdizhi{width:95%; color:#b9b9b9; font-size:1.375rem;}
+.righta{ display:block; position:absolute; right:0px; top:50%; margin-top:-13px; width:16px; height:27px; overflow:hidden; z-index:10; background:url(images/right.png) no-repeat scroll 0px 0px; text-indent:-9999em;}
+
+ .pay-btn {width: 100%; height: 88px; background:#e9e9e9;}
+ .pay-btn-inner { width: 200px; height: 60px; margin:0 auto; line-height: 60px; color:#fff; text-align: center; font-size: 1.625rem; overflow: hidden;}
+ .pay-btn-inner a:nth-child(1) { background:#cecece; color: #fff; border-top-left-radius:30px 30px;  border-bottom-left-radius:30px 30px;}
+ .pay-btn-inner a:nth-child(2) { background:#e43636; color: #fff;border-top-right-radius:30px 30px;  border-bottom-right-radius:30px 30px;}
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="../js/zoom.js"></script>
+<section class="wrap1">
+  <nav class="wrap1nav1 w640">
+  	<h2>我的订单</h2>
+	<a href="已登录.html" class="lefta">左</a>
+  </nav>
+</section>
+
+<div class="pay-btn c-wrap">
+	<div class="c-inner">
+		<div class="pay-btn-inner layout-box">
+			<a class="flex1" href="javascript:;">已支付</a>
+			<a class="flex1" href="javascript:;">未支付</a>
+		</div>
+	</div>
+</div>
+
+<section class="wrap2">
+  <header class="headerlie w640 mat20">
+  
+  	<div class="w640 toptit">
+		<div class="w600">
+			<h2 class="htit"><a href="###">高档真皮双人床</a></h2>
+			<span class="spanright">下单时间：2014-4-14 11：20</span>
+		</div>
+	</div>
+  
+	<div class="w640 lieCon"><a href="订单详情-未支付.html">
+		<div class="w600 textCon clearfloat">
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2>爱家特价￥12000</h2>
+				<h3>运费：0</h3>
+				<p class="pdizhi">数量：1</p>
+				</div>
+			</div>
+			<span class="righta">箭头</span>
+		</div></a>
+	</div>
+  </header>
+    <header class="headerlie w640 mat20">
+  
+  	<div class="w640 toptit">
+		<div class="w600">
+			<h2  class="htit"><a href="###">高档真皮双人床</a></h2>
+			<span class="spanright">下单时间：2014-4-14 11：20</span>
+		</div>
+	</div>
+  
+	<div class="w640 lieCon"><a href="订单详情-未支付.html">
+		<div class="w600 textCon clearfloat">
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2>爱家特价￥12000</h2>
+				<h3>运费：0</h3>
+				<p class="pdizhi">数量：1</p>
+				</div>
+			</div>
+			<span class="righta">箭头</span>
+		</div></a>
+	</div>
+  </header>
+    <header class="headerlie w640 mat20">
+  
+  	<div class="w640 toptit">
+		<div class="w600">
+			<h2 class="htit"><a href="###">高档真皮双人床</a></h2>
+			<span class="spanright">下单时间：2014-4-14 11：20</span>
+		</div>
+	</div>
+  
+	<div class="w640 lieCon"><a href="订单详情-未支付.html">
+		<div class="w600 textCon clearfloat">
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2>爱家特价￥12000</h2>
+				<h3>运费：0</h3>
+				<p class="pdizhi">数量：1</p>
+				</div>
+			</div>
+			<span class="righta">箭头</span>
+		</div></a>
+	</div>
+  </header>
+</section>
+
+
+
+</body>
+</html>

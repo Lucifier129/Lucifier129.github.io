@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gb2312">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<!--Iphone全屏显示-->
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<!--控制状态栏显示样式-->
+<meta content="telephone=no" name="format-detection"/>
+<!--apple文字自动加链接样式去掉这个拨号链接-->
+
+<title>活动列表</title>
+<meta content="北京家具,家具市场,家居装修,家庭装修,装修建材,装饰建材" name="Keywords">
+<meta content="我爱我家北京站 - 以家庭装修和建材、家具/家居、家电团购为主营业务，提供北京区域权威专业的家装知识、装修设计方案和建材、家居、家具、家电产品导购的装修产品。" name="Description">
+
+<script src="http://www.525j.com.cn/Theme/index2012/js/jquery-1.7.2.min.js"></script>
+<style type="text/css">
+html{
+	-webkit-text-size-adjust: none;/*避免重力感应时文字随分辨率增大而增大*/
+	-webkit-user-drag:none;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+body, div, span, h1, h2, h3, h4, h5, h6, hr, p, blockquote, strong, var, b, u, i, center, dl, dt, dd, ul, ol, li, prea, address, fieldset, form, fieldset, label, legend, button, input, textarea, th, td { margin: 0; padding: 0;/*-webkit-tap-highlight-color:transparent;*/ }
+body, button, input, select, textarea { font:12px/1.5 "microsoft yahei","\9ed1\4f53",tahoma,arial ; outline: none;}
+body{ overflow-x: hidden; min-width:320px;}
+ul, ol { list-style-type: none; }
+select, input, img, select { vertical-align: middle; }
+*:focus { outline: none; }
+button, input, select, textarea { font-size: 100%; }
+li { list-style-type: none; vertical-align: top; }
+img { vertical-align: middle; border: 0px; margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: 0; }
+del { text-decoration: line-through; }
+em { font-style: normal; }
+.vimg-align { vertical-align: middle; }
+legend { color: #222; }
+fieldset, img { border: 0; }
+a:link, a:visited { text-decoration:none; color:#666666;-webkit-tap-highlight-color: transparent;
+ }
+a:hover{ color:#248422; text-decoration:none;-webkit-tap-highlight-color: transparent;
+}/*4392FB*/
+.fl { float: left; display: inline; }
+.fr { float: right; display: inline; }
+.oz { overflow: hidden; zoom: 1; }
+.oz li, .oz dt, .oz .item { float: left; }
+.clr, .clear { display: block; overflow: hidden; clear: both; height: 0; line-height: 0; font-size: 0; }
+
+.clearfloat:before, .clearfloat:after { content: ""; display: table; }
+.clearfloat:after { clear: both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat{ *zoom:1;}
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+body{background:#f9f9f9;}
+.w640 { max-width:640px; min-width:320px; margin:0 auto; overflow: hidden; }
+.w600 { max-width: 93.75%; margin: 0 auto; }
+
+.wrap1{background:#e43636; width:100%; padding:20px 0px;height:47px; border-bottom:1px #b50e0f solid;}
+.wrap1nav1{ position:relative;}
+.wrap1nav1 h2{ text-align:center; color:#fffdfd; font-size:40px; line-height:47px;}
+
+.wrap1nav1 .lefta{ display:block; position:absolute; left:3.125%; top:50%; margin-top:-17px; width:20px; height:34px; overflow:hidden; background:url(images/left.png) no-repeat scroll 0px 0px; z-index:10; text-indent:-9999em;}
+.wrap1nav1 .cityC{position:absolute;right:3.125%; top:50%; width:112px; height:48px; margin-top:-24px; cursor:pointer; background: url(images/xia.png) no-repeat scroll 88% center #b72626;-moz-border-radius: 5px;      /* Gecko browsers */-webkit-border-radius: 5px;   /* Webkit browsers */border-radius:5px;}
+.wrap1nav1 .cityC a{ line-height:48px; height:48px; color:#fff; font-size:28px; padding-left:15px;}
+
+
+ 
+ .wrap2{width:100%; }
+.headerlie{ background:#fff;}
+.lieCon{ border-bottom:1px #f0f0f0 solid;}
+.textCon{ padding-top:20px; position:relative; height:100%;  padding-bottom:20px;} 
+.leftImg{ width:23.3333%;  float:left; overflow:hidden;}
+.leftImg img{ width:100%;}
+.righttext{ float:left; width:70.8333%; min-height:60px; margin-left:10px;}
+.righttext h2{ width:95%; color:#3b3b3b; font-size:28px;}
+.righttext h2 a, .righttext h2 a:hover {color:#3b3b3b;}
+.righttext .pdizhi{width:95%; color:#a8a8a8; font-size:22px;}
+.righttext .pdizhi a, .righttext .pdizhi a:hover { color:#a8a8a8; }
+.righta{ display:block; position:absolute; right:0px; top:50%; margin-top:-13px; width:16px; height:27px; overflow:hidden; z-index:10; background:url(images/right.png) no-repeat scroll 0px 0px; text-indent:-9999em;}
+
+ .wrap3{width:100%; }
+ .bottomwen{ padding:25px 0px;}
+ .bottomwen p{ color:#3b3b3b; text-align:center; font-size:28px;}
+ 
+ /*弹窗框*/
+#_overlay_ { bgcolor: '#000'; opacity: 0.5; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+}
+#get_gift { display: none; background: #FFF; width: 84.375%; overflow: hidden; }
+#get_gift .a1 { display: block; width: 70px; height: 70px; background: url(images/yimg12.gif) no-repeat scroll; background-position: 50% 50%; border-left: 1px solid #d9d9d9; position: relative; right: 0px; top: 0px; float: right; text-indent: -9999em; }
+#get_gift h2 { height: 70px; border-bottom: 1px solid #d9d9d9; background: url(images/yimg13.gif) no-repeat scroll; text-indent: -9999em; }
+#get_gift dl dt { display: block; height: 60px; line-height: 60px; text-indent: 20px; font-size: 28px; background: #f9f9f9; border-bottom: 1px solid #f0f0f0; color: #3b3b3b; }
+#get_gift dl dd { display: block; height: 60px; line-height: 60px; text-align: center; font-size: 28px; background: #FFF; border-bottom: 1px solid #f0f0f0; }
+#get_gift dl dd a { color: #666; }
+
+/*弹窗框*/
+
+@media screen and (max-width: 550px) { /*当屏幕尺寸小于600px时，应用下面的CSS样式*/ 
+	.wrap1{padding:12px 0px; height:42px; }
+   .wrap1nav1 h2{  font-size:36px; line-height:42px; } 
+   
+   .wrap1nav1 .cityC{width:84px; height:36px; margin-top:-18px;  -moz-background-size: 14px 8px; -webkit-background-size: 14px 8px; -o-background-size: 14px 8px; background-size: 14px 8px; }
+   .wrap1nav1 .cityC a{ font-size:21px; line-height:36px; padding-left:10px;}
+   .textCon{ padding-top:10px; padding-bottom:10px;} 
+   .righttext h2{ font-size:20px;}
+   .righttext .pdizhi{ font-size:16px;}
+   .bottomwen p{  font-size:20px;}
+   .wrap1nav1 .lefta{width:15px; height:26px;margin-top:-13px; -moz-background-size: 15px 26px; -webkit-background-size: 15px 26px; -o-background-size: 15px 26px; background-size: 15px 26px;}
+   
+   .righta{ margin-top:-10px; width:12px; height:20px;  -moz-background-size: 12px 20px; -webkit-background-size: 12px 20px; -o-background-size: 12px 20px; background-size: 12px 20px;}
+ }
+ @media screen and (max-width: 400px) { /*当屏幕尺寸小于400px时，应用下面的CSS样式*/ 
+ .wrap1{padding:5px 0px; height:34px; }
+.wrap1nav1 h2{ font-size:20px; line-height:34px;}
+.wrap1nav1 .cityC{width:56px; height:24px; margin-top:-12px;  -moz-background-size: 9px 5px; -webkit-background-size: 9px 5px; -o-background-size: 9px 5px; background-size: 9px 5px; }
+.wrap1nav1 .cityC a{ font-size:14px; line-height:24px; padding-left:5px;}
+.wrap1nav1 .lefta{width:10px; height:17px;margin-top:-8px; -moz-background-size: 10px 17px; -webkit-background-size: 10px 17px; -o-background-size: 10px 17px; background-size: 10px 17px;}
+.textCon{ padding-top:10px; padding-bottom:10px;} 
+
+.righttext h2{ font-size:14px;}
+.righttext .pdizhi{ font-size:12px;}
+.bottomwen p{  font-size:14px;}
+#get_gift .a1 { width: 35px; height: 35px; -moz-background-size: 13px 12px; -webkit-background-size: 13px 12px; -o-background-size: 13px 12px; background-size: 13px 12px; }
+#get_gift h2 { height: 35px; -moz-background-size: 67px 35px; -webkit-background-size: 67px 35px; -o-background-size: 67px 35px; background-size: 67px 35px; }
+#get_gift dl dt { height: 40px; line-height: 40px; text-indent: 10px; font-size: 14px; }
+#get_gift dl dd { height: 40px; line-height: 40px; font-size: 14px; }
+
+ }
+
+
+p.loader span { display: inline-block; width: 60px; height: 100%; overflow: hidden; text-indent: -999em; background:url(images/loading.gif) no-repeat; background-size: 100%;}
+p.loader img { margin-top: -50px;}
+</style>
+</head>
+
+<body>
+<section class="wrap1">
+  <nav class="wrap1nav1 w640">
+  	<h2>爱家活动</h2>
+	<a href="../首页.html" class="lefta">左</a>
+	<div class="cityC clickBox1"><a href="#">上海</a></div>
+  </nav>
+</section>
+<section class="wrap2">
+  <header class="headerlie w640">
+	<div class="w640 lieCon">
+		<div class="w600 textCon clearfloat">
+			<div class="leftImg">
+				<a href="活动详情.html"><img src="images/lie01.jpg"></a></div>
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2><a href="活动详情.html">2014年10月18日</a></h2>
+				<h2><a href="活动详情.html">我爱我家地板专场团购</a></h2>
+				<p class="pdizhi"><a href="活动详情.html">地点：上海市徐汇区平福路188号</a></p>
+				</div>
+			</div>
+			<a href="活动详情.html" target="_blank" class="righta">箭头</a>
+		</div>
+	</div>
+	<div class="w640 lieCon">
+		<div class="w600 textCon clearfloat">
+			<div class="leftImg">
+				<a href="活动详情.html"><img src="images/lie01.jpg"></a></div>
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2><a href="活动详情.html">2014年10月18日</a></h2>
+				<h2><a href="活动详情.html">我爱我家地板专场团购</a></h2>
+				<p class="pdizhi"><a href="活动详情.html">地点：上海市徐汇区平福路188号</a></p>
+				</div>
+			</div>
+			<a href="活动详情.html" target="_blank" class="righta">箭头</a>
+		</div>
+	</div>
+	<div class="w640 lieCon">
+		<div class="w600 textCon clearfloat">
+			<div class="leftImg">
+				<a href="活动详情.html"><img src="images/lie01.jpg"></a></div>
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2><a href="活动详情.html">2014年10月18日</a></h2>
+				<h2><a href="活动详情.html">我爱我家地板专场团购</a></h2>
+				<p class="pdizhi"><a href="活动详情.html">地点：上海市徐汇区平福路188号</a></p>
+				</div>
+			</div>
+			<a href="活动详情.html" target="_blank" class="righta">箭头</a>
+		</div>
+	</div>
+	<div class="w640 lieCon">
+		<div class="w600 textCon clearfloat">
+			<div class="leftImg">
+				<a href="活动详情.html"><img src="images/lie01.jpg"></a></div>
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2><a href="活动详情.html">2014年10月18日</a></h2>
+				<h2><a href="活动详情.html">我爱我家地板专场团购</a></h2>
+				<p class="pdizhi"><a href="活动详情.html">地点：上海市徐汇区平福路188号</a></p>
+				</div>
+			</div>
+			<a href="活动详情.html" target="_blank" class="righta">箭头</a>
+		</div>
+	</div><div class="w640 lieCon">
+		<div class="w600 textCon clearfloat">
+			<div class="leftImg">
+				<a href="活动详情.html"><img src="images/lie01.jpg"></a></div>
+			<div class="righttext c-wrap">
+				<div class="c-inner">
+				<h2><a href="活动详情.html">2014年10月18日</a></h2>
+				<h2><a href="活动详情.html">我爱我家地板专场团购</a></h2>
+				<p class="pdizhi"><a href="活动详情.html">地点：上海市徐汇区平福路188号</a></p>
+				</div>
+			</div>
+			<a href="活动详情.html" target="_blank" class="righta">箭头</a>
+		</div>
+	</div>
+
+  </header>
+</section>
+	<section class="wrap3">
+  <div class="bottomwen w640">
+  	<p class="get-more">查看更多</p>
+  	<p class="loader"><span>loading</span>正在加载 ...</p>
+  </div>
+</section>
+<!--弹窗框 开始-->
+<div id="get_gift"> <a class="a1" href="javascript:void(0);">关闭</a><!--javascript:showDialog.hide()-->
+  
+  <h2>logo</h2>
+  <dl>
+    <dt>猜您在</dt>
+    <dd>定位：<a href="#">上海</a></dd>
+    <dt>华北地区</dt>
+    <dd><a href="#">北京</a></dd>
+    <dt>华东地区</dt>
+    <dd><a href="#">苏州</a></dd>
+    <dd><a href="#">杭州</a></dd>
+    <dd><a href="#">南京</a></dd>
+    <dd><a href="#">无锡</a></dd>
+  </dl>
+</div>
+<script type="text/javascript" src="../js/showDialog.js"></script> 
+<script type="text/javascript">
+$(function(){
+	
+	$(".clickBox1").click(function(){
+		showDialog.show({id:'get_gift'});
+	});
+	
+
+	  
+	$("#get_gift .a1").click(function(){
+	    showDialog.hide({ id: 'get_gift' });
+	});
+
+
+	var loader = $('.loader').hide();
+
+	$('.get-more').on('click', function() {
+		if (getData.loaded) {
+			getData.loaded = false;
+			//加载条出现
+			loader.show();
+			getData('字符串模板.txt');
+		}
+	});
+
+	function getData(url) {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, true);
+		xhr.onreadystatechange = function() {
+			if (/*this.status === 200 && */this.readystate === 4) {
+				$('.headerlie').append($(this.responseText));
+				getData.loaded = true;
+				//加载条出现
+				loader.hide();
+			}
+		};
+		xhr.send(null);
+	}
+
+	getData.loaded = true;
+
+})
+</script>
+
+<!--弹窗框 结束-->
+
+</body>
+</html>

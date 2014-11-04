@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gb2312">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<!--Iphone全屏显示-->
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<!--控制状态栏显示样式-->
+<meta content="telephone=no" name="format-detection"/>
+<!--apple文字自动加链接样式去掉这个拨号链接-->
+
+<title>家装大学二级页面</title>
+<meta content="北京家具,家具市场,家居装修,家庭装修,装修建材,装饰建材" name="Keywords">
+<meta content="我爱我家北京站 - 以家庭装修和建材、家具/家居、家电团购为主营业务，提供北京区域权威专业的家装知识、装修设计方案和建材、家居、家具、家电产品导购的装修产品。" name="Description">
+
+<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<style type="text/css">
+html{
+	-webkit-text-size-adjust: none;/*避免重力感应时文字随分辨率增大而增大*/
+	-webkit-user-drag:none;
+	word-break: break-all;
+	word-wrap: break-word; font-size:16px;
+}
+body, div, span, h1, h2, h3, h4, h5, h6, hr, p, blockquote, strong, var, b, u, i, center, dl, dt, dd, ul, ol, li, prea, address, fieldset, form, fieldset, label, legend, button, input, textarea, th, td { margin: 0; padding: 0;/*-webkit-tap-highlight-color:transparent;*/ }
+body, button, input, select, textarea { font:12px/1.5 "microsoft yahei","\9ed1\4f53",tahoma,arial ; outline: none;}
+body{ overflow-x: hidden; min-width:320px;}
+ul, ol { list-style-type: none; }
+select, input, img, select { vertical-align: middle; }
+*:focus { outline: none; }
+button, input, select, textarea { font-size: 100%; }
+li { list-style-type: none; vertical-align: top; }
+img { vertical-align: middle; border: 0px; margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: 0; }
+del { text-decoration: line-through; }
+em { font-style: normal; }
+.vimg-align { vertical-align: middle; }
+legend { color: #222; }
+fieldset, img { border: 0; }
+a:link, a:visited { text-decoration:none; color:#666666;-webkit-tap-highlight-color: transparent;
+ }
+a:hover{ color:#248422; text-decoration:none;-webkit-tap-highlight-color: transparent;
+}/*4392FB*/
+.fl { float: left; display: inline; }
+.fr { float: right; display: inline; }
+.oz { overflow: hidden; zoom: 1; }
+.oz li, .oz dt, .oz .item { float: left; }
+.clr, .clear { display: block; overflow: hidden; clear: both; height: 0; line-height: 0; font-size: 0; }
+
+.clearfloat:before, .clearfloat:after { content: ""; display: table; }
+.clearfloat:after { clear: both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat{ *zoom:1;}
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+body{background:#f9f9f9; max-width:640px; margin:0 auto;}
+
+.w640 { max-width:640px; min-width:320px; margin:0 auto; overflow: hidden; }
+.w600 { max-width: 93.75%; margin: 0 auto; }
+
+.wrap1{background:#e43636; width:100%; padding:20px 0px;height:47px; border-bottom:1px #b50e0f solid;}
+.wrap1nav1{ position:relative;}
+.wrap1nav1 h2{ text-align:center; color:#fffafa; font-size:2.5rem; line-height:47px;}
+.wrap1nav1 .lefta{ display:block; position:absolute; left:3.125%; top:50%; margin-top:-17px; width:20px; height:34px; overflow:hidden; background:url(images/left.png) no-repeat scroll 0px 0px; z-index:10; text-indent:-9999em;}
+.wrap1nav1 .wua{ display:block; position:absolute; right:3.125%; top:50%; margin-top:-17px; width:38px; height:34px; overflow:hidden; background:url(images/wu.png) no-repeat scroll 0px 0px; z-index:10; text-indent:-9999em;}
+/*--------wrap2------*/
+ 
+.wrap2{width:100%; padding-bottom:55px;}
+.headerCon{}
+.h_tit{ text-align:center; color:#3b3b3b; height:85px; line-height:85px;font-size:1.875rem;}
+.daImg{ width:600px;}
+.daImg img{ width:100%;}
+.pwen{ text-indent:2em; line-height:1.6em;font-size:1.625rem; color:#3b3b3b; margin-top:20px; margin-bottom:50px;}
+.zhanCon{ width:600px; height:37px;}
+.zhanCon ul li{ float:left; padding-left:44px; width:156px; line-height:37px; height:37px; color:#c1c1c1;font-size:1.375rem;cursor:pointer;}
+.zhanCon ul li.li01{  background:url(images/icon01.png) no-repeat scroll 0px center;}
+.zhanCon ul li.li02{  background:url(images/icon02.png) no-repeat scroll 0px center;}
+.zhanCon ul li.li03{  background:url(images/icon03.png) no-repeat scroll 10px center; padding-left:50px; width:150px;}
+.zhanCon ul li.curr01{ background:url(images/icon01b.png) no-repeat scroll 0px center !important;}
+.zhanCon ul li.curr02{ background:url(images/icon02b.png) no-repeat scroll 0px center !important;}
+
+ /*弹窗框*/
+#_overlay_ { bgcolor: '#000'; opacity: 0.5; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+}
+#get_gift { display: none; background: #FFF; width:400px; height:260px; overflow: hidden;-moz-border-radius: 5px;      /* Gecko browsers */-webkit-border-radius: 5px;   /* Webkit browsers */border-radius:5px; }
+#get_gift h2{ text-align:center; color:#666666;font-size:1.75rem; height:86px; line-height:86px;}
+#get_gift .fufeng{ text-align:center; width:100%; height:60px; margin-bottom:30px;}
+#get_gift .fufeng a.qqa{ width:60px; height:60px; cursor:pointer;  display:inline-block; background:url(images/qq.png) no-repeat scroll 0px 0px; margin-left:15px; margin-right:15px; text-indent:-9999em;}
+#get_gift .fufeng a.weibo{ width:60px; height:60px; cursor:pointer;  display:inline-block; background:url(images/weibo.png) no-repeat scroll 0px 0px; margin-left:15px; margin-right:15px; text-indent:-9999em;}
+#get_gift .quxia{ margin:0 auto; width:190px; height:48px; overflow:hidden;}
+#get_gift .quxia a.a1{ width:190px; height:48px; display:block; color:#ffffff;font-size:1.625rem; line-height:48px; text-align:center; background:#e43636;-moz-border-radius: 5px;      /* Gecko browsers */-webkit-border-radius: 5px;   /* Webkit browsers */border-radius:5px;}
+
+
+#get_gift02 { display: none; background: #FFF; width:400px; height:265px; padding-top:25px; overflow: hidden;-moz-border-radius: 5px;      /* Gecko browsers */-webkit-border-radius: 5px;   /* Webkit browsers */border-radius:5px; }
+#get_gift02 h2{ text-align:center; height:33px; color:#666666;font-size:1.75rem; margin-bottom:5px}
+#get_gift02 h2 .span_tu{ background:url(images/gou.png) no-repeat 0px 0px; display:inline-block; width:44px; height:33px; text-indent:-9999em;}
+#get_gift02 h3{ text-align:center; color:#666666;font-size:1.75rem; margin-bottom:15px;}
+#get_gift02 .fufeng{ text-align:center; width:100%; height:60px; margin-bottom:30px;}
+#get_gift02 .fufeng a.qqa{ width:60px; height:60px; cursor:pointer;  display:inline-block; background:url(images/qq.png) no-repeat scroll 0px 0px; margin-left:15px; margin-right:15px; text-indent:-9999em;}
+#get_gift02 .fufeng a.weibo{ width:60px; height:60px; cursor:pointer;  display:inline-block; background:url(images/weibo.png) no-repeat scroll 0px 0px; margin-left:15px; margin-right:15px; text-indent:-9999em;}
+#get_gift02 .quxia{ margin:0 auto; width:190px; height:48px; overflow:hidden;}
+#get_gift02 .quxia a.a_cha{ width:190px; height:48px; display:block; color:#ffffff;font-size:1.625rem; line-height:48px; text-align:center; background:#e43636;-moz-border-radius: 5px;      /* Gecko browsers */-webkit-border-radius: 5px;   /* Webkit browsers */border-radius:5px;}
+
+
+/*弹窗框*/
+
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="../js/zoom.js"></script>
+<section class="wrap1">
+  <nav class="wrap1nav1 w640">
+  	<h2>家装大学</h2>
+	<a href="家装大学.html" class="lefta">左</a>
+	<a href="#" class="wua">房屋</a>
+  </nav>
+</section>
+
+
+<section class="wrap2">
+  <header class="headerCon w640">
+  	<div class="w600">
+		<h2 class="h_tit">瓷砖大变身 且看身怀绝技的功能性瓷砖</h2>
+		<div class="daImg"><img src="images/tuimg02.jpg"></div>
+		<p class="pwen">生活中不起眼的瓷砖硬生生被卖家们赋予了各种神奇的功能。商家为了迎合消费者追求环保的观念，故推出这种吹牛式的宣传口号。宣传推广无可厚非，虚假宣传、蒙骗消费者却难以饶恕。以功能为噱头吸引消费者，是否真能做长久生意，相信各位卖家心中自有定论。</p>
+		<div class="zhanCon">
+			<ul class="ulfeng">
+				<li class="li01 curr01"><p class="pzhan">赞（<span>999</span>）</p></li>
+				<li class="li02 curr02"><p class="pshou">收藏（<span>999</span>）</p></li>
+				<li class="li03"><p class="pfeng">分享（<span>999</span>）</p></li>
+			</ul>
+		</div>
+	</div>
+  </header>
+</section>
+
+<!--弹窗框 开始-->
+<div id="get_gift"> <!--javascript:showDialog.hide()-->
+	<h2>分享好友</h2>
+	<div class="fufeng">
+			<a href="#"  class="qqa">qq</a>
+			<a href="#"  class="weibo">微博</a>
+	</div>
+	<div class="quxia"><a class="a1" href="javascript:void(0);">取消</a></div>  
+
+</div>
+<!--弹窗框02-->
+<div id="get_gift02"> <!--javascript:showDialog.hide()-->
+	<h2>收藏成功<span class="span_tu">图标</span></h2>
+	<h3>还不赶紧分享给好友</h3>
+	<div class="fufeng">
+			<a href="#"  class="qqa">qq</a>
+			<a href="#"  class="weibo">微博</a>
+	</div>
+	<div class="quxia"><a class="a_cha" href="javascript:void(0);">查看更多</a></div>  
+
+</div>
+<script type="text/javascript" src="../js/showDialog.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$(".zhanCon .li02").click(function(){
+		showDialog.show({id:'get_gift02'});
+	});
+	$(".zhanCon .li03").click(function(){
+		showDialog.show({id:'get_gift'});
+	});
+	
+
+	  
+	$("#get_gift .quxia .a1").click(function(){
+	    showDialog.hide({ id: 'get_gift' });
+	});
+	$("#get_gift02 .quxia .a_cha").click(function(){
+	    showDialog.hide({ id: 'get_gift02' });
+	});
+
+    
+})
+</script> 
+
+<!--弹窗框 结束-->
+
+</body>
+</html>

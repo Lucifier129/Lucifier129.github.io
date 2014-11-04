@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="gb2312">
+	<title>百变家装</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+	<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+	<style type="text/css">a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}table{border-collapse:collapse;border-spacing:0}a{text-decoration:none}a,button,input,textarea{-webkit-tap-highlight-color:rgba(255,255,255,0)}body{-webkit-text-size-adjust:none} a,img{-webkit-tap-highlight-color:rgba(255,255,255,0)}input:focus{outline:0}
+	.clearfloat:before,.clearfloat:after {content:"";display:table;}
+.clearfloat:after { clear:both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat { *zoom:1; }
+/* center class */
+.c-wrap { display: table; *writing-mode: tb-rl; }
+.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+
+/*main*/
+/*公共类*/
+html { font-size: 16px; }
+body {position:relative; max-width:640px;  margin:0 auto;  background: #fbfbfb;}
+.layout-box {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}
+.flex1 { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1;flex: 1;}
+/*头部导航*/
+header { height: 86px; background:#e43636; text-align: center; border-bottom: 2px solid #d70e0e;}
+.go-back { width: 132px; height: 100%; overflow: hidden; text-indent: -999em; background:url(images/arrow-sprite.png) no-repeat 19px 26px;}
+.go-back a { display: block; width: 100%; height: 100%; }
+.page-title { line-height: 86px;font-size: 2.5rem; color:#fff; font-weight: 700;}
+.set-all { width: 112px; height: 48px; line-height: 48px; background:#b72626; font-size: 1.75rem; border-radius: 5px; margin:20px 20px 0 0; color:#fff; }
+/*风格导航*/
+nav { position:relative; z-index:6; height: 69px; border-bottom: 1px solid #dadada; background:#fff;}
+.styles { width: 600px; height: 100%; margin:0 auto; font-size: 1.75rem; line-height: 69px;  color:#999;}
+.styles li { position:relative; height: 100%; overflow: hidden; background:url(images/arrow-sprite.png) no-repeat 60px -158px; }
+.styles li.last { width: 88px;}
+.styles li.cur { background-position: 60px -82px;color:#3b3b3b;}
+.styles li.cur:after { content:""; position:absolute; left:0; bottom:-1px; width: 88px; height: 4px; background:#e43636;}
+/*风格列表-弹窗*/
+.popup { display: none; z-index: 99; position:absolute; top:157px; left:0; width: 100%; height: 100%; background:rgba(0,0,0,.4);}
+.style-list { display: none; background:#fff; font-size: 1.5rem; line-height: 69px; color:#999;}
+.style-list a { color:#999;}
+.style-list ul { width: 600px; height: 100%; padding:0 20px; background: #fff;}
+.style-item li {position:relative; float: left; width:128px; height: 100%;}
+.style-item li:nth-child(5n+1):after { content:""; position:absolute; top:0; left:0; width: 600px; height: 1px; background:#dadada;}
+.style-item li:nth-child(5n) { width: 88px;}
+.style-item li.cur a { color:#e43636;}
+/*瀑布流*/
+#waterfall { position:relative; z-index: 2; width: 600px; margin: 0 auto; padding-top: 20px;}
+#waterfall ul { position:relative;}
+#waterfall li { width: 294px; position:absolute; top:-999px;}
+#waterfall li:nth-child(2n+1) { left:0;}
+#waterfall li:nth-child(2n) { right:0;}
+#waterfall li img { width: 100%; display: block;}
+.loader { position:relative; height: 32px; line-height: 32px; font-size: 1.75rem; color:#333; text-align: center; background:#fff; }
+.loader span { display: inline-block; height: 100%; padding-right: 32px; background:url(images/loading.gif) no-repeat right 0;}
+/*侦听dom节点插入事件所用的css3动画媒介*/
+.nodeInsertedListener li {
+	animation-duration: 0.001s;
+	-webkit-animation-duration: 0.001s;
+	animation-name: nodeInserted;
+	-webkit-animation-name: nodeInserted;
+}
+ /* set up the keyframes */
+ @keyframes nodeInserted {
+ 	from { opacity: 0.99; }
+	to { opacity: 1; }
+ }
+ @-webkit-keyframes nodeInserted {
+ 	from { opacity: 0.99; }
+	to { opacity: 1; }
+ }
+
+
+</style>
+</head>
+<body>
+	<!--最好放在body的后面，紧跟着body，body加载好之后，立刻设置缩放-->
+	<script type="text/javascript" src="../js/zoom.js"></script>
+	<!--页头-->
+	<header class="layout-box">
+		<div class="go-back"><a href="../首页.html">返回</a></div>
+		<div class="page-title flex1">百变家装</div>
+		<div class="set-all">全部</div>
+	</header>
+	<!--风格导航-->
+	<nav>
+		<ul class="layout-box styles">
+			<li class="flex1 cur">风格</li>
+			<li class="flex1">空间</li>
+			<li class="flex1">色彩</li>
+			<li class="flex1">户型</li>
+			<li class="last">预算</li>
+		</ul>
+	</nav>
+	<!--瀑布流-->
+	<div id="waterfall">
+		<ul>
+		<!-- 	<li><a href="详情页.html"><img src="images/img01.jpg" alt=""></a></li>
+		<li><a href="详情页.html"><img src="images/img02.jpg" alt=""></a></li>
+		<li><a href="详情页.html"><img src="images/img03.jpg" alt=""></a></li>
+		<li><a href="详情页.html"><img src="images/img04.jpg" alt=""></a></li>
+		<li><a href="详情页.html"><img src="images/img05.jpg" alt=""></a></li> -->
+		</ul>
+		<div class="loader"><span>加载中……</span></div>
+	</div>
+
+
+	<div class="popup">
+		<!--风格列表-->
+		<div class="style-list">
+			<ul class="style-item clearfloat">
+				<li class="cur"><a href="javascript:;">中式</a></li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+			</ul>
+		</div>
+		<!--空间列表-->
+		<div class="style-list">
+			<ul class="style-item clearfloat">
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+			</ul>
+		</div>
+		<!--色彩列表-->
+		<div class="style-list">
+			<ul class="style-item clearfloat">
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+			</ul>
+		</div>
+		<!--户型列表-->
+		<div class="style-list">
+			<ul class="style-item clearfloat">
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+			</ul>
+		</div>
+		<!--预算列表-->
+		<div class="style-list">
+			<ul class="style-item clearfloat">
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+				<li>中式</li>
+				<li>混搭</li>
+				<li>田园</li>
+				<li>地中海</li>
+				<li>现代</li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" charset="gbk">
+		(function($) {
+			var waterfall = ({
+				//瀑布流容器
+				container: $('#waterfall ul'),
+				//隐藏的文档片段，存放未加载完成的图片
+				fragment: $('<div></div>').css('display', 'none').appendTo($('#waterfall')),
+				//图片的高度存放于该数组
+				top: [0, 0],
+				//容器的高度
+				maxHeight: 0,
+				//新增的图片列表
+				items: [],
+				pageNum: 1,
+				loaded: true,
+				defaultImg:'images/loading.gif',
+				//瀑布流初始化
+				init: function() {
+					var self = this;
+					var container = self.container[0];
+					var children = self.container.children();
+					self.load(children);
+					setTimeout(function() {
+						children.parent()[0] === self.container[0]
+						|| self.container.append(children);
+					}, 3000);
+					function handler(e) {self.handler(e);}
+					//利用css3动画事件，判断新元素添加进容器中
+					container.addEventListener("animationstart", handler, false);
+					container.addEventListener("webkitAnimationStart", handler, false);
+					container.className +=' nodeInsertedListener';
+
+					self.addScroll().getData();
+					return this;
+				},
+				//瀑布流布局函数
+				handler: function(e) {
+					var $target = $(e.target);
+					var index = $target.index();
+					var top = this.top[index];
+					var lastHeight = this.top[index + 2] = $target.height() + top + 10;
+
+					$target.css('top', top);
+					lastHeight > this.maxHeight
+					&& this.container.height(this.maxHeight = lastHeight);
+					this.append();
+				},
+				//加载完成的图片列表，载入容器
+				append: function() {
+					if (this.items.length) {
+						this.container.append(this.items.shift())
+					}
+					return this;
+				},
+				//加载图片
+				load: function(container) {
+					container = $(container);
+					var self = this;
+					var count = 0;
+					container.appendTo(self.fragment);
+					container.each(function() {
+						self.items.push(this);
+					}).find('img').on('load', function() {
+						++count === container.length
+						&& self.append();
+					}).on('error', function() {
+						this.src = self.defaultImg;
+						++count === container.length
+						&& self.append();
+					});
+				},
+				//添加滚动事件，判断是否要加载新图片
+				addScroll: function() {
+					var self = this;
+					var $global = $(window);
+
+					$(window).on('scroll.waterfall', function(){
+						var globalHeight = $global.height();
+						var scrollHeight = $(document).height();
+						var scrollTop = $(this).scrollTop();
+						var zoom = +$('body').css('zoom');
+
+						if (Math.abs((scrollTop + globalHeight) / zoom - scrollHeight) < 150) {
+							//当旧图片全部加载完毕时，加载新图片
+							!waterfall.items.length && self.loaded && self.getData();
+						}
+					});
+					return this;
+				},
+				//请求新数据，ajax内容请写在此函数中
+				getData: function() {
+					var self = this;
+					self.loaded = false;
+					//ajax请求的数据，传入self.load进行处理
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', self.top.length < 20 ? self.getUrl() : 'empty.txt', true);
+					xhr.onreadystatechange = function() {
+						if (/*this.status === 200 && */this.readyState === 4) {
+							console.log(this.responseText);
+							if (this.responseText.length === 0) {
+								$(window).off('scroll.waterfall');
+								$('.loader').html('加载完毕')
+								return;
+							}
+							self.load(this.responseText);
+							self.loaded = true;
+						}
+					};
+					xhr.send(null);
+				},
+				getUrl: function() {
+					return '字符串模板.txt?pageNum=' + (this.pageNum++)
+				}
+			}).init();
+
+		var popup = $('.popup'),
+			styleList = popup.find('.style-list');
+
+		//风格导航点击弹窗
+		$('.styles').on('click', 'li', function() {
+			var index = $(this).index();
+			$(this).addClass('cur').siblings().removeClass('cur');
+			popup.show();
+			styleList.eq(index).slideDown(400).siblings().hide();
+		});
+
+		//风格列表点击选中
+		styleList.on('click', 'li', function() {
+			$(this).addClass('cur').closest('.style-list').find('li').not(this).removeClass('cur');
+		});
+
+		//弹窗关闭
+		popup.add('.set-all').on('click', function(e) {
+			if ($(e.target).hasClass('popup') || $(e.target).hasClass('set-all')) {
+				styleList.slideUp(200);
+				popup.hide();
+			}
+		});
+
+		}(jQuery));
+	</script>
+</body>
+</html>
