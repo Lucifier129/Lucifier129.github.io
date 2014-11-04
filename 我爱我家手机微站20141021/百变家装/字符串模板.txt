@@ -1,1 +1,0 @@
-<li><a href="javascript:;"><img src="images/img01.jpg" alt=""></a></li><li><a href="javascript:;"><img src="images/img02.jpg" alt=""></a></li><li><a href="javascript:;"><img src="images/img03.jpg" alt=""></a></li><li><a href="javascript:;"><img src="images/img04.jpg" alt=""></a></li><li><a href="javascript:;"><img src="images/img06.jpg" alt=""></a></li>
