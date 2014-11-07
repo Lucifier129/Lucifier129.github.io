@@ -24,7 +24,6 @@ var toStr = Object.prototype.toString,
 	isString = function(obj) {
 		return toStr.call(obj) === '[object String]';
 	},
-	noop = function() {},
 	trim = $.trim,
 	each = $.each,
 	extend = $.extend,
@@ -634,6 +633,20 @@ extend($.fn, {
 
 		}
 
+		return this;
+	},
+	/**
+	*@param {object} 嵌套数据模型
+	*/
+	rendering: function(models) {
+		$('[render]').each(function() {
+			var $this = $(this),
+				key = $this.attr('render'),
+				mod;
+			key in models
+			&& isObject(mod = models[key])
+			&& $this.render(mod);
+		});
 		return this;
 	},
 	/**
