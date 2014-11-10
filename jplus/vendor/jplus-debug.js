@@ -24,7 +24,6 @@ var toStr = Object.prototype.toString,
 	isString = function(obj) {
 		return toStr.call(obj) === '[object String]';
 	},
-	noop = function() {},
 	trim = $.trim,
 	each = $.each,
 	extend = $.extend,
@@ -87,12 +86,19 @@ function arrToObj(attrValueArr) {
 }
 //scan
 //requrie arr.js/inherit.js/parseAttr.js/staticMethod.js
+
+$.plus = {
+	attr: 'js',
+	viewModel: []
+};
+
 function scan(node) {
 	return new scan.init(node);
 }
 
 scan.init = function(node) {
 	this[0] = node;
+	this.collect();
 }
 
 scan.fn = scan.init.prototype = scan.prototype = extend(inherit($.fn), {
@@ -112,7 +118,7 @@ scan.fn = scan.init.prototype = scan.prototype = extend(inherit($.fn), {
 		for (key in this) {
 			if (this.hasOwnProperty(key)) {
 				item = this[key];
-				item.removeAttr && item.removeAttr('js');
+				item.removeAttr && item.removeAttr($.plus.attr);
 				deep && delete this[key];
 			}
 		}
@@ -122,7 +128,7 @@ scan.fn = scan.init.prototype = scan.prototype = extend(inherit($.fn), {
 		if (/text/.test(node.nodeName)) return;
 		var self = this,
 			$node = $(node),
-			jsAttrValue = $node.attr('js');
+			jsAttrValue = $node.attr($.plus.attr);
 
 		if (jsAttrValue) {
 			each(parseJsAttr(jsAttrValue), function(prop) {
@@ -148,7 +154,7 @@ function walkTheDOM(node, func) {
 }
 
 function removeAttr(node) {
-	$(node).removeAttr('js');
+	$(node).removeAttr($.plus.attr);
 }
 
 function instantiation() {
@@ -157,16 +163,31 @@ function instantiation() {
 	return obj;
 }
 
+var viewModels = $.plus.viewModel;
 /*
 *@param {boolean} 再扫描 为true时重新扫描
 *@returns {object} 返回viewModel对象
 */
 $.fn.getVM = function(rescan) {
-	var vmodel;
-	if (rescan || !(vmodel = this.data('vmodel'))) {
-		vmodel = this.data('vmodel', scan(this[0]).collect()).data('vmodel');
+	var elem = this[0],
+		viewIndex = elem['viewIndex'],
+		isNum = typeof viewIndex === 'number',
+		viewModel;
+
+	if (isNum && !rescan) {
+		return viewModels[viewIndex];
 	}
-	return vmodel;
+
+	viewModel = scan(elem);
+
+	if (isNum) {
+		viewModels.splice(viewIndex, 1, viewModel);
+	} else {
+		elem['viewIndex'] = viewModels.length;
+		viewModels.push(viewModel);
+	}
+
+	return viewModel;
 };
 //refresh
 //requrie scan.js
@@ -634,6 +655,20 @@ extend($.fn, {
 
 		}
 
+		return this;
+	},
+	/**
+	*@param {object} 嵌套数据模型
+	*/
+	rendering: function(models) {
+		$('[render]').each(function() {
+			var $this = $(this),
+				key = $this.attr('render'),
+				mod;
+			key in models
+			&& isObject(mod = models[key])
+			&& $this.render(mod);
+		});
 		return this;
 	},
 	/**
