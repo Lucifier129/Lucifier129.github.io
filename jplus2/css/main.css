@@ -1,21 +1,27 @@
 @charset "utf-8";
 
+.hljs { font-size: 16px;}
+
 div {
     font-size: 12px;
 }
 
-[data-dpr="2"] div {
+[data-dpr="2"] div, [data-dpr="2"] p {
     font-size: 24px;
 }
 
-[data-dpr="3"] div {
+[data-dpr="3"] div, [data-dpr="3"] p {
     font-size: 36px;
 }
 
-/*sidebar*/
-.sidebar { width: 5rem;}
-
-.container { width: 10rem; margin:0 auto;}
-
-.list {height: 2.5rem; overflow: hidden;}
-.list li { float:left; width: 25%; height: 100%; color:#fff; background: #f00; box-sizing: border-box; border:1px solid #999; text-align: center; line-height:2.5rem; }
+#header {width: 10rem; margin:0 auto; text-align: center;}
+#header h1 {  height: 1rem; line-height: 1rem;border-bottom:1px solid #999; color:#333;  font-size: 24px;font-weight: 700;}
+[data-dpr="2"] #header h1 { font-size: 48px;}
+[data-dpr="3"] #header h1 { font-size: 96px;}
+.container { width: 10rem; margin:0 auto; padding-top: 30px;}
+.container h3 { height:1rem; line-height:1rem; font-weight: 700; font-size: 18px; border-left:3px solid #2577e3; text-indent: 10px;}
+[data-dpr="2"] .container h3 { font-size: 36px; border-left-width:6px;}
+[data-dpr="3"] .container h3 { font-size: 72px;border-left-width:9px;}
+.container p { margin:10px 0; font-size: 16px;}
+[data-dpr="2"] .container p { font-size: 32px;}
+[data-dpr="3"] .container p { font-size: 64px;}

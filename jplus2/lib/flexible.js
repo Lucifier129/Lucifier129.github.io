@@ -7,6 +7,7 @@
     var scale = 0;
     var tid;
     var flexible = lib.flexible || (lib.flexible = {});
+    var baseWidth = parseFloat(docEl.getAttribute('data-width'), 10);
     
     if (metaEl) {
         console.warn('将根据已有的meta标签来设置缩放比例');
@@ -67,10 +68,10 @@
 
     function refreshRem(){
         var width = docEl.getBoundingClientRect().width;
-        if (width / dpr > 540) {
-            width = 540 * dpr;
+        if (width / dpr > baseWidth) {
+            width = baseWidth * dpr;
         }
-        var rem = width / 10;
+        var rem = width / 10
         docEl.style.fontSize = rem + 'px';
         flexible.rem = win.rem = rem;
     }
