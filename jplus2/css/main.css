@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+div {
+    font-size: 12px;
+}
+
+[data-dpr="2"] div {
+    font-size: 24px;
+}
+
+[data-dpr="3"] div {
+    font-size: 36px;
+}
+
+/*sidebar*/
+.sidebar { width: 5rem;}
+
+.container { width: 10rem; margin:0 auto;}
+
+.list {height: 2.5rem; overflow: hidden;}
+.list li { float:left; width: 25%; height: 100%; color:#fff; background: #f00; box-sizing: border-box; border:1px solid #999; text-align: center; line-height:2.5rem; }
