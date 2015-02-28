@@ -12,3 +12,14 @@ html { background:#eaeaea;}
 .container { width: 6rem; margin:0 auto; padding-top: 0.3rem;}
 .descri-item h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 1.5em; border-left:0.25em solid #2577e3; text-indent: 0.1rem;}
 .descri-item p { margin:10px 0; font-size: 1.333em;}
+
+p.px12 { font-size: 12px;}
+p.px14 { font-size: 14px;}
+p.px16 { font-size: 16px;}
+p.px18 { font-size: 18px;}
+
+p.em12 { font-size: 1em;}
+p.em14 { font-size: 1.1666em;}
+p.em16 { font-size: 1.333em}
+p.em18 { font-size: 1.5em;}
+

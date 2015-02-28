@@ -2,21 +2,17 @@
 ;(function(win, undefined) {
 	var doc = win.document
 	var docEl = doc.documentElement
-	var metaVp = doc.querySelector('meta[name="viewport"]')
-	var designWidth = parseFloat(docEl.getAttribute('data-design-width'), 10)
+	var metaVp = docEl.querySelector('meta[name="viewport"]')
 	var noMetaVp = !metaVp
-	var timer
-	var scale
-	var dpr
 
 	if (noMetaVp) {
 		metaVp = doc.createElement('meta')
 		metaVp.setAttribute('name', 'viewport')
 	}
 
-	var isAndroid = win.navigator.appVersion.match(/android/gi)
 	var isIPhone = win.navigator.appVersion.match(/iphone/gi)
 	var devicePixelRatio = win.devicePixelRatio
+	var dpr
 	if (isIPhone) {
 		// iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
 		if (devicePixelRatio >= 3) {
@@ -30,53 +26,53 @@
 		// 其他设备下，仍旧使用1倍的方案
 		dpr = 1
 	}
-	scale = 1 / dpr
 
-	metaVp.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
-
-
-	docEl.setAttribute('data-dpr', dpr);
+	docEl.setAttribute('data-dpr', dpr)
 	docEl.classList.add('dpr' + dpr)
+
+	var scale = 1 / dpr
+	metaVp.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
 
 	if (noMetaVp) {
 		if (docEl.firstElementChild) {
-			docEl.firstElementChild.appendChild(metaVp);
+			docEl.firstElementChild.appendChild(metaVp)
 		} else {
-			var wrap = doc.createElement('div');
-			wrap.appendChild(metaVp);
-			doc.write(wrap.innerHTML);
+			var wrap = doc.createElement('div')
+			wrap.appendChild(metaVp)
+			doc.write(wrap.innerHTML)
+			wrap = null
 		}
 	}
 
+	var designWidth = parseFloat(docEl.getAttribute('data-design-width'), 10)
 	function setRootFontSize() {
 		var width = docEl.getBoundingClientRect().width
 		if (width / dpr > designWidth) {
 			width = designWidth * dpr
 		}
-		var rem = width / designWidth * 100
-		docEl.style.fontSize = rem + 'px'
+		var fontSize = width / designWidth * 100
+		docEl.style.fontSize = fontSize + 'px'
 	}
 
-	win.addEventListener('resize', function() {
+	var timer
+	function done() {
 		clearTimeout(timer)
 		timer = setTimeout(setRootFontSize, 300)
-	}, false)
+	}
 
+	win.addEventListener('resize', done, false)
 	win.addEventListener('pageshow', function(e) {
 		if (e.persisted) {
-			clearTimeout(timer)
-			timer = setTimeout(setRootFontSize, 300)
+			done()
 		}
 	}, false)
 
-	if (doc.readyState === 'complete') {
-        doc.body.style.fontSize = 12 * dpr + 'px';
-    } else {
-        doc.addEventListener('DOMContentLoaded', function(e) {
-            doc.body.style.fontSize = 12 * dpr + 'px';
-        }, false);
-    }
-
-	setRootFontSize()
+	var timer1 = setInterval(function() {
+        if (doc.body) {
+            doc.body.style.fontSize = 12 * dpr + 'px'
+            setRootFontSize()
+            clearInterval(timer1)
+        }
+    }, 4)
 
 }(window));
