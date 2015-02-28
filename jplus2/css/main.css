@@ -10,5 +10,5 @@ html { background:#eaeaea;}
 #header h1 {  height: 0.5rem; line-height: 0.5rem;border-bottom:1px solid #999; color:#333;  font-size: 2em;font-weight: 700;}
 
 .container { width: 6rem; margin:0 auto; padding-top: 0.3rem;}
-.descri-item h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 1.5em; border-left:3px solid #2577e3; text-indent: 0.1rem;}
+.descri-item h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 1.5em; border-left:0.25em solid #2577e3; text-indent: 0.1rem;}
 .descri-item p { margin:10px 0; font-size: 1.333em;}
