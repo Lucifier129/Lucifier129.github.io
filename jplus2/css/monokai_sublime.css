@@ -40,7 +40,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   color: #ae81ff;
 }
 
-.hljs-tag .hljs-value,
 .hljs-code,
 .hljs-title,
 .css .hljs-class,
@@ -74,16 +73,22 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 .nginx .hljs-title,
 .tex .hljs-special,
 .hljs-header,
-.hljs-attribute,
 .hljs-symbol,
 .hljs-symbol .hljs-string,
 .hljs-tag .hljs-title,
-.hljs-value,
 .alias .hljs-keyword:first-child,
 .css .hljs-tag,
 .css .unit,
 .css .hljs-important {
   color: #f92672;
+}
+
+.hljs-tag .hljs-attribute {
+  color:#a6e22e;
+}
+
+.hljs-tag .hljs-value {
+  color:#e6db74;
 }
 
 .hljs-function .hljs-keyword,

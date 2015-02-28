@@ -1,30 +1,19 @@
 @charset "utf-8";
 
 
-.hljs { font-size: 16px;}
+.hljs { font-size:1.1666em;}
+pre { margin:0.15rem 0;}
+.tac { text-align: center;}
+.result { }
 
-html { background:#eaeaea;}
-.wrap { background:#fff;}
+html, body { height: 100%; background:#eaeaea;}
+.wrap {width: 6rem; height: 100%; padding:0 0.2rem; margin:0 auto; background:#fff; }
 
-#header {width: 6rem; margin:0 auto; text-align: center;}
+#header {text-align: center;}
 #header h1 {  height: 0.5rem; line-height: 0.5rem;border-bottom:1px solid #999; color:#333;  font-size: 2em;font-weight: 700;}
 
-.container { width: 6rem; margin:0 auto; padding-top: 0.3rem;}
-.descri-item h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 1.5em; border-left:0.25em solid #2577e3; text-indent: 0.1rem;}
-.descri-item p { margin:10px 0; font-size: 1.333em;}
-
-p.px12 { font-size: 12px;}
-p.px14 { font-size: 14px;}
-p.px16 { font-size: 16px;}
-p.px18 { font-size: 18px;}
-
-p.em12 { font-size: 1em;}
-p.em14 { font-size: 1.1666em;}
-p.em16 { font-size: 1.333em}
-p.em18 { font-size: 1.5em;}
-
-.c000 { color:#000;}
-.c333 { color:#333;}
-.c666 { color:#666;}
-.c999 { color:#999;}
+.container { padding-top: 0.3rem;}
+.descri-item { margin-bottom: 0.2rem;}
+.descri-item h3 { height:0.3rem; line-height:0.3rem; font-weight: 700; font-size: 1.5em; border-left:0.25em solid #2577e3; text-indent: 0.1rem;}
+.descri-item p { margin:0.1rem 0; font-size: 1.333em;}
 

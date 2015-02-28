@@ -7,7 +7,7 @@
 <script type="text/javascript" src="lib/zoom.js"></script>
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="styles/monokai_sublime.css">
+<link rel="stylesheet" href="css/monokai_sublime.css">
 <body>
 <!-- 	<div class="sidebar">
 	<div class="closer">X</div>
@@ -27,64 +27,43 @@
 	<div class="container">
 		<div class="descri-item">
 			<h3>如何引用jplus?</h3>
-			<p>作为jQuery的插件用script标签引入，或改造成amd or cmd格式</p>
-			<p class="px12">测试以px为单位设置字体大小：12</p>
-			<p class="px14">测试以px为单位设置字体大小：14</p>
-			<p class="px16">测试以px为单位设置字体大小：16</p>
-			<p class="px18">测试以px为单位设置字体大小：18</p>
-			<p class="px12 c000">测试以px为单位设置字体大小：12</p>
-			<p class="px14 c000">测试以px为单位设置字体大小：14</p>
-			<p class="px16 c000">测试以px为单位设置字体大小：16</p>
-			<p class="px18 c000">测试以px为单位设置字体大小：18</p>
-			<p class="px12 c333">测试以px为单位设置字体大小：12</p>
-			<p class="px14 c333">测试以px为单位设置字体大小：14</p>
-			<p class="px16 c333">测试以px为单位设置字体大小：16</p>
-			<p class="px18 c333">测试以px为单位设置字体大小：18</p>
-			<p class="px12 c666">测试以px为单位设置字体大小：12</p>
-			<p class="px14 c666">测试以px为单位设置字体大小：14</p>
-			<p class="px16 c666">测试以px为单位设置字体大小：16</p>
-			<p class="px18 c666">测试以px为单位设置字体大小：18</p>
-			<p class="px12 c999">测试以px为单位设置字体大小：12</p>
-			<p class="px14 c999">测试以px为单位设置字体大小：14</p>
-			<p class="px16 c999">测试以px为单位设置字体大小：16</p>
-			<p class="px18 c999">测试以px为单位设置字体大小：18</p>
-			<p class="em12 c000">测试以em为单位设置字体大小：12</p>
-			<p class="em14 c000">测试以em为单位设置字体大小：14</p>
-			<p class="em16 c000">测试以em为单位设置字体大小：16</p>
-			<p class="em18 c000">测试以em为单位设置字体大小：18</p>
-			<p class="em12 c333">测试以em为单位设置字体大小：12</p>
-			<p class="em14 c333">测试以em为单位设置字体大小：14</p>
-			<p class="em16 c333">测试以em为单位设置字体大小：16</p>
-			<p class="em18 c333">测试以em为单位设置字体大小：18</p>
-			<p class="em12 c666">测试以em为单位设置字体大小：12</p>
-			<p class="em14 c666">测试以em为单位设置字体大小：14</p>
-			<p class="em16 c666">测试以em为单位设置字体大小：16</p>
-			<p class="em18 c666">测试以em为单位设置字体大小：18</p>
-			<p class="em12 c999">测试以em为单位设置字体大小：12</p>
-			<p class="em14 c999">测试以em为单位设置字体大小：14</p>
-			<p class="em16 c999">测试以em为单位设置字体大小：16</p>
-			<p class="em18 c999">测试以em为单位设置字体大小：18</p>
+			<p>作为jQuery的插件，在jQuery库初始化后，执行jplus.js文件。</p>
+		</div>
+		<div class="descri-item">
+			<h3>如何使用？</h3>
+			<pre><code class="code" data-temp="#temp1"></code></pre>
+			<p class="tac">+</p>
+			<pre><code class="code" data-temp="#temp2"></code></pre>
+			<p class="tac">=</p>
+			<div class="result">
+				<div id="test">
+					<p data-bind="attr-id:id;" id="ID1">Hello <span data-bind="text:name">Jade</span></p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
 
+<script type="text/template" id="temp1">
+<div id="test">
+	<p data-bind="attr-id:id;">Hello <span data-bind="text:name"></span></p>
+</div>
+</script>
+<script type="text/template" id="temp2">
+$('#test').refresh({
+	id: 'ID1',
+	name: 'Jade'
+})
+</script>
 <script src="lib/highlight.pack.js"></script>
 <script>/*hljs.highlightBlock(document.getElementById('code'));*/</script>
 <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="lib/sea.js"></script>
 <script type="text/javascript">
-	$(function() {
-		/*seajs.use('./js/main.js', function(app) {
-			app.init()
-		})*/
-
-		$('.code').each(function() {
-			hljs.highlightBlock(this)
-		})
-
-		$
-	})
+seajs.use('./js/app.js', function(app) {
+	app.init()
+})
 </script>
 </body>
 </html>
