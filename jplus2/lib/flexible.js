@@ -53,6 +53,7 @@
     }
 
     docEl.setAttribute('data-dpr', dpr);
+    docEl.classList.add('dpr' + dpr)
     if (!metaEl) {
         metaEl = doc.createElement('meta');
         metaEl.setAttribute('name', 'viewport');
@@ -71,7 +72,7 @@
         if (width / dpr > baseWidth) {
             width = baseWidth * dpr;
         }
-        var rem = width / 10
+        var rem = width / baseWidth * 100
         docEl.style.fontSize = rem + 'px';
         flexible.rem = win.rem = rem;
     }
@@ -94,7 +95,6 @@
             doc.body.style.fontSize = 12 * dpr + 'px';
         }, false);
     }
-    
 
     refreshRem();
 

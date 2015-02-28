@@ -1,27 +1,14 @@
 @charset "utf-8";
 
+
 .hljs { font-size: 16px;}
 
-div {
-    font-size: 12px;
-}
+html { background:#eaeaea;}
+.wrap { background:#fff;}
 
-[data-dpr="2"] div, [data-dpr="2"] p {
-    font-size: 24px;
-}
+#header {width: 6rem; margin:0 auto; text-align: center;}
+#header h1 {  height: 0.5rem; line-height: 0.5rem;border-bottom:1px solid #999; color:#333;  font-size: 0.24rem;font-weight: 700;}
 
-[data-dpr="3"] div, [data-dpr="3"] p {
-    font-size: 36px;
-}
-
-#header {width: 10rem; margin:0 auto; text-align: center;}
-#header h1 {  height: 1rem; line-height: 1rem;border-bottom:1px solid #999; color:#333;  font-size: 24px;font-weight: 700;}
-[data-dpr="2"] #header h1 { font-size: 48px;}
-[data-dpr="3"] #header h1 { font-size: 96px;}
-.container { width: 10rem; margin:0 auto; padding-top: 30px;}
-.container h3 { height:1rem; line-height:1rem; font-weight: 700; font-size: 18px; border-left:3px solid #2577e3; text-indent: 10px;}
-[data-dpr="2"] .container h3 { font-size: 36px; border-left-width:6px;}
-[data-dpr="3"] .container h3 { font-size: 72px;border-left-width:9px;}
-.container p { margin:10px 0; font-size: 16px;}
-[data-dpr="2"] .container p { font-size: 32px;}
-[data-dpr="3"] .container p { font-size: 64px;}
+.container { width: 6rem; margin:0 auto; padding-top: 0.3rem;}
+.container h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 0.18rem; border-left:3px solid #2577e3; text-indent: 0.1rem;}
+.container p { margin:10px 0; font-size: 0.16rem;}

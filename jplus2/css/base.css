@@ -146,5 +146,5 @@ a {
 /* For IE 6/7 (trigger hasLayout) */
 .clearfloat { *zoom:1; }
 /* center class */
-.c-wrap { display: table; *writing-mode: tb-rl; }
-.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
+.c-wrap { display: table;}
+.c-inner { display: table-cell; vertical-align: middle;}
