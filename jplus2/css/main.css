@@ -7,8 +7,8 @@ html { background:#eaeaea;}
 .wrap { background:#fff;}
 
 #header {width: 6rem; margin:0 auto; text-align: center;}
-#header h1 {  height: 0.5rem; line-height: 0.5rem;border-bottom:1px solid #999; color:#333;  font-size: 0.24rem;font-weight: 700;}
+#header h1 {  height: 0.5rem; line-height: 0.5rem;border-bottom:1px solid #999; color:#333;  font-size: 2em;font-weight: 700;}
 
 .container { width: 6rem; margin:0 auto; padding-top: 0.3rem;}
-.container h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 0.18rem; border-left:3px solid #2577e3; text-indent: 0.1rem;}
-.container p { margin:10px 0; font-size: 0.16rem;}
+.descri-item h3 { height:0.5rem; line-height:0.5rem; font-weight: 700; font-size: 1.5em; border-left:3px solid #2577e3; text-indent: 0.1rem;}
+.descri-item p { margin:10px 0; font-size: 1.333em;}
