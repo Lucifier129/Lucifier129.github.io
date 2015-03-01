@@ -221,8 +221,8 @@
 
 	//将链式调用变成配置模式
 	//$elem.css(styleObj).attr('href', url).animate(obj) => $elem.invoke({css:styleObj,attr:['href', url], animate: obj})
-	$.fn.invoke = function(obj) {
-		new Call(this, obj).done()
+	$.fn.invoke = function(propChain, args) {
+		new Call(this, propChain, args).done()
 		return this
 	}
 
@@ -484,6 +484,26 @@
 		}
 	}
 
+	//传递实例方法
+	function Deliver($target, $source) {
+		this.$target = $target
+		this.$source = $source
+	}
+
+	Deliver.prototype.done = function() {
+		var $target = this.$target
+		var $source = this.$source
+		var val
+		for (var key in $source) {
+			if (hasOwn($source, key)) {
+				val = $source[key]
+				if (isFn(val)) {
+					$target[key] = val
+				}
+			}
+		}
+	}
+
 	//根据view的propList，分派data的处理方式
 	function Assign($scope, view, data) {
 		this.$scope = $scope
@@ -498,6 +518,7 @@
 		var $elem = view.$elem
 		var elem = $elem[0]
 		var propList = view.propList
+
 		each(propList, function(propName) {
 			propName = propName.split('-')
 			var part1 = propName[0]
@@ -506,6 +527,9 @@
 
 			//先查$scope及其原型链，注：$.fn为其原型之一
 			if (isFn(prop)) {
+				if (part1 === 'refresh' || part1 === 'vm') {
+					new Deliver($elem, $scope).done()
+				}
 				prop.apply($elem, part2.concat(data))
 			} else {
 
