@@ -1,27 +1,31 @@
 # jplus 教程
 
+项目地址：[jplus]
+
 作者：Jade
 
 社交地址：[微博]、[Github]
 
 ## 目录
-- 如何引用`jplus`
-- 如何将数据同步到视图
-- 如何将`jplus`用作模板引擎
-- 如何渲染嵌套数据到视图
-- 如何禁止父元素扫描自身的子元素
-- 如何禁止数组数据改变元素数量
-- 如何自定义指令
-- 如何动态调用指令
-- 如何从视图中获取数据
-- 如何将`data-bind`拆分为`data-get`和`data-set`
-- 如何获取视图模型
-- 如何根据指定的html属性获取视图模型
-- 如何指定视图中需要获取的数据
+- 引用`jplus`
+- 将数据同步到视图
+- 将`jplus`用作模板引擎
+- 渲染嵌套数据到视图
+- 禁止父元素扫描自身的子元素
+- 禁止数组数据改变元素数量
+- 自定义指令
+- 动态调用指令
+- 从视图中获取数据
+- 将`data-bind`拆分为`data-get`和`data-set`
+- 获取视图模型
+- 指定视图中需要获取的数据
+- 指定html属性作为指令来源刷新视图或获取数据
+- 获取视图中的嵌套数据
+- `jplus`实现的`TODOMVC`
 
 ## 内容
 
-### 如何引用`jplus`
+### 引用`jplus`
 
 作为`jQuery插件`引入
 
@@ -30,7 +34,7 @@
 <script type="text/javascript" src="jplus.js"></script>
 ```
 
-### 如何将数据同步到视图
+### 将数据同步到视图
 
 首先：在`html`中使用`data-bind`属性，按照`css语法`书写`key:value;`
     
@@ -69,7 +73,7 @@ $('#scope').refresh({
 注意事项：避免空指令。如果找不到对应的方法函数，数据将直接成为`dom元素`的属性
 
 
-## 如何将`jplus`用作模板引擎
+## 将`jplus`用作模板引擎
 
 只要将数据打包成数组，`jplus`就会自动安排同等数量的元素对应；不够的`clone`出来，多余的`remove`掉
 
@@ -115,7 +119,7 @@ setInterval(function() {
 - 每次调用`refresh`方法，都会即时扫描视图，如果元素被删除，则无法收集指令
 - 可以通过故意为数组追加`null`、`false`等强行将数据类型不一致化，达到传多个参数的目的
 
-## 如何渲染嵌套数据到视图
+## 渲染嵌套数据到视图
 
 将`refresh`作为指令，即可渲染嵌套数据
 
@@ -159,7 +163,7 @@ $('#scope').refresh(data)
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/gue3dr4z/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 
-## 如何禁止父元素扫描自身的子元素
+## 禁止父元素扫描自身的子元素
 
 添加`noscan`属性后，只有该元素的`jQuery实例`调用`refresh`才能刷新视图
 
@@ -170,7 +174,7 @@ $('#scope').refresh(data)
 </div>
 ```
 
-## 如何禁止数组数据改变元素数量
+## 禁止数组数据改变元素数量
 
 添加`norepeat`属性后，遇到数据类型一致的数组，数据比元素多时，忽略多余数据；元素比数据多时，忽略多余元素
 
@@ -181,7 +185,7 @@ $('#scope').refresh(data)
 </div>
 ```
 
-## 如何从视图中获取数据
+## 从视图中获取数据
 
 `jQuery`的`API设计`理念之一是：既是`getter`，也是`setter`
 
@@ -198,7 +202,7 @@ $('body').attr('id', newID) // set ID
 
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/ursm1j9n/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-## 如何自定义指令
+## 自定义指令
 
 所谓指令，在`jplus`中指写在`html`的`data-bind`属性中，格式类似`css语法`的`键值对`
 
@@ -262,7 +266,7 @@ setTimeout(function() {
 
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/9tg0q3jp/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-## 如何动态调用指令
+## 动态调用指令
 
 `jplus`提供了`invoke`方法，提供动态用功能，有两种用法
 
@@ -310,7 +314,7 @@ var timer = setInterval(function() {
 
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/kd7qqvbs/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-## 如何将`data-bind`拆分为`data-get`和`data-set`
+## 将`data-bind`拆分为`data-get`和`data-set`
 
 ```javascript
 //jplus 源码如下。修改属性值即可
@@ -324,5 +328,123 @@ $.directive.getter = 'data-get'
 $.directive.setter = 'data-set'
 ```
 
+## 获取视图模型
+
+在`jplus`中，视图模型是指从作用域扫描出来的特定结构的指令和`dom元素`，本质是一个`object`对象
+
+```javascript
+//获取视图模型
+$scope.scan()
+
+//以特定的html属性作为指令来源，不会改变$.directive.getter || $.directive.setter
+//从data-js属性中得到指令集
+$scope.scan('data-js')
+
+//第二个参数传true时，$scope本身的'data-js'属性将被忽略
+$scope.scan('data-js', true)
+```
+
+## 指定视图中需要获取的数据
+
+`$.fn.collect`接受两个参数，第一个参数为`object`对象，第二个参数为`string`类型，将作为第一个参数传入`$.fn.scan`
+
+```javascript
+//只收集'dataName'，并且指定'data-collect'为指令来源，而非扫描'data-bind'
+$scope.collect({
+    'dataName': 'dataName'
+}, 'data-collect')
+
+
+//只收集'dataName'，并且改变数据结构，将值存储到新对象的data.name属性中，如：{data:{name:value}}
+$scope.collect({
+    'dataName': 'data.name'
+})
+
+//jplus所有支持字符串属性名的地方，都可以用点操作符
+$scope.collect({
+    'a.b.c.e.f': 'a.f'
+})
+
+```
+
+## 指定html属性作为指令来源刷新视图或获取数据
+
+`$.fn.refresh`与'$.fn.collect'的第二个参数，可以指定本次刷新视图或获取数据的指令来源
+
+```javascript
+//指定data-a为指令来源，刷新视图
+$scope.refresh(data, 'data-a')
+
+//指定data-b为指令来源，获取数据
+$scope.collect(null, 'data-b')
+```
+
+## 获取视图中的嵌套数据
+
+渲染嵌套数据到视图的方法是，将`refresh`写在指令中，它只是`setter`；因此获取嵌套数据时，应用`vm`替代
+
+`vm`方法是一个按照`既是setter，也是getter`设计的API。
+
+```javascript
+//jplus源码
+$.fn.vm = function(dataModel) {
+    return isObj(dataModel) ? this.refresh(dataModel) : this.collect()
+}
+```
+
+沿用渲染嵌套数据到视图的例子，稍作修改，就能改造成`get/set`模式
+
+
+```html
+<div id="scope">
+    <ul>
+        <!--没有noscan属性的话，classTitle和content也会被抽取出来，跟classList平级-->
+        <li data-bind="vm:classList" noscan>
+            <h3 data-bind="text:classTitle"></h3>
+            <ul>
+                <li data-bind="text:content"></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+var data = {
+    classList:[{
+        classTitle:'类名1',
+        content:[1, 2, 3, 4, 5]
+    },{
+        classTitle:'类名2',
+        content:[6, 7, 8, 9, 10]
+    },{
+        classTitle:'类名3',
+        content:[11, 12, 13, 14, 15]
+    },{
+        classTitle:'类名4',
+        content:[16, 17, 18, 19, 20]
+    },{
+        classTitle:'类名5',
+        content:[21, 22, 23, 24, 25]
+    }]
+}
+
+$('#scope').refresh(data)
+
+//只该了html属性，就可以直接用$.fn.collect获取数据了
+$('body').append(JSON.stringify($('#scope').collect()))
+
+console.log($('#scope').collect())
+```
+
+效果：
+
+<iframe width="100%" height="300" src="//jsfiddle.net/Jade129/dxe5t2v4/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+## `jplus`实现的`TODOMVC`
+
+<iframe width="100%" height="400" src="lucifier129.github.io/todos-jplus2/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+[jplus]:https://github.com/Lucifier129/jplus
 [微博]:http://weibo.com/islucifier
 [Github]:https://github.com/Lucifier129
