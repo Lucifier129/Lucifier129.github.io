@@ -1,19 +1,7 @@
 @charset "utf-8";
-
-
-.hljs { font-size:1.1666em;}
-pre { margin:0.15rem 0;}
-.tac { text-align: center;}
-.result { }
-
-html, body { height: 100%; background:#eaeaea;}
-.wrap {width: 6rem; height: 100%; padding:0 0.2rem; margin:0 auto; background:#fff; }
-
-#header {text-align: center;}
-#header h1 {  height: 0.5rem; line-height: 0.5rem;border-bottom:1px solid #999; color:#333;  font-size: 2em;font-weight: 700;}
-
-.container { padding-top: 0.3rem;}
-.descri-item { margin-bottom: 0.2rem;}
-.descri-item h3 { height:0.3rem; line-height:0.3rem; font-weight: 700; font-size: 1.5em; border-left:0.25em solid #2577e3; text-indent: 0.1rem;}
-.descri-item p { margin:0.1rem 0; font-size: 1.333em;}
+.markdown-body {
+	max-width:980px;
+    margin: 0 auto;
+    padding: 0.2rem;
+}
 

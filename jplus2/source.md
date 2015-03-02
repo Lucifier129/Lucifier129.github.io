@@ -443,7 +443,7 @@ console.log($('#scope').collect())
 
 ## `jplus`实现的`TODOMVC`
 
-<iframe width="100%" height="400" src="lucifier129.github.io/todos-jplus2/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="400" src="http://lucifier129.github.io/todos-jplus2/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 [jplus]:https://github.com/Lucifier129/jplus
 [微博]:http://weibo.com/islucifier
