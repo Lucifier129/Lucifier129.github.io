@@ -73,7 +73,7 @@ $('#scope').refresh({
 注意事项：避免空指令。如果找不到对应的方法函数，数据将直接成为`dom元素`的属性
 
 
-## 将`jplus`用作模板引擎
+### 将`jplus`用作模板引擎
 
 只要将数据打包成数组，`jplus`就会自动安排同等数量的元素对应；不够的`clone`出来，多余的`remove`掉
 
@@ -163,7 +163,7 @@ $('#scope').refresh(data)
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/gue3dr4z/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 
-## 禁止父元素扫描自身的子元素
+### 禁止父元素扫描自身的子元素
 
 添加`noscan`属性后，只有该元素的`jQuery实例`调用`refresh`才能刷新视图
 
@@ -174,7 +174,7 @@ $('#scope').refresh(data)
 </div>
 ```
 
-## 禁止数组数据改变元素数量
+### 禁止数组数据改变元素数量
 
 添加`norepeat`属性后，遇到数据类型一致的数组，数据比元素多时，忽略多余数据；元素比数据多时，忽略多余元素
 
@@ -185,7 +185,7 @@ $('#scope').refresh(data)
 </div>
 ```
 
-## 从视图中获取数据
+### 从视图中获取数据
 
 `jQuery`的`API设计`理念之一是：既是`getter`，也是`setter`
 
@@ -202,7 +202,7 @@ $('body').attr('id', newID) // set ID
 
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/ursm1j9n/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-## 自定义指令
+### 自定义指令
 
 所谓指令，在`jplus`中指写在`html`的`data-bind`属性中，格式类似`css语法`的`键值对`
 
@@ -266,7 +266,7 @@ setTimeout(function() {
 
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/9tg0q3jp/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-## 动态调用指令
+### 动态调用指令
 
 `jplus`提供了`invoke`方法，提供动态用功能，有两种用法
 
@@ -314,7 +314,7 @@ var timer = setInterval(function() {
 
 <iframe width="100%" height="300" src="//jsfiddle.net/Jade129/kd7qqvbs/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-## 将`data-bind`拆分为`data-get`和`data-set`
+### 将`data-bind`拆分为`data-get`和`data-set`
 
 ```javascript
 //jplus 源码如下。修改属性值即可
@@ -328,7 +328,7 @@ $.directive.getter = 'data-get'
 $.directive.setter = 'data-set'
 ```
 
-## 获取视图模型
+### 获取视图模型
 
 在`jplus`中，视图模型是指从作用域扫描出来的特定结构的指令和`dom元素`，本质是一个`object`对象
 
@@ -344,7 +344,7 @@ $scope.scan('data-js')
 $scope.scan('data-js', true)
 ```
 
-## 指定视图中需要获取的数据
+### 指定视图中需要获取的数据
 
 `$.fn.collect`接受两个参数，第一个参数为`object`对象，第二个参数为`string`类型，将作为第一个参数传入`$.fn.scan`
 
@@ -367,7 +367,7 @@ $scope.collect({
 
 ```
 
-## 指定html属性作为指令来源刷新视图或获取数据
+### 指定html属性作为指令来源刷新视图或获取数据
 
 `$.fn.refresh`与'$.fn.collect'的第二个参数，可以指定本次刷新视图或获取数据的指令来源
 
@@ -379,7 +379,7 @@ $scope.refresh(data, 'data-a')
 $scope.collect(null, 'data-b')
 ```
 
-## 获取视图中的嵌套数据
+### 获取视图中的嵌套数据
 
 渲染嵌套数据到视图的方法是，将`refresh`写在指令中，它只是`setter`；因此获取嵌套数据时，应用`vm`替代
 

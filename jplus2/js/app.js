@@ -7,7 +7,6 @@ define(function(require, exports, module) {
 	xhr.onreadystatechange = function() {
 		if (this.readyState === 4) {
 			$('.container').html(marked(this.responseText))
-/*			$('.container iframe').remove()*/
 			$('.container pre code').each(function() {
 				hljs.highlightBlock(this)
 			})

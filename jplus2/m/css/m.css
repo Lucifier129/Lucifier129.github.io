@@ -1,0 +1,17 @@
+/**
+ * m.css
+ */
+
+.index-list {
+	padding:0 1em;
+	font-size: 1.333333em;
+	background:#fff;
+}
+
+.index-list li {
+	height: 0.5rem;
+	line-height: 0.5rem;
+	color:#fff;
+	background:#73b9ff;
+	border-bottom: 1px solid #eaeaea
+}
