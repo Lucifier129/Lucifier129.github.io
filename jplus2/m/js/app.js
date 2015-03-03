@@ -4,7 +4,7 @@
 
 define(function(require, exports, module) {
 
-	exports.template = '<div class="page markdown-body"><div class="home">目录</div></div>'
+	exports.template = '<div class="page markdown-body"></div>'
 
 	exports.render = function($elem, data) {
 		$elem.append(marked(data))
@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 
 		var template =
 
-'<div id="pageHome" class="page in">\
+			'<div id="pageHome" class="page in">\
 	<ul class="c-wrap">\
 		<li class="c-wrap" data-bind="vm:titleList" noscan>\
 			<a class="c-inner" href="source/01.md" data-bind="attr-href:url;text:title"></a>\
@@ -34,13 +34,14 @@ define(function(require, exports, module) {
 	</ul>\
 </div>'
 
-		$(template).into($('#container')).refresh({
+		$(template).into($('#container>div')).refresh({
 			titleList: data
 		})
 	}
 
 	exports.route = function(hash) {
 		if (hash === '/') {
+			$('.home').hide()
 			this.renderIndex()
 		} else {
 			var that = this
@@ -50,6 +51,12 @@ define(function(require, exports, module) {
 					that.getItem(hash)
 				}
 			})
+			$('.home').show()
+		}
+		if (history.length <= 1) {
+			$('.back').hide()
+		} else {
+			$('.back').show()
 		}
 	}
 
@@ -57,7 +64,10 @@ define(function(require, exports, module) {
 		FastClick.attach(document.body);
 		this.listen()
 		$(window).trigger('hashchange')
-		$('container').into()
+		this.iscroll = new IScroll('#container', {
+			mouseWheel: true,
+			tap: true
+		})
 	}
 
 
@@ -66,18 +76,19 @@ define(function(require, exports, module) {
 		var $target = this.cache[url]
 		if ($target) {
 			$target.into()
-			return
+		} else {
+			var that = this
+			$target = this.cache[url] = $(this.template).into($('#container>div'))
+			$.ajax({
+				url: url,
+				method: 'GET',
+				success: function(data) {
+					that.render($target, data)
+					that.iscroll.scrollTo(0, 0)
+				}
+			})
 		}
-		$target = this.cache[url] = $(this.template).into($('#container'))
-
-		var that = this
-		$.ajax({
-			url: url,
-			method: 'GET',
-			success: function(data) {
-				that.render($target, data)
-			}
-		})
+		this.iscroll.scrollTo(0, 0)
 	}
 
 	exports.listen = function() {
@@ -89,12 +100,19 @@ define(function(require, exports, module) {
 		})
 
 		$('#container')
-			.on('click', '.home', function() {
-				location.hash = '/'
-			})
 			.on('click', '#pageHome li a', function(e) {
 				e.preventDefault()
 				location.hash = '/' + this.getAttribute("href")
+			})
+
+		$('#header')
+			.on('click', '.home', function() {
+				location.hash = '/'
+			})
+			.on('click', '.back', function() {
+				if (history.length > 1) {
+					history.back()
+				}
 			})
 	}
 })

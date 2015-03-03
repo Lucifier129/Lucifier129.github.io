@@ -15,13 +15,20 @@
 	background:#73b9ff;
 	border-bottom: 1px solid #eaeaea
 }
+#header {position:absolute; top:0; left:0; width: 100%; height: 1rem; line-height: 1rem; text-align: center; color:#fff; font-size: 2em;background:#9abd2f;}
+#footer {position:absolute; bottom:0; left:0; width: 100%; height: 1rem;line-height: 1rem; text-align: center; color:#fff; font-size: 2em; background:#f86f27;}
+#header a, #footer a { color:#fff;}
+.home { position:absolute; top:0; right:0; width: 1.2rem; line-height:1rem; color:#fff; background: #3893e4; text-align: center; font-size: 1em; font-weight: 700;}
+.back { position:absolute; top:0; left:0; width: 1.2rem; line-height:1rem; color:#fff; background: #3893e4; text-align: center; font-size: 1em; font-weight: 700;}
 
-html, body, #container { width: 100%; height: 100%; overflow:hidden;}
-.page { width:100%; height: 100%;overflow:auto;overflow-y: scroll; background:#fff;}
-.home { width: 1.2rem; line-height:1.2; color:#fff; background: #3893e4; text-align: center; font-size: 1.5em; font-weight: 700;}
+
+html, body { width: 100%; height: 100%; overflow:hidden;}
+#container { position:absolute; top:1rem; bottom:1rem; left:0; width: 100%; overflow:hidden;}
+.page { position:relative; width:100%; background:#fff;}
+
 
 #pageHome ul { width: 100%;}
-#pageHome li { width: 100%; height: 1rem;line-height:1.2; color:#fff; background: #3893e4; text-align: center; font-size: 1.5em; box-sizing:border-box; -webkit-box-sizing:border-box;}
+#pageHome li { width: 100%; height: 1rem;line-height:1.2; color:#fff; background: #58a9ee; text-align: center; font-size: 1.5em; box-sizing:border-box; -webkit-box-sizing:border-box;}
 #pageHome li:nth-child(2n) { border:5px solid #fff;}
 #pageHome li:nth-child(2n+1) { border:5px solid #fff;}
 #pageHome li a { color:#fff;}
