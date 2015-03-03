@@ -54,6 +54,7 @@ define(function(require, exports, module) {
 	}
 
 	exports.init = function() {
+		FastClick.attach(document.body);
 		this.listen()
 		$(window).trigger('hashchange')
 		$('container').into()
