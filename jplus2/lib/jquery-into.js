@@ -1,8 +1,7 @@
 /**
  * turn.js
  */
-
-;(function(win, undefined) {
+;(function(win) {
 
 	function int(obj) {
 		return parseInt(obj, 10)
@@ -18,6 +17,8 @@
 			removeClass: ['in', 'reverse']
 		}
 	}
+
+	$.pageStatus = status
 
 	function setStatus($elem, type, otherClass) {
 		$.each(status[type] || {}, function(method, classList) {
@@ -60,7 +61,6 @@
 		var $target = $(e.target)
 		if ($target.hasClass('out')) {
 			$target.hide()
-			console.log($target[0])
 		}
 	}
 
