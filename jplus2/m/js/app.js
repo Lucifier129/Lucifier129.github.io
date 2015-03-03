@@ -114,5 +114,14 @@ define(function(require, exports, module) {
 					history.back()
 				}
 			})
+
+
+		var timer
+		$(window).on('resize', function() {
+			clearTimeout(timer)
+			timer = setTimeout(function() {
+				that.iscroll.refresh()
+			}, 300)
+		})
 	}
 })
