@@ -16,16 +16,16 @@ body {
 }
 
 /* construction */
-html, body, .page {
-	height: 100%; width: 100%;
-	overflow: hidden;
-}
+/* html, body, .page {
+    height: 100%; width: 100%;
+    overflow: hidden;
+} */
 .page {
 	position: absolute; left: 0; top: 0;
 }
 
 .out {
-	display: none;
+	/* display: none; */
 }
 
 .in, .out {
@@ -109,20 +109,20 @@ html, body, .page {
 }
 /* keyframes for slideout to sides */
 @-webkit-keyframes slideouttoleft {
-    from { -webkit-transform: translate3d(0,0,0); }
-    to { -webkit-transform: translate3d(-100%,0,0); }
+    from { -webkit-transform: translate3d(0,0,0);}
+    to { -webkit-transform: translate3d(-100%,0,0);}
 }
 @keyframes slideouttoleft {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    from { transform: translateX(0);opactiy:1;}
+    to { transform: translateX(-100%);opactiy:0;}
 }
 @-webkit-keyframes slideouttoright {
-    from { -webkit-transform: translate3d(0,0,0); }
-    to { -webkit-transform: translate3d(100%,0,0); }
+    from { -webkit-transform: translate3d(0,0,0);}
+    to { -webkit-transform: translate3d(100%,0,0);}
 }
 @keyframes slideouttoright {
-    from { transform: translateX(0); }
-    to { transform: translateX(100%); }
+    from { transform: translateX(0);}
+    to { transform: translateX(100%);}
 }
 
 /* chrysanthemum loading effect */

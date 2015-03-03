@@ -148,10 +148,3 @@ a {
 /* center class */
 .c-wrap { display: table;}
 .c-inner { display: table-cell; vertical-align: middle;}
-
-.markdown-body {
-	max-width:980px;
-    margin: 0 auto;
-    padding: 0.2rem;
-}
-

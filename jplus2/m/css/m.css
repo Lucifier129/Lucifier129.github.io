@@ -15,3 +15,14 @@
 	background:#73b9ff;
 	border-bottom: 1px solid #eaeaea
 }
+
+html, body, #container { width: 100%; height: 100%; overflow:hidden;}
+.page { width:100%;background:#fff; overflow:auto;}
+.home { width: 1.2rem; line-height:1.2; color:#fff; background: #3893e4; text-align: center; font-size: 1.5em; font-weight: 700;}
+
+#pageHome ul { width: 100%;}
+#pageHome li { width: 100%; height: 1rem;line-height:1.2; color:#fff; background: #3893e4; text-align: center; font-size: 1.5em; box-sizing:border-box; -webkit-box-sizing:border-box;}
+#pageHome li:nth-child(2n) { border:5px solid #fff;}
+#pageHome li:nth-child(2n+1) { border:5px solid #fff;}
+#pageHome li a { color:#fff;}
+#pageHome li a:active { color:#f00;}
