@@ -23,8 +23,9 @@
 
 
 html, body { width: 100%; height: 100%; overflow:hidden;}
-#container { position:absolute; top:3em; bottom:3em; left:0; width: 100%; overflow:hidden;}
-.page { position:relative; width:100%; background:#fff;}
+#container { position:absolute; top:3em; bottom:3em; left:0; width: 100%; overflow:hidden; background:#26292c;}
+#container>div {min-height: 100%;background:#fff;}
+.page { width:100%;background:#fff;}
 
 
 #pageHome ul { width: 100%;}

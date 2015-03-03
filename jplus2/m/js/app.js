@@ -16,9 +16,10 @@ define(function(require, exports, module) {
 	var data = require('../js/data')
 
 	exports.renderIndex = function() {
-
+		this.iscroll.scrollTo(0, 0)
 		if (this.hasRenderIndex) {
 			$('#pageHome').into()
+			$('#pageHome').parent().height($('#pageHome').height())
 			return
 		}
 
@@ -37,6 +38,7 @@ define(function(require, exports, module) {
 		$(template).into($('#container>div')).refresh({
 			titleList: data
 		})
+		$('#pageHome').parent().height($('#pageHome').height())
 	}
 
 	exports.route = function(hash) {
@@ -61,13 +63,13 @@ define(function(require, exports, module) {
 	}
 
 	exports.init = function() {
-		FastClick.attach(document.body);
-		this.listen()
-		$(window).trigger('hashchange')
+		FastClick.attach(document.body)
 		this.iscroll = new IScroll('#container', {
 			mouseWheel: true,
 			tap: true
 		})
+		this.listen()
+		$(window).trigger('hashchange')
 	}
 
 
@@ -76,6 +78,8 @@ define(function(require, exports, module) {
 		var $target = this.cache[url]
 		if ($target) {
 			$target.into()
+			$target.parent().height($target.height())
+			this.iscroll.scrollTo(0, 0)
 		} else {
 			var that = this
 			$target = this.cache[url] = $(this.template).into($('#container>div'))
@@ -84,7 +88,8 @@ define(function(require, exports, module) {
 				method: 'GET',
 				success: function(data) {
 					that.render($target, data)
-					that.iscroll.scrollTo(0, 0)
+					$target.parent().height($target.height())
+					$(window).trigger('resize')
 				}
 			})
 		}
