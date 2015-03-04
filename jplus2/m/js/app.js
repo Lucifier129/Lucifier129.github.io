@@ -16,18 +16,14 @@ define(function(require, exports, module) {
 	var data = require('../js/data')
 
 	exports.renderIndex = function() {
-		this.iscroll.scrollTo(0, 0)
 		if (this.hasRenderIndex) {
 			$('#pageHome').into()
-			$('#pageHome').parent().height($('#pageHome').height())
 			return
 		}
-
 		this.hasRenderIndex = true
 
 		var template =
-
-			'<div id="pageHome" class="page in">\
+'<div id="pageHome" class="page in">\
 	<ul class="c-wrap">\
 		<li class="c-wrap" data-bind="vm:titleList" noscan>\
 			<a class="c-inner" href="source/01.md" data-bind="attr-href:url;text:title"></a>\
@@ -35,10 +31,9 @@ define(function(require, exports, module) {
 	</ul>\
 </div>'
 
-		$(template).into($('#container>div')).refresh({
+		$(template).into($('#container')).refresh({
 			titleList: data
 		})
-		$('#pageHome').parent().height($('#pageHome').height())
 	}
 
 	exports.route = function(hash) {
@@ -64,10 +59,6 @@ define(function(require, exports, module) {
 
 	exports.init = function() {
 		FastClick.attach(document.body)
-		this.iscroll = new IScroll('#container', {
-			mouseWheel: true,
-			tap: true
-		})
 		this.listen()
 		$(window).trigger('hashchange')
 	}
@@ -78,22 +69,17 @@ define(function(require, exports, module) {
 		var $target = this.cache[url]
 		if ($target) {
 			$target.into()
-			$target.parent().height($target.height())
-			this.iscroll.scrollTo(0, 0)
 		} else {
 			var that = this
-			$target = this.cache[url] = $(this.template).into($('#container>div'))
+			$target = this.cache[url] = $(this.template).into($('#container'))
 			$.ajax({
 				url: url,
 				method: 'GET',
 				success: function(data) {
 					that.render($target, data)
-					$target.parent().height($target.height())
-					$(window).trigger('resize')
 				}
 			})
 		}
-		this.iscroll.scrollTo(0, 0)
 	}
 
 	exports.listen = function() {
@@ -119,14 +105,5 @@ define(function(require, exports, module) {
 					history.back()
 				}
 			})
-
-
-		var timer
-		$(window).on('resize', function() {
-			clearTimeout(timer)
-			timer = setTimeout(function() {
-				that.iscroll.refresh()
-			}, 300)
-		})
 	}
 })
