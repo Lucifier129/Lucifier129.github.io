@@ -1,7 +1,8 @@
 /**
  * turn.js
  */
-;(function(win) {
+;
+(function(win) {
 
 	function int(obj) {
 		return parseInt(obj, 10)
@@ -25,7 +26,7 @@
 			var classNames = classList.join(' ')
 			$elem[method](classNames)
 		})
-		$elem.addClass(otherClass)
+		$elem.addClass(otherClass).show()
 	}
 
 	var count = 0
@@ -39,17 +40,28 @@
 			index = int(index)
 		}
 
-		animationEnd($(parent).append(this.show())[0])
+		$(parent).append(this)
 
 		var $cur = this.siblings('.in')
+		if (!$cur.length) {
+			return setStatus(this, 'into')
+		}
+
 		var curIndex = int($cur.attr('data-turn-index')) || -1
 		var reverse = index > curIndex ? null : 'reverse'
 		setStatus(this, 'into', reverse)
-		setStatus($cur, 'out', reverse)
+		$cur.out(reverse)
+	}
+
+	$.fn.out = function(reverse) {
+		return this.each(function() {
+			animationEnd(this.parentNode)
+			setStatus($(this), 'out', reverse)
+		})
 	}
 
 	function animationEnd(elem) {
-		if (!elem || $(elem).data('amimation')) {
+		if (!elem || !elem.nodeName || $(elem).data('amimation')) {
 			return
 		}
 		elem.addEventListener('amimationEnd', hide, false)

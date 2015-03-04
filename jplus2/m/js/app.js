@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 '<div id="pageHome" class="page in">\
 	<ul class="c-wrap">\
 		<li class="c-wrap" data-bind="vm:titleList" noscan>\
-			<a class="c-inner" href="source/01.md" data-bind="attr-href:url;text:title"></a>\
+			<a class="c-inner" data-bind="attr-href:url;text:title"></a>\
 		</li>\
 	</ul>\
 </div>'
