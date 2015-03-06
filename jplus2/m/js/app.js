@@ -86,7 +86,8 @@ define(function(require, exports, module) {
 	exports.listen = function() {
 		var that = this
 
-		$(window).on('hashchange', function() {
+		$(window).on('hashchange', function(e) {
+			e.preventDefault()
 			var hash = '/' + location.hash.replace('#/', '')
 			that.route(hash)
 		})
