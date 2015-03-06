@@ -7,6 +7,7 @@ define(function(require, exports, module) {
 	exports.template = '<div class="page markdown-body"></div>'
 
 	exports.render = function($elem, data) {
+		$('body, html').scrollTop(0)
 		$elem.append(marked(data))
 		$elem.find('pre code').each(function() {
 			hljs.highlightBlock(this)
