@@ -182,9 +182,9 @@ var app = app || {};
 			that.update()
 		})
 
-		tools.$on(window, 'load', this.update.bind(this))
-		tools.$on(window, 'hashchange', this.update.bind(this))
-		tools.$on(window, 'beforeunload', this.model.save.bind(this.model))
+		document.addEventListener('DOMContentLoaded', this.update.bind(this), false)
+		window.addEventListener('hashchange', this.update.bind(this), false)
+		window.addEventListener('beforeunload', this.model.save.bind(this.model), false)
 	}
 
 	app.Controller = Controller
