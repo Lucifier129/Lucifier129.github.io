@@ -218,7 +218,7 @@ app.todos = new app.Controller(app.View, app.Model).init()
 
 [Jade Gu]:http://weibo.com/islucifier
 [winter]:http://weibo.com/wintercn
-[MVC是任人打扮的小姑娘]:http://weibo.com/wintercn
+[MVC是任人打扮的小姑娘]:http://weibo.com/p/1001603809050365148952
 [谈谈UI架构设计的演化]:http://weibo.com/p/1001603808855434892996
 [todomvc]:https://github.com/tastejs/todomvc
 [vanillajs]:https://github.com/tastejs/todomvc/tree/master/examples/vanillajs
