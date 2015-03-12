@@ -10,15 +10,19 @@
 <link rel="stylesheet" href="css/monokai_sublime.css">
 <body>
 <div class="container markdown-body"></div>
-<script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="lib/jplus.js"></script>
-<script type="text/javascript" src="lib/sea.js"></script>
-<script type="text/javascript" src="lib/marked.min.js"></script>
-<script type="text/javascript" src="lib/highlight.pack.js"></script>
+
+<script type="text/javascript" src="lib/require.js"></script>
 <script type="text/javascript">
-seajs.use('./js/app.js', function (app) {
-	app.init()
-})
+	require.config({
+		paths: {
+			'jquery': '../lib/jquery-1.10.2.min',
+			'marked': '../lib/marked.min',
+			'highlight': '../lib/highlight.pack'
+		}
+	})
+	require(['./js/app.js'], function(app) {
+		app.init()
+	})
 </script>
 </body>
 </html>

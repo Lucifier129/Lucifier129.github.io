@@ -2,6 +2,10 @@
  * app.js
  */
 define(function(require, exports, module) {
+	var $ = require('jquery')
+	var marked = require('marked')
+	var hljs = require('highlight')
+
 	var xhr = new XMLHttpRequest()
 	xhr.open('GET', 'source.md', true)
 	xhr.onreadystatechange = function() {
