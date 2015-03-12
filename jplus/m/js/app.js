@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 		})
 	}
 
-	var data = require('../js/data')
+	var data = require('data')
 
 	exports.renderIndex = function() {
 		if (this.hasRenderIndex) {
