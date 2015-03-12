@@ -1,8 +1,9 @@
 /**
  * turn.js
  */
-;
-(function(win) {
+define(function(require, exports, module) {
+
+	var $ = require('jquery')
 
 	function int(obj) {
 		return parseInt(obj, 10)
@@ -35,7 +36,7 @@
 		var index = this.attr('data-turn-index')
 		if (typeof index === 'undefined') {
 			index = count++
-			this.attr('data-turn-index', index)
+				this.attr('data-turn-index', index)
 		} else {
 			index = int(index)
 		}
@@ -81,5 +82,4 @@
 			into.call($(this), parent)
 		})
 	}
-
-}(window))
+})

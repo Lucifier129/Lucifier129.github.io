@@ -21,17 +21,23 @@
 	</div>
 	<div id="container"></div>
 	<div id="footer"><a href="http://weibo.com/islucifier">Author:Jade</a></div>
-	<script type="text/javascript" src="../lib/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="../lib/jplus2.js"></script>
-	<script type="text/javascript" src="../lib/jquery-into.js"></script>
-	<script type="text/javascript" src="../lib/sea.js"></script>
-	<script type="text/javascript" src="../lib/marked.min.js"></script>
-	<script type="text/javascript" src="../lib/highlight.pack.js"></script>
-	<script type="text/javascript" src="../lib/fastclick.js"></script>
+	<script type="text/javascript" src="../lib/require.js"></script>
 	<script type="text/javascript">
-	seajs.use('./js/app.js', function(app) {
+	require.config({
+		paths: {
+			'jquery': '../../lib/jquery-1.10.2.min',
+			'jplus': '../../lib/jplus',
+			'marked': '../../lib/marked.min',
+			'highlight': '../../lib/highlight.pack',
+			'fastclick': '../../lib/fastclick',
+			'jquery-into': '../../lib/jquery-into'
+		}
+	})
+
+	require(['./js/app.js'], function(app) {
 		app.init()
 	})
+
 	</script>
 </body>
 </html>

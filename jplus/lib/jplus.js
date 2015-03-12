@@ -1,8 +1,8 @@
 /*
- * jplus2
+ * jplus
  */
-! function($, undefined) {
-
+define(function(require, exports, module) {
+	var $ = require('jquery')
 	//base
 	var objProto = Object.prototype
 	var arrProto = Array.prototype
@@ -311,6 +311,7 @@
 		this.combine.done(this.$elem, parse.done())
 	}
 
+
 	//根据特定指令名与作用域，扫描出特定结构的viewModel对象
 	function Scan($scope, directiveName, ignoreScope) {
 		this.$scope = $scope
@@ -320,20 +321,15 @@
 
 	Scan.prototype.done = function() {
 		var $scope = this.$scope
-		var id = $scope.attr('id')
-		var randomId
-
-		//Zepto的$.fn.find实现与jQuery不同；构造id + selector
-		if (!id) {
-			randomId = 'random-id-' + Math.random().toString(36).substr(2)
-			$scope.attr('id', id = randomId)
-		}
+		var $frag = $(document.createElement('div'))
+		$frag.append($scope.children())
 		var directiveName = this.directiveName
-		var prefix = '#' + id + ' '
 		var selector = '[' + directiveName + ']'
 		var filter = '[noscan] ' + selector
-		var $elems = $(prefix + selector)
-		var $noScanElems = $(prefix + filter)
+		var $elems = $frag.find(selector)
+		var $noScanElems = $frag.find(filter)
+		$scope.append($frag.children())
+		$frag = null
 		if ($noScanElems.length) {
 			//Zepto的$.fn.not方法，对选择器的处理性能奇差；用$()包装起来，效果更优
 			$elems = $elems.not($noScanElems)
@@ -345,9 +341,6 @@
 		$elems.each(function() {
 			new Collect(combine, $(this), directiveName).done()
 		})
-		if (randomId) {
-			$scope.removeAttr('id')
-		}
 		return {
 			$scope: $scope,
 			view: combine.view
@@ -643,4 +636,5 @@
 	$.Set = Set
 	$.Call = Call
 
-}(window.jQuery || window.Zepto)
+	module.exports = $
+})

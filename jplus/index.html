@@ -1,56 +1,24 @@
 <!DOCTYPE html>
-<html><head>
+<html data-design-width="640"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-<title>jplus用例</title>
-<script type="text/javascript" src="vendor/jquery-1.7.2.min.js"></script>
-<style type="text/css">
-/* css reset*/
-html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}:focus{outline:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:"";content:none}a{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
-.clearfloat:before,.clearfloat:after {content:"";display:table;}
-.clearfloat:after { clear:both; }
-/* For IE 6/7 (trigger hasLayout) */
-.clearfloat { *zoom:1; }
-/* center class */
-.c-wrap { display: table; *writing-mode: tb-rl; }
-.c-inner { display: table-cell; vertical-align: middle; *width:100%; *margin:auto 0; *writing-mode:lr-tb;}
-
-/* main */
-#container { width: 600px; margin:0 auto; color:#333;}
-#container a { color:#eb7350;}
-#container h1 { height: 50px; line-height: 50px; font-size: 24px; }
-#container h2, #container h3 { margin:5px 0;}
-#container ul { margin-top: 20px;}
-#container li { height: 24px; margin-bottom:10px; list-style: inside}
-#container p { height: 24px; line-height: 24px; font-size: 12px;}
-
-</style>
-</head>
-
+<title>jplus教程</title>
+<script type="text/javascript" src="lib/zoom.js"></script>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/github-markdown.css">
+<link rel="stylesheet" href="css/monokai_sublime.css">
 <body>
-	<div id="container"></div>
-
-	<script type="text/html" id="temp">
-
-		<h1 js="text: header"></h1>
-		<h2 js="html: author"></h2>
-		<h3 js="html: project"></h3>
-		<ul>
-			<li js="refresh: links" noscan>
-				<a js="attr-href: link; text: exam" target="_blank"></a>
-			</li>
-		</ul>
-		<p js="text:descri"></p>
-	</script>
-
-<script type="text/javascript" src="vendor/sea.js"></script>
-<script type="text/javascript" src="vendor/jplus-debug.js"></script>
+<div class="container markdown-body"></div>
+<script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="lib/jplus.js"></script>
+<script type="text/javascript" src="lib/sea.js"></script>
+<script type="text/javascript" src="lib/marked.min.js"></script>
+<script type="text/javascript" src="lib/highlight.pack.js"></script>
 <script type="text/javascript">
-	seajs.use('./data/data-for-index.js', function(data) {
-		//注入模板、渲染数据
-		$('#container').html($('#temp').html()).refresh(data);
-	});
+seajs.use('./js/app.js', function (app) {
+	app.init()
+})
 </script>
 </body>
 </html>

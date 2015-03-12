@@ -4,6 +4,13 @@
 
 define(function(require, exports, module) {
 
+	var $ = require('jquery')
+	var marked = require('marked')
+	var hljs = require('highlight')
+	var FastClick = require('fastclick')
+	require('jplus')
+	require('jquery-into')
+
 	exports.template = '<div class="page markdown-body"></div>'
 
 	exports.render = function($elem, data) {
