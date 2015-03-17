@@ -63,7 +63,7 @@ define(function(require, exports, module) {
 	exports.init = function() {
 		FastClick.attach(document.body)
 		this.listen()
-		this.route('/')
+		$(window).trigger('hashchange')
 	}
 
 
@@ -88,22 +88,20 @@ define(function(require, exports, module) {
 	exports.listen = function() {
 		var that = this
 
-		/*$(window).on('hashchange', function(e) {
+		$(window).on('hashchange', function(e) {
 			e.preventDefault()
 			var hash = '/' + location.hash.replace('#/', '')
 			that.route(hash)
-		})*/
+		})
 
 		$('#container')
 			.on('click', '#pageHome li .c-inner', function(e) {
-				/*location.hash = '/' + $(this).data("url")*/
-				that.route('/' + $(this).data("url"))
+				location.hash = '/' + $(this).data("url")
 			})
 
 		$('#header')
 			.on('click', '.home', function() {
-				/*location.hash = '/'*/
-				that.route('/')
+				location.hash = '/'
 			})
 			.on('click', '.back', function() {
 				history.back()
