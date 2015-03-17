@@ -26,7 +26,7 @@
 html, body { width: 100%; height: 100%; overflow:hidden;}
 #container { position:relative; width: 100%; height:100%;overflow:auto;-webkit-overflow-scrolling: touch;overflow-scrolling: touch; background:#26292c; box-sizing:border-box;}
 .page { width:100%; min-height: 100%; background:#fff;  border-top: 3em solid #fff;border-bottom: 3em solid #fff; overflow-y:scroll; overflow-x:hidden; -webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
-.page pre code { overflow:auto; -webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
+.page pre code { overflow:scroll; -webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 
 #pageHome ul { width: 100%;}
 #pageHome li { width: 100%; height: 1rem;line-height:1.2; color:#fff; background: #58a9ee; text-align: center; font-size: 1.5em; box-sizing:border-box; -webkit-box-sizing:border-box;}

@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 		this.hasRenderIndex = true
 
 		var template =
-'<div id="pageHome" class="page in">\
+			'<div id="pageHome" class="page in">\
 	<ul class="c-wrap">\
 		<li class="c-wrap" data-bind="vm:titleList" noscan>\
 			<div class="c-inner" data-bind="data-url:url;text:title"></div>\
@@ -44,16 +44,17 @@ define(function(require, exports, module) {
 		})
 	}
 
-	exports.route = function(hash) {
-		if (hash === '/') {
+	exports.route = function(state) {
+		var path = state.path
+		if (path === '/') {
 			$('.home').hide()
 			this.renderIndex()
 		} else {
 			var that = this
-			hash = hash.slice(1)
+			path = path.slice(1)
 			$.each(data, function() {
-				if (this.url === hash) {
-					that.getItem(hash)
+				if (this.url === path) {
+					that.getItem(path)
 				}
 			})
 			$('.home').show()
@@ -63,7 +64,7 @@ define(function(require, exports, module) {
 	exports.init = function() {
 		FastClick.attach(document.body)
 		this.listen()
-		$(window).trigger('hashchange')
+		$(window).trigger('popstate')
 	}
 
 
@@ -88,20 +89,35 @@ define(function(require, exports, module) {
 	exports.listen = function() {
 		var that = this
 
-		$(window).on('hashchange', function(e) {
-			e.preventDefault()
-			var hash = '/' + location.hash.replace('#/', '')
-			that.route(hash)
+		$(window).on('popstate', function(e) {
+			var state = e.state
+			if (state) {
+				that.route(state)
+			} else {
+				var query = location.search
+				that.route({
+					path: query || '/'
+				})
+			}
 		})
 
 		$('#container')
 			.on('click', '#pageHome li .c-inner', function(e) {
-				location.hash = '/' + $(this).data("url")
+				var url = $(this).data("url")
+				var state = {
+					path: '/' + url
+				}
+				history.pushState(state, '', location.href.split("?")[0] + "?" + url)
+				that.route(state)
 			})
 
 		$('#header')
 			.on('click', '.home', function() {
-				location.hash = '/'
+				var state = {
+					path: '/'
+				}
+				history.pushState(state, '', location.origin + location.pathname)
+				that.route(state)
 			})
 			.on('click', '.back', function() {
 				history.back()
