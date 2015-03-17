@@ -73,7 +73,9 @@ define(function(require, exports, module) {
 	function hide(e) {
 		var $target = $(e.target)
 		if ($target.hasClass('out')) {
-			$target.hide()
+			$target
+				.hide()
+				.removeClass('in out reverse')
 		}
 	}
 

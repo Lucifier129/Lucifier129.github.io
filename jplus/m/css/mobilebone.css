@@ -74,19 +74,19 @@ body {
 }
 
 /* Default animation - slide, you can visit 'src/mobilebone.aniamte.css' to get more styles of animation */
-.page.in {
+.in {
 	-webkit-animation-name: slideinfromright;
 	animation-name: slideinfromright;
 }
-.page.out {
+.out {
 	-webkit-animation-name: slideouttoleft;
 	animation-name: slideouttoleft;
 }
-.page.reverse.out {
+.reverse.out {
 	-webkit-animation-name: slideouttoright;
 	animation-name: slideouttoright;
 }
-.page.reverse.in {
+.reverse.in {
 	-webkit-animation-name: slideinfromleft;
 	animation-name: slideinfromleft;
 }
