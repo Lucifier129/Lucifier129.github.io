@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 			var classNames = classList.join(' ')
 			$elem[method](classNames)
 		})
-		$elem.addClass(otherClass).show()
+		$elem.addClass(otherClass)
 	}
 
 	var count = 0
@@ -73,9 +73,7 @@ define(function(require, exports, module) {
 	function hide(e) {
 		var $target = $(e.target)
 		if ($target.hasClass('out')) {
-			$target
-				.addClass('hide')
-				.removeClass('in out reverse')
+			$target.addClass('hide')
 		}
 	}
 
