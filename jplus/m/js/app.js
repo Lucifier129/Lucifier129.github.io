@@ -88,20 +88,22 @@ define(function(require, exports, module) {
 	exports.listen = function() {
 		var that = this
 
-		$(window).on('hashchange', function(e) {
+		/*$(window).on('hashchange', function(e) {
 			e.preventDefault()
 			var hash = '/' + location.hash.replace('#/', '')
 			that.route(hash)
-		})
+		})*/
 
 		$('#container')
 			.on('click', '#pageHome li .c-inner', function(e) {
-				location.hash = '/' + $(this).data("url")
+				/*location.hash = '/' + $(this).data("url")*/
+				that.route('/' + $(this).data("url"))
 			})
 
 		$('#header')
 			.on('click', '.home', function() {
-				location.hash = '/'
+				/*location.hash = '/'*/
+				that.route('/')
 			})
 			.on('click', '.back', function() {
 				history.back()
