@@ -34,7 +34,7 @@ define(function(require, exports, module) {
 '<div id="pageHome" class="page in">\
 	<ul class="c-wrap">\
 		<li class="c-wrap" data-bind="vm:titleList" noscan>\
-			<a class="c-inner" data-bind="attr-href:url;text:title"></a>\
+			<div class="c-inner" data-bind="data-url:url;text:title"></div>\
 		</li>\
 	</ul>\
 </div>'
@@ -57,11 +57,6 @@ define(function(require, exports, module) {
 				}
 			})
 			$('.home').show()
-		}
-		if (history.length <= 1) {
-			$('.back').hide()
-		} else {
-			$('.back').show()
 		}
 	}
 
@@ -100,9 +95,8 @@ define(function(require, exports, module) {
 		})
 
 		$('#container')
-			.on('click', '#pageHome li a', function(e) {
-				e.preventDefault()
-				location.hash = '/' + this.getAttribute("href")
+			.on('click', '#pageHome li .c-inner', function(e) {
+				location.hash = '/' + $(this).data("url")
 			})
 
 		$('#header')
@@ -110,9 +104,7 @@ define(function(require, exports, module) {
 				location.hash = '/'
 			})
 			.on('click', '.back', function() {
-				if (history.length > 1) {
-					history.back()
-				}
+				history.back()
 			})
 	}
 })
