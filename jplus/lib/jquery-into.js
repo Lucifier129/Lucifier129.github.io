@@ -11,7 +11,7 @@ define(function(require, exports, module) {
 
 	var status = {
 		into: {
-			addClass: ['slide', 'in'],
+			addClass: ['in'],
 			removeClass: ['out', 'reverse']
 		},
 		out: {
