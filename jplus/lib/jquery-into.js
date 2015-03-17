@@ -12,7 +12,7 @@ define(function(require, exports, module) {
 	var status = {
 		into: {
 			addClass: ['in'],
-			removeClass: ['out', 'reverse']
+			removeClass: ['out', 'reverse', 'hide']
 		},
 		out: {
 			addClass: ['out'],
@@ -74,7 +74,7 @@ define(function(require, exports, module) {
 		var $target = $(e.target)
 		if ($target.hasClass('out')) {
 			$target
-				.hide()
+				.addClass('hide')
 				.removeClass('in out reverse')
 		}
 	}

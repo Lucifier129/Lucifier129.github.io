@@ -24,8 +24,8 @@ body {
 	position: absolute; left: 0; top: 0;
 }
 
-.out {
-	/* display: none; */
+.hide {
+    display:none;
 }
 
 .in, .out {
@@ -35,15 +35,15 @@ body {
 
 .in {
 	-webkit-animation-timing-function: ease-out;
-	-webkit-animation-duration: 165ms;
+	-webkit-animation-duration: 200ms;
 	animation-timing-function: ease-out;
-	animation-duration: 165ms;
+	animation-duration: 200ms;
 }
 .out {
 	-webkit-animation-timing-function: ease-in;
-	-webkit-animation-duration: 185ms;
+	-webkit-animation-duration: 220ms;
 	animation-timing-function: ease-in;
-	animation-duration: 185ms;
+	animation-duration: 220ms;
 }
 
 /* mask layer when ajax sending... */
