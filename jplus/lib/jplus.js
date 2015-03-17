@@ -613,6 +613,10 @@ define(function(require, exports, module) {
 
 	//收集视图中的数据，根据source指定要收集的数据及其数据结构
 	$.fn.collect = function(source, directiveName) {
+		if (isStr(source)) {
+			directiveName = source
+			source = null
+		}
 		var viewModel = $.fn.scan.call(this, directiveName || $.directive.getter, true)
 		if (isObj(source)) {
 			var oldView = viewModel.view

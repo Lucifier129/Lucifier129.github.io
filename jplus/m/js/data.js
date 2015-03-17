@@ -40,9 +40,12 @@ define(function(require, exports, module) {
 		title: '指定视图中需要获取的数据'
 	}, {
 		url: 'source/13.md',
-		title: '获取视图中的嵌套数据'
+		title: '指定html属性作为指令来源刷新视图或获取数据'
 	}, {
 		url: 'source/14.md',
+		title: '获取视图中的嵌套数据'
+	}, {
+		url: 'source/15.md',
 		title: 'jplus实现的TODOMVC'
 	}]
 })
