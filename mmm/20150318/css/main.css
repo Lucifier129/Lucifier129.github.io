@@ -186,13 +186,13 @@ html, body, #container, .page { height: 100%;}
 .dpr2 .word3 { font-size: 1.2em;}
 .word4 {width: 5.1rem; height: 0.52rem; margin:0 auto; margin-bottom: 0.5rem;}
 .word4 img { width: 100%; height: 100%;}
-.copywriter { width: 4.89rem; margin:0 auto;}
+.copywriter { width: 4.89rem; overflow: hidden; margin:0 auto;}
 .copywriter .word {height: 0.98rem; margin-bottom: 0.4rem;}
 .copywriter .word img {width: 100%; height: 100%;}
 .consultation { text-align: center;}
 .telephone_consultation, .online_consultation { display: inline-block; width: 1.98rem; height: 0.56rem; margin:0 0.35rem;}
 .telephone_consultation img, .online_consultation img { width: 100%; height: 100%;}
-.second_page_footer { width: 100%; height: 2.93rem; overflow: hidden; background:url(../image/bottom.png) no-repeat center top; background-size:100% 100%;}
+.second_page_footer { width: 100%; padding-bottom: 0.4rem;overflow: hidden; background:url(../image/bottom.png) no-repeat center top; background-size:100% 100%;}
 .second_page_footer .btn { margin: 0.2rem auto;}
 
 @media all and (max-height: 980px) {
@@ -204,6 +204,8 @@ html, body, #container, .page { height: 100%;}
 
 .swiper-container{width:100%;height:100%;}
 .swiper-container { width: 6.4rem; margin:0 auto;}
+
+video { padding: 0; margin: 0;}
 
 
 
