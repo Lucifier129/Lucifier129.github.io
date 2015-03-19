@@ -153,7 +153,6 @@ a {
 /*main*/
 html, body { width: 100%; height: 100%; overflow: hidden;}
 #container, .page { height: 100%;}
-#container { position:absolute;}
 .page { position:relative; width: 6.4rem; margin:0 auto;overflow: hidden;}
 .word { text-align: center;}
 .btn { width: 2.82rem; height: 0.76rem; margin:0 auto; line-height: 0.76rem; border-radius:0.09rem; -webkit-border-radius:0.09rem; font-size:2.5em; text-align: center; color:#fff; background:#44b336;}
@@ -205,7 +204,6 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 
 .swiper-container{width:100%;height:100%;}
 .swiper-container { width: 6.4rem; margin:0 auto;}
-
 video { padding: 0; margin: 0;}
 
 

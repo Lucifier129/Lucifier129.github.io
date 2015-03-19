@@ -75,4 +75,6 @@
         }
     }, 4)
 
+    setRootFontSize()
+
 }(window));
