@@ -93,7 +93,6 @@
 			marginTop: parseFloat($focus_img.css('marginTop'), 10) + diff / 2,
 			marginBottom: parseFloat($focus_img.css('marginBottom'), 10) + diff/2
 		})
-		console.log(win_height, cur_height)
 
 		cur_height = 0
 
@@ -105,8 +104,9 @@
 
 		$('.copywriter .word').add('.word4').each(function() {
 			var $this = $(this)
+			var value = parseFloat($this.css('marginBottom'), 10) + diff / 4
 			$this.css({
-				marginBottom: parseFloat($this.css('marginBottom'), 10) + diff / 4
+				marginBottom: value < 0 ? 0 : value
 			})
 		})
 
