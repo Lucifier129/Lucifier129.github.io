@@ -77,50 +77,6 @@
 	</div>
 	<script type="text/javascript" src="lib/swiper.min.js"></script>
 	<script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
-	<script type="text/javascript">
-	$(function() {
-		//根据屏幕高度分配margin
-		var $win = $(window)
-		var win_height = $win.height()
-		var cur_height = 0
-		$('.page:eq(0)').children().each(function() {
-			cur_height += $(this).outerHeight(true)
-		})
-		var diff = (win_height - cur_height) / 2
-		var $focus_img = $('.focus_img')
-
-		$focus_img.css({
-			marginTop: parseFloat($focus_img.css('marginTop'), 10) + diff / 2,
-			marginBottom: parseFloat($focus_img.css('marginBottom'), 10) + diff/2
-		})
-		console.log(win_height, cur_height)
-
-		cur_height = 0
-
-		$('.page:eq(1)').children().each(function() {
-			cur_height += $(this).outerHeight(true)
-		})
-
-		var diff = (win_height - cur_height)
-
-		$('.copywriter .word').add('.word4').each(function() {
-			var $this = $(this)
-			$this.css({
-				marginBottom: parseFloat($this.css('marginBottom'), 10) + diff / 4
-			})
-		})
-
-		//点击视频
-		$('.second_page_header').on('click', '.video', function() {
-			$(this).hide()
-			$('video').addClass('video').show().get(0).play()
-			$('.second_page_header').off('click')
-		})
-
-		new Swiper('.swiper-container', {
-	 		direction: 'vertical'
-	 	})
-	})
-	</script>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
