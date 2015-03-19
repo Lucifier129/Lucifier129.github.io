@@ -9,7 +9,7 @@
 <title>标日初级乐学班【触屏页】新版2.0</title>
 <script type="text/javascript" src="lib/zoom.js"></script>
 <link rel="stylesheet" href="css/main.css">
-<body>
+<body style="display:none">
 	<!-- <div class="page">
 		<header class="first_page_header">
 			<div class="logo">
@@ -131,16 +131,11 @@
 		</div>
 	</div>
 	<script type="text/template" id="video_html">
-	<video src="http://www.hujiang.com/classzt/video/Standard.mp4" controls="controls" autobuffer autoplay>
+	<video src="http://www.hujiang.com/classzt/video/Standard.mp4" controls="controls" autoplay>
 					您的浏览器不支持 video 标签
 					</video>
 	</script>
 	<script type="text/javascript" src="lib/swiper.min.js"></script>
-	<script type="text/javascript">
-	new Swiper('.swiper-container', {
- 		direction: 'vertical'
- 	})
-	</script>
 	<script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
 	<script type="text/javascript">
 	(function() {
@@ -148,14 +143,11 @@
 		var win_height = $win.height()
 		var cur_height = 0
 		$('.page:eq(0)').children().each(function() {
-			cur_height += $(this).height()
+			cur_height += $(this).outerHeight(true)
 		})
 		var diff = (win_height - cur_height) / 2
-		if (diff <= 0) {
-			return
-		}
-
 		var $focus_img = $('.focus_img')
+
 		$focus_img.css({
 			marginTop: parseFloat($focus_img.css('marginTop'), 10) + diff / 2,
 			marginBottom: parseFloat($focus_img.css('marginBottom'), 10) + diff/2
@@ -165,7 +157,13 @@
 			var $video = $($('#video_html').html()).addClass('video')
 			var $this = $(this).hide()
 			$('.second_page_header').append($video).off('click')
+			$video.get(0).play()
 		})
+
+		$('body').fadeIn()
+		new Swiper('.swiper-container', {
+	 		direction: 'vertical'
+	 	})
 	})()
 	</script>
 </body>
