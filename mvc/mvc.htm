@@ -1,0 +1,369 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.2.2
+    site: https://github.com/ksky521/nodePPT
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用MVC模式组织代码 - By 古映杰</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    <link rel="stylesheet" media="print" href="./css/pdf.css">
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>用MVC模式组织代码</h1>
+<h2>团队游研发部-前端</h2>
+<p><small>Author: 古映杰</small><br>
+<small>Date: 2015.03.20</small></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>这里说的MVC是什么？</h2>
+
+</hgroup><article>
+
+<ul class="rollIn">
+<li>不是框架</li>
+<li>不是库</li>
+<li>不是代码规范</li>
+<li>不是最佳实践</li>
+<li>一种切割大文件的策略</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>面向的目标</h2>
+<p><img src="./image/01.jpg" alt="大文件" title="大文件">
+<img src="./image/02.jpg" alt="大文件" title="大文件"></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>带来的困扰</h2>
+<ul class="rollIn">
+<li>巨型单例，代码难以理解</li>
+<li><code>html模板</code>与js业务逻辑耦合，无法复用</li>
+<li><code>ajax</code>回调函数、事件绑定函数很长</li>
+<li><code>if/eles/for</code>逻辑嵌套过深</li>
+<li>数据处理与视图操作混合在一起</li>
+<li>事件绑定分散在各处</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>两种模块类型</h2>
+
+</hgroup><article>
+
+<ul>
+<li><p>CommonJs-AMD/CMD模块</p>
+<ul>
+<li>一个模块是一个文件</li>
+<li><code>module.exports</code>的值为模块输出</li>
+</ul>
+</li>
+<li><p>前端业务模块:</p>
+<ul>
+<li>一个模块是一个文件夹。</li>
+<li>与DOM相关的视图模型<code>View</code>、数据模型<code>Model</code>与事件交互模型<code>Controller</code>的总和。</li>
+<li>如页面的<code>header</code>模块，它包含html模板、填充的数据以及随着滚动高度而固定在顶部的事件交互等结构。</li>
+</ul>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>文件夹结构</h2>
+<ul>
+<li>文件夹命名<code>mod_header</code></li>
+<li><code>view.js</code>:视图模型，存储html模板，并提供根据数据输入渲染视图的方法、从视图中获取并输出数据的方法</li>
+<li><code>model.js</code>:数据模型，提供数据存储与数据处理的所有方法</li>
+<li><code>controller.js</code>:事件交互模型，提供事件绑定与组织视图模型和数据模型的所有方法</li>
+<li><code>app.js</code>:业务模块出口文件</li>
+<li><code>README.md</code>是一个描述业务逻辑的<code>markdown</code>文件，随业务逻辑变更而更新</li>
+<li><code>data_mock.json</code>：前端数据模拟</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>小贴士</h2>
+<ul>
+<li>MVC任意一个内容过多，都可以处理成文件夹<ul>
+<li>如在TODOMVC中，文件夹名<code>view</code>，里面包含类似template.js、todo-list.js, filter.js以及出口文件view.js</li>
+</ul>
+</li>
+<li><code>view</code>跟<code>model</code>绝不知道事件何时绑定，何时触发，一切事件逻辑都放在<code>controller.js</code>中</li>
+<li><code>view</code>只对html模板进行<code>get/set</code>数据</li>
+<li><code>model</code>只处理数据输入，数据转换、数据储存与数据输出</li>
+<li><code>ajax</code>行为，属于<code>controller</code>，不属于<code>model</code>；在<code>success/error</code>回调函数里调用<code>model</code>提供的方法处理数据</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><code>controller.js</code>与<code>app.js</code>的一般形式如下：</h2>
+<pre><code class="javascript">//controller.js
+function Controller(View, Model) {
+    this.View = View
+    this.Model = Model
+}
+
+Controller.prototype = {
+    init: function() {
+        //初始化
+    },
+    listen: function() {
+        //事件绑定
+    },
+    otherMethod: function() {
+        //其它方法，用于封装可复用的model与view的交互方式
+    }
+}
+</code></pre>
+<pre><code class="javascript">//app.js
+var View = require(&#39;./view&#39;)
+var Model = require(&#39;./model&#39;)
+var Controller = require(&#39;./controller&#39;)
+//实例化
+module.exports = new Controller(View, Model)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>todos-vanillajs 实例</h2>
+<h2>TODOMVC:<a href="http://lucifier129.github.io/todos-vanillajs/index.html" target="_blank">http://lucifier129.github.io/todos-vanillajs/index.html</a></h2>
+<iframe style="height:500px" data-src="http://lucifier129.github.io/todos-vanillajs/index.html" src="about:blank;"></iframe>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>todos-vanillajs 目录结构</h2>
+<p><img src="./image/03.jpg" alt="主目录" title="主目录"><img src="./image/04.jpg" alt="js目录" title="js目录"></p>
+<p><code>tools.js</code>里简单封装了事件代理、类型检查函数</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>数据模型<code>Model</code>提供了所有跟数据处理相关的方法。但没有产生调用</p>
+<pre><code class="javascript">//model.js
+
+    function Model(name) {
+        this.name = name
+        this.todos = localStorage.getItem(name)
+        if (this.todos) {
+            this.todos = JSON.parse(this.todos)
+        } else {
+            this.todos = []
+        }
+    }
+
+    Model.prototype = {
+        getTodo: function(id) {
+            //根据id获取todo项
+        },
+        getAll: function() {
+            //获取所有todo项
+        },
+        getActive: function() {
+            //获取未完成的todo项
+        },
+        getCompleted: function() {
+            //获取已完成的todo项
+        },
+        addTodo: function(todo) {
+            //添加新的todo项
+        },
+        removeTodo: function(id) {
+            //根据id删除todo项
+        },
+        save: function() {
+            //保存数据
+        }
+    }
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>视图有7个信息渲染点，用6个<code>类</code>定义了渲染方法。没有产生调用。</p>
+<pre><code class="javascript">//view.js
+app.View = {
+        TodoList: TodoList,
+        TodoElem: TodoElem,
+        Counter: Counter,
+        Footer: Footer,
+        ToogleAll: ToogleAll,
+        Filters: Filters
+    }
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="javascript">//controller.js
+    Controller.prototype.listen = function() {
+        document.addEventListener(&#39;DOMContentLoaded&#39;, this.update.bind(this), false)
+        window.addEventListener(&#39;hashchange&#39;, this.update.bind(this), false)
+        window.addEventListener(&#39;beforeunload&#39;, this.model.save.bind(this.model), false)
+        //绑定事件代理
+        //每个事件中，涉及渲染的用View提供的方法，涉及数据的用Model提供的方法
+        tools.$listen(&#39;change&#39;, &#39;#new-todo&#39;, function() {
+            //输入框的change事件中，添加新todo项
+        })
+        tools.$listen(&#39;dblclick&#39;, &#39;#todo-list label&#39;, function() {
+            //todo-list里双击进行内容编辑
+        })
+        tools.$listen(&#39;change&#39;, &#39;#todo-list .edit&#39;, function() {
+            //内容编辑框的change事件，标志完成编辑
+        })
+        tools.$listen(&#39;keyup&#39;, &#39;#todo-list .edit&#39;, function(e) {
+            var keyCode = e.keyCode
+            if (keyCode === ESCAPE_KEY || keyCode === ENTER_KEY) {
+                //内容编辑框按回车键，或者ESC退出键，标志完成编辑
+            }
+        })
+        tools.$listen(&#39;change&#39;, &#39;#todo-list .toggle&#39;, function() {
+            //todo-list每一项提供的checkbox，其change事件中切换[未完成-已完成]状态
+        })
+        tools.$listen(&#39;change&#39;, &#39;#toggle-all&#39;, function() {
+            //该checlbox的切换所有todo项的状态
+        })
+        tools.$listen(&#39;click&#39;, &#39;#todo-list .destroy&#39;, function() {
+            //每个todo项的视图中，提供删除按钮，其click事件触发删除
+        })
+        tools.$listen(&#39;click&#39;, &#39;#clear-completed&#39;, function() {
+            //一个按钮，其click事件触发时，清除所有已完成的todo项
+        })
+    }
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>模块调用</h2>
+<pre><code class="javascript">//app.js
+app.todos = new app.Controller(app.View, app.Model).init()
+</code></pre>
+<ul>
+<li>好处：<ul>
+<li>促使工程师倾向于写可复用的、面向对象的代码</li>
+<li>利于测试</li>
+<li>便于维护</li>
+</ul>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>扩展内容:MVVM-数据双向绑定</h2>
+<pre><code class="html">&lt;p id=&quot;test&quot;&gt;&lt;/p&gt;
+</code></pre>
+<pre><code class="javascript">Object.defineProperty(data, &#39;content&#39;, {
+    get: function() {
+        return $(&#39;#test&#39;).text()
+    },
+    set: function(v) {
+        $(&#39;#test&#39;).text(v)
+    }
+})
+//操作数据就是操作视图
+data[&#39;content&#39;] = &#39;abc&#39;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>扩展内容：jQuery/Zepto指令插件<code>jplus</code></h2>
+<pre><code class="html">&lt;div id=&quot;scope&quot;&gt;
+    &lt;p data-bind=&quot;vm:nameList&quot; noscan&gt;
+        &lt;span data-bind=&quot;text:firstName&quot;&gt;&lt;/span&gt;
+        &lt;span data-bind=&quot;text:lastName&quot;&gt;&lt;/span&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="javascript">var data = {
+    nameList: [
+          {firstName: &#39;Bill&#39;,lastName: &#39;Gates&#39;},
+          {firstName: &#39;Steve&#39;,lastName: &#39;Jobs&#39;},
+          {firstName: &#39;Tim&#39;,lastName: &#39;Cook&#39;}
+      ]
+};
+//有参数时，数据model同步到视图view
+$(&#39;#scope&#39;).vm(data);
+//无参数时，从视图view中获取数据model
+var result = $(&#39;#scope&#39;).vm();
+$(&#39;#scope&#39;).append(JSON.stringify(result));
+</code></pre>
+<p><img src="./image/05.jpg" alt="结果" title="结果"></p>
+
+</article></section></slide>
+        <!--slide class="slide thank-you-slide segue nobackground">
+            <article class="flexbox vleft auto-fadein">
+                <h2>Q &amp; A</h2>
+                <h3>&lt;Thank You!&gt;</h3>
+            </article>
+        </slide-->
+        <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+              <h2 style="color: white;">Powered By nodePPT v1.2.2</h2>
+            </article>
+          </slide>
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = location.pathname.split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'zoomin',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/hljs-0.8.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+<!--placeholder-->
+</body>
+</html>
