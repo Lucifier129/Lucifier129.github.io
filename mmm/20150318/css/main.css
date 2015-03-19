@@ -179,8 +179,8 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 .arrow img { width: 0.41rem; height: 100%;}
 
 .second_page_header {text-align: center; color:#aeaeae; padding-top: 0.25rem;}
-.video { width: 5.97rem; height: 3.36rem; margin:0 auto; margin-bottom: 0.25rem;}
-.video img { width: 100%; height: 100%;}
+.video { height: 3.36rem;  margin-bottom: 0.25rem; text-align: center;}
+.video img {  height: 100%;}
 .word3 { height: 0.42rem; line-height: 0.42rem; font-size: 1em;  text-align: center;}
 .dpr3 .word3 { font-size: 1.4em;}
 .dpr2 .word3 { font-size: 1.2em;}

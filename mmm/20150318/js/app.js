@@ -23,13 +23,19 @@ $(function() {
 	})
 
 	var diff = (win_height - cur_height)
+	var mb = parseFloat($('.copywriter .word'), 10)
 
-	$('.copywriter .word').add('.word4').each(function() {
-		var $this = $(this)
-		$this.css({
-			marginBottom: parseFloat($this.css('marginBottom'), 10) + diff / 4
+	if (diff < 0) {
+		$('div.video').height($('div.video').height() + diff)
+	} else {
+		$('.copywriter .word').add('.word4').each(function() {
+			var $this = $(this)
+			$this.css({
+				marginBottom: parseFloat($this.css('marginBottom'), 10) + diff / 4
+			})
 		})
-	})
+	}
+	
 
 	//点击视频
 	$('.second_page_header').on('click', '.video', function() {
