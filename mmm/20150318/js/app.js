@@ -23,17 +23,22 @@ $(function() {
 	})
 
 	var diff = (win_height - cur_height)
-	var mb = parseFloat($('.copywriter .word'), 10)
+	var total = 0
 
-	if (diff < 0) {
-		$('div.video').height($('div.video').height() + diff)
-	} else {
-		$('.copywriter .word').add('.word4').each(function() {
-			var $this = $(this)
-			$this.css({
-				marginBottom: parseFloat($this.css('marginBottom'), 10) + diff / 4
-			})
+	$('.copywriter .word').add('.word4').each(function() {
+		var $this = $(this)
+		var value = parseFloat($this.css('marginBottom'), 10) + diff / 4
+		if (value < 0) {
+			total -= value
+			value = 0
+		}
+		$this.css({
+			marginBottom: value
 		})
+	})
+
+	if (total > 0) {
+		$('div.video').height($('div.video').height() - total)
 	}
 	
 
