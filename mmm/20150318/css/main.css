@@ -155,39 +155,55 @@ html, body, #container, .page { height: 100%;}
 #container { position:absolute;}
 .page { position:relative; width: 6.4rem; margin:0 auto;overflow: hidden;}
 .word { text-align: center;}
-.btn { width: 2.82rem; height: 0.76rem; margin:0 auto; line-height: 0.76rem; border-radius:0.09rem; -webkit-border-radius:0.09rem; font-size:3em; text-align: center; color:#fff; background:#44b336;}
+.btn { width: 2.82rem; height: 0.76rem; margin:0 auto; line-height: 0.76rem; border-radius:0.09rem; -webkit-border-radius:0.09rem; font-size:2.5em; text-align: center; color:#fff; background:#44b336;}
 .btn a { color:#fff;}
+.dpr2 .btn { font-size: 1.8em;}
+.dpr1 .btn { font-size: 1.6em;}
+
+
+
 .first_page_header { position:absolute; top:0; left:0; width: 100%; height: 0.86rem;}
-.logo { height: 100%;}
+.logo { height: 100%; margin:0.28rem 0 0 0.23rem;}
 .logo img { width: 4.98rem; height: 0.63rem;}
-.phone { position: absolute; top:0.1rem; right:0.1rem; width: 0.57rem; height: 0.58rem;}
+.phone { position: absolute; top:0.33rem; right:0.3rem; width: 0.57rem; height: 0.58rem;}
 .phone img { width: 100%; height: 100%;}
 .focus_img {height: 5.1rem; margin-top:0.75rem; background:url(../image/woman1.png) no-repeat center center; background-size: 100% 100%}
 .lesson { height: 0.91rem;}
 .lesson img { width: 100%; height: 100%;}
-.word1 { width: 4.06rem; height: 0.97rem; margin:0 auto;}
+.word1 { width: 4.06rem; height: 0.97rem; margin:0.35rem auto;}
 .word1 img { width: 100%; height: 100%; }
-.word2 { width: 3.25rem; height: 0.2rem; margin:0 auto;}
-.word2 img { width: 100%; height: 100%;}
-.first_page_footer { position:absolute; bottom: 0; left:0; width: 100%; height: 1.6rem;}
-.arrow  { width: 0.41rem; height: 0.14rem; margin:0 auto; text-align: center;}
-.arrow img { width: 100%; height: 100%;}
+.word2 { width: 3.25rem; height: 0.5rem;  margin:0 auto;}
+.word2 img { width: 3.25rem; height: 0.2rem;}
+.first_page_footer { width: 100%; height: 1.48rem; padding-bottom: 0.24rem}
+.arrow  { position:absolute; bottom:0.24rem; left:0; width: 100%;  height: 0.14rem; text-align: center;}
+.arrow img { width: 0.41rem; height: 100%;}
 
-.second_page_header { height: 4.15rem; text-align: center; font-size: 1.6em; color:#aeaeae;}
-.video { width: 5.97rem; height: 3.36rem; margin:0 auto;}
+.second_page_header {text-align: center; color:#aeaeae; padding-top: 0.25rem;}
+.video { width: 5.97rem; height: 3.36rem; margin:0 auto; margin-bottom: 0.25rem;}
 .video img { width: 100%; height: 100%;}
-.word3 { width: 5.1rem; height: 0.53rem; margin:0 auto;}
-.word3 img { width: 100%; height: 100%;}
+.word3 { height: 0.42rem; line-height: 0.42rem; font-size: 1em;  text-align: center;}
+.dpr3 .word3 { font-size: 1.4em;}
+.dpr2 .word3 { font-size: 1.2em;}
+.word4 {width: 5.1rem; height: 0.52rem; margin:0 auto; margin-bottom: 0.5rem;}
+.word4 img { width: 100%; height: 100%;}
 .copywriter { width: 4.89rem; margin:0 auto;}
-.copywriter .word {height: 0.98rem;}
+.copywriter .word {height: 0.98rem; margin-bottom: 0.4rem;}
 .copywriter .word img {width: 100%; height: 100%;}
 .consultation { text-align: center;}
 .telephone_consultation, .online_consultation { display: inline-block; width: 1.98rem; height: 0.56rem; margin:0 0.35rem;}
 .telephone_consultation img, .online_consultation img { width: 100%; height: 100%;}
-.second_page_footer { position:absolute; bottom: 0; left:0; width: 100%; height: 2.93rem; background:url(../image/bottom.png) no-repeat center center; background-size:100% 100%;}
+.second_page_footer { width: 100%; height: 2.93rem; overflow: hidden; background:url(../image/bottom.png) no-repeat center top; background-size:100% 100%;}
+.second_page_footer .btn { margin: 0.2rem auto;}
 
+@media all and (max-height: 980px) {
+  .word2 { display: none}
+  .word3 { display: none}
+  .word4 { margin-bottom: 0.15rem;}
+  .copywriter .word { margin-bottom: 0.1rem;}
+}
 
-
+.swiper-container{width:100%;height:100%;}
+.swiper-container { width: 6.4rem; margin:0 auto;}
 
 
 

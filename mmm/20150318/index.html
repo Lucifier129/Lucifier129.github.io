@@ -10,7 +10,7 @@
 <script type="text/javascript" src="lib/zoom.js"></script>
 <link rel="stylesheet" href="css/main.css">
 <body>
-	<div class="page">
+	<!-- <div class="page">
 		<header class="first_page_header">
 			<div class="logo">
 				<img src="image/logo.png">
@@ -19,43 +19,44 @@
 				<img src="image/phone.png">
 			</a>
 		</header>
-		<section class="focus_img">
-		</section>
+		<section class="focus_img"></section>
 		<section class="lesson">
-			<img src="image/lesson.png" alt="">
+			<img src="image/lesson.png" >
 		</section>
 		<section class="word1">
-			<img src="image/word1.png" alt="">
+			<img src="image/word1.png" >
 		</section>
 		<footer class="first_page_footer">
-			<div class="word2">
-				<img src="image/word2.png" alt="">
+			<div class="word2 c-wrap">
+				<div class="c-inner">
+					<img src="image/word2.png" >
+				</div>
 			</div>
 			<div class="btn">立即行动</div>
-			<div class="arrow">
-				<img src="image/arrow.png" alt="">
-			</div>
 		</footer>
+		<div class="arrow">
+			<img src="image/arrow.png" >
+		</div>
 	</div>
 	<div class="page">
 		<header class="second_page_header">
 			<div class="word3">沪江网校独家课件视频</div>
 			<div class="video">
-				<img src="image/video.jpg" alt="">
+				<img src="image/video.jpg" >
 			</div>
 		</header>
-		<section class="word3">
-			<img src="image/word3.jpg" alt="">
+		<section class="word4">
+			<img src="image/word3.jpg" >
 		</section>
 		<section class="copywriter">
 			<div class="word">
-				<img src="image/word4.jpg" alt="">
+				<img src="image/word4.jpg" >
 			</div>
 			<div class="word">
-				<img src="image/word5.jpg" alt="">
+				<img src="image/word5.jpg" >
 			</div>
 			<div class="word">
-				<img src="image/word6.jpg" alt="">
+				<img src="image/word6.jpg" >
 			</div>
 		</section>
 		<footer class="second_page_footer">
@@ -63,12 +64,109 @@
 				<a href="http://mc.hujiang.com/156884/intro">立即购买</a>
 			</div>
 			<div class="consultation">
-				<a href="http://class.hujiang.com/kf/" class="online_consultation"><img src="image/online_consultation.jpg" alt=""></a><a href="tel:4008-220-220" class="telephone_consultation"><img src="image/telephone_consultation.jpg" alt=""></a>
+				<a href="http://class.hujiang.com/kf/" class="online_consultation"><img src="image/online_consultation.jpg" ></a><a href="tel:4008-220-220" class="telephone_consultation"><img src="image/telephone_consultation.jpg" ></a>
 			</div>
 		</footer>
+	</div> -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="page swiper-slide">
+				<header class="first_page_header">
+					<div class="logo">
+						<img src="image/logo.png">
+					</div>
+					<a href="tel:4008-220-220" class="phone">
+						<img src="image/phone.png">
+					</a>
+				</header>
+				<section class="focus_img"></section>
+				<section class="lesson">
+					<img src="image/lesson.png" >
+				</section>
+				<section class="word1">
+					<img src="image/word1.png" >
+				</section>
+				<footer class="first_page_footer">
+					<div class="word2 c-wrap">
+						<div class="c-inner">
+							<img src="image/word2.png" >
+						</div>
+					</div>
+					<div class="btn"><a href="http://mc.hujiang.com/156884/intro">立即行动</a></div>
+				</footer>
+				<div class="arrow">
+					<img src="image/arrow.png" >
+				</div>
+			</div>
+			<div class="page swiper-slide">
+				<header class="second_page_header">
+					<div class="word3">沪江网校独家课件视频</div>
+					<div class="video">
+						<img src="image/video.jpg" >
+					</div>
+				</header>
+				<section class="word4">
+					<img src="image/word3.jpg" >
+				</section>
+				<section class="copywriter">
+					<div class="word">
+						<img src="image/word4.jpg" >
+					</div>
+					<div class="word">
+						<img src="image/word5.jpg" >
+					</div>
+					<div class="word">
+						<img src="image/word6.jpg" >
+					</div>
+				</section>
+				<footer class="second_page_footer">
+					<div class="btn">
+						<a href="http://mc.hujiang.com/156884/intro">立即购买</a>
+					</div>
+					<div class="consultation">
+						<a href="http://class.hujiang.com/kf/" class="online_consultation"><img src="image/online_consultation.jpg" ></a><a href="tel:4008-220-220" class="telephone_consultation"><img src="image/telephone_consultation.jpg" ></a>
+					</div>
+				</footer>
+			</div>
+		</div>
 	</div>
-	<script type="text/javascript" src="lib/require.js"></script>
+	<script type="text/template" id="video_html">
+	<video src="http://www.hujiang.com/classzt/video/Standard.mp4" controls="controls" autobuffer autoplay>
+					您的浏览器不支持 video 标签
+					</video>
+	</script>
+	<script type="text/javascript" src="lib/swiper.min.js"></script>
 	<script type="text/javascript">
+	new Swiper('.swiper-container', {
+ 		direction: 'vertical'
+ 	})
+	</script>
+	<script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript">
+	(function() {
+		var $win = $(window)
+		var win_height = $win.height()
+		var cur_height = 0
+		$('.page:eq(0)').children().each(function() {
+			cur_height += $(this).height()
+		})
+		var diff = (win_height - cur_height) / 2
+		if (diff <= 0) {
+			return
+		}
+
+		var $focus_img = $('.focus_img')
+		$focus_img.css({
+			marginTop: parseFloat($focus_img.css('marginTop'), 10) + diff / 2,
+			marginBottom: parseFloat($focus_img.css('marginBottom'), 10) + diff/2
+		})
+
+		$('.second_page_header').on('click', '.video', function() {
+			var $video = $($('#video_html').html()).addClass('video')
+			var $this = $(this).hide()
+			$('.second_page_header').append($video).off('click')
+		})
+	})()
 	</script>
 </body>
 </html>
