@@ -178,7 +178,7 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 .arrow  { position:absolute; bottom:0.24rem; left:0; width: 100%;  height: 0.14rem; text-align: center;}
 .arrow img { width: 0.41rem; height: 100%;}
 
-.second_page_header {text-align: center; color:#aeaeae; padding-top: 0.25rem;}
+.second_page_header {text-align: center; color:#aeaeae; padding-top: 0.15rem;}
 .video { height: 3.36rem;  margin-bottom: 0.25rem; text-align: center;}
 .video img {  height: 100%;}
 .word3 { height: 0.42rem; line-height: 0.42rem; font-size: 1em;  text-align: center;}
