@@ -38,7 +38,7 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 
 .second_page_header {text-align: center; color:#aeaeae; padding-top: 0.15rem;}
 .video { width: 5.97rem; height: 3.36rem; margin:0 auto;  margin-bottom: 0.25rem; text-align: center;}
-.video img { width: 100%;  height: 100%;}
+.video img, .video video { width: 100%;  height: 100%;}
 .word3 { height: 0.42rem; line-height: 0.42rem; font-size: 1em;  text-align: center;}
 .dpr3 .word3 { font-size: 1.4em;}
 .dpr2 .word3 { font-size: 1.2em;}

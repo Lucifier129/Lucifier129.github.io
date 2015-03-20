@@ -45,33 +45,29 @@ $(function() {
 		//按比例缩小video
 		if (surplus_height > 0) {
 			var $video = $('div.video')
-			var old_height = $('div.video').height()
+			var old_height = $video.height()
 			var new_height = old_height - surplus_height
 			var ratio = new_height / old_height
-			$('.video').css({
+			$video.css({
 				height: new_height,
 				width: $video.width() * ratio
 			})
 		}
+		reflow = $.noop
 	}
 
 	reflow()
-
-	window.onresize = function() {
-		setTimeout(reflow, 10)
-	}
 
 	function addVideo() {
 		var $video = $('video')
 		$video
 			.attr('src', $video.data('src'))
-			.on('pause', reflow)
 			.show().get(0).play()
 	}
 
 	//点击视频
 	$('div.video').one('click', function() {
-		$(this).hide()
+		$(this).find('img').hide()
 		addVideo()
 	})
 
