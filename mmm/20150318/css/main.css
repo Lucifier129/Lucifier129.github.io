@@ -1,146 +1,5 @@
 @charset "utf-8";
-html {
-  color: #000;
-  background: #fff;
-  overflow-y: scroll;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-}
-html * {
-  outline: none;
-  -webkit-text-size-adjust: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-html,
-body {
-  font-family: sans-serif;
-}
-/* 内外边距通常让各个浏览器样式的表现位置不同 */
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-code,
-form,
-fieldset,
-legend,
-input,
-textarea,
-p,
-blockquote,
-th,
-td,
-hr,
-button,
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  margin: 0;
-  padding: 0;
-}
-input,
-select,
-textarea {
-  font-size: 100%;
-}
-/* 去掉各 Table  cell 的边距并让其边重合 */
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-/* 去除默认边框 */
-fieldset,
-img {
-  border: 0;
-}
-/* 去掉 firefox 下此元素的边框 */
-abbr,
-acronym {
-  border: 0;
-  font-variant: normal;
-}
-/* 一致的 del 样式 */
-del {
-  text-decoration: line-through;
-}
-address,
-caption,
-cite,
-code,
-dfn,
-em,
-th,
-var {
-  font-style: normal;
-  font-weight: 500;
-}
-/* 去掉列表前的标识, li 会继承 */
-ol,
-ul {
-  list-style: none;
-}
-/* 对齐是排版最重要的因素, 别让什么都居中 */
-caption,
-th {
-  text-align: left;
-}
-/* 来自 yahoo, 让标题都自定义, 适应多个系统应用 */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: 100%;
-  font-weight: 500;
-}
-q:before,
-q:after {
-  content: '';
-}
-/* 统一上标和下标 */
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-sup {
-  top: -0.5em;
-}
-sub {
-  bottom: -0.25em;
-}
-/* 正常链接 未访问 */
-/* 鼠标悬停 */
-a:hover {
-  text-decoration: underline;
-}
-/* 默认不显示下划线，保持页面简洁 */
-ins,
-a {
-  text-decoration: none;
-}
+html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:none;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:transparent}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:""}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}
 .clearfloat:before,.clearfloat:after {content:"";display:table;}
 .clearfloat:after { clear:both; }
 /* For IE 6/7 (trigger hasLayout) */
@@ -161,7 +20,6 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 .dpr1 .btn { font-size: 1.6em;}
 
 
-
 .first_page_header { position:absolute; top:0; left:0; width: 100%; height: 0.86rem;}
 .logo { height: 100%; margin:0.28rem 0 0 0.23rem;}
 .logo img { width: 4.98rem; height: 0.63rem;}
@@ -179,8 +37,8 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 .arrow img { width: 0.41rem; height: 100%;}
 
 .second_page_header {text-align: center; color:#aeaeae; padding-top: 0.15rem;}
-.video { height: 3.36rem;  margin-bottom: 0.25rem; text-align: center;}
-.video img {  height: 100%;}
+.video { width: 5.97rem; height: 3.36rem; margin:0 auto;  margin-bottom: 0.25rem; text-align: center;}
+.video img { width: 100%;  height: 100%;}
 .word3 { height: 0.42rem; line-height: 0.42rem; font-size: 1em;  text-align: center;}
 .dpr3 .word3 { font-size: 1.4em;}
 .dpr2 .word3 { font-size: 1.2em;}
