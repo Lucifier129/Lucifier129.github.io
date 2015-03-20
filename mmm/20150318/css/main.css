@@ -10,6 +10,7 @@ html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;
 
 
 /*main*/
+video { padding: 0; margin: 0;}
 html, body { width: 100%; height: 100%; overflow: hidden;}
 #container, .page { height: 100%;}
 .page { position:relative; width: 6.4rem; margin:0 auto;overflow: hidden;}
@@ -62,7 +63,6 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 
 .swiper-container{width:100%;height:100%;}
 .swiper-container { width: 6.4rem; margin:0 auto;}
-video { padding: 0; margin: 0;}
 
 
 
