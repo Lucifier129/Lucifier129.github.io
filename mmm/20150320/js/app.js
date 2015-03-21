@@ -112,7 +112,7 @@ $(function() {
 	//
 	$('[data-role="goToForm"]').on('click', swiper.slidePrev.bind(swiper))
 
-	$('.form-area input[type="submit"]').on('click', function(e) {
+	$('.form-area [type="submit"]').on('click', function(e) {
 		e.preventDefault()
 		verify('.form-area')
 	})

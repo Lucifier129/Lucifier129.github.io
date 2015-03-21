@@ -13,7 +13,7 @@ html, body {width: 100%; height: 100%; overflow: hidden;}
 .swiper-slide { position: relative; height: 100%; overflow:hidden;}
 
 .page1-header { height: 0.63rem; padding-top: 0.23rem; margin-bottom: -.01rem;}
-.logo { float: left; width: 1.8rem; height:100%; overflow: hidden;}
+.logo { float: left; width: 1.8rem; height:100%; margin-left: 0.28rem; overflow: hidden;}
 .logo img { width: 4.45rem; height: 100%;}
 .tel-num { float: right; width: 2.5rem; height:100%; margin-right: 0.17rem; overflow: hidden;}
 .tel-num img { width: 4.45rem; height: 100%; margin-left:-1.95rem;}
@@ -23,7 +23,7 @@ html, body {width: 100%; height: 100%; overflow: hidden;}
 .form-area input { display:block; margin:0 auto; line-height: normal; font-size: 1.5em; color:#333;-webkit-border-radius:0.1rem;border-radius:0.1rem;}
 .form-area input[type="text"] { width: 4.6rem; height: 0.66rem; margin-bottom:0.25rem;text-indent: 0.2rem;  border:1px solid #bfbfbf;}
 .form-area input[type="text"]:nth-child(3) { margin-bottom: 0.32rem;}
-.form-area input[type="submit"] { width: 2.82rem; height: 0.76rem; background: #66c138; color:#fff; font-size: 1.6em; border:none; outline:none;}
+.form-area [type="submit"] { display: block; width: 2.82rem; height: 0.76rem; margin:0 auto; background: #66c138; color:#fff; font-size: 1.6em;-webkit-border-radius:0.1rem;border-radius:0.1rem; border:none; outline:none;}
 .arrow { width: 100%; height: 0.14rem; padding: 0.15rem 0; text-align: center;}
 .arrow img { height: 100%;}
 
@@ -31,7 +31,7 @@ html, body {width: 100%; height: 100%; overflow: hidden;}
 .word01 img { width: 100%; height: 100%;}
 .word02 { width: 4.7rem; height: 3.33rem; margin:0.95rem auto 0 auto;}
 .word02 img { width: 100%; height: 100%;}
-input[type="button"] { display: block; width: 4.38rem; height: 0.76rem; margin:0.65rem auto 0.2rem auto; font-size: 1.6em; -webkit-border-radius:0.1rem;border-radius:0.1rem;color:#fff; background:#66c138; border:none; outline:none;}
+[type="button"] { display: block; width: 4.38rem; height: 0.76rem; margin:0.65rem auto 0.2rem auto; line-height: normal; font-size: 1.6em; -webkit-border-radius:0.1rem;border-radius:0.1rem;color:#fff; background:#66c138; border:none; outline:none;}
 .tips { font-size: 1em; padding-bottom:0.2rem; text-align: center; color:#989898; }
 
 
