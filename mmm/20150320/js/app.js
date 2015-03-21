@@ -36,7 +36,7 @@ $(function() {
 		diff = curHeight - winHeight
 
 		if (diff > 0) {
-			var selectors = ['.word01', '.word02', '.page input[type="button"]']
+			var selectors = ['.word01', '.word02', '[data-role="goToForm"]']
 			var $elems = {}
 			var marginTop = {}
 			var total = 0
@@ -78,7 +78,7 @@ $(function() {
 	}
 
 	verify.parttern = {
-		name: /\w+/,
+		name: /.{2,}/,
 		phone: /^1\d{10}$/,
 		email: /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$/
 	}

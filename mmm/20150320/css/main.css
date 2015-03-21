@@ -24,8 +24,8 @@ html, body {width: 100%; height: 100%; overflow: hidden;}
 .form-area input[type="text"] { width: 4.6rem; height: 0.66rem; margin-bottom:0.25rem;text-indent: 0.2rem;  border:1px solid #bfbfbf;}
 .form-area input[type="text"]:nth-child(3) { margin-bottom: 0.32rem;}
 .form-area [type="submit"] { display: block; width: 2.82rem; height: 0.76rem; margin:0 auto; background: #66c138; color:#fff; font-size: 1.6em;-webkit-border-radius:0.1rem;border-radius:0.1rem; border:none; outline:none;}
-.arrow { width: 100%; height: 0.14rem; padding: 0.15rem 0; text-align: center;}
-.arrow img { height: 100%;}
+.arrow { width: 0.41rem; height: 0.14rem; margin:0 auto; padding: 0.15rem 0; text-align: center;}
+.arrow img {width: 100%; height: 100%;}
 
 .word01 { width: 4.7rem; height: 3.45rem; margin:0.7rem auto 0 auto;}
 .word01 img { width: 100%; height: 100%;}
