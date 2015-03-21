@@ -7,20 +7,17 @@ html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;
 /* center class */
 .c-wrap { display: table;}
 .c-inner { display: table-cell; vertical-align: middle;}
-
-
 /*main*/
 video { padding: 0; margin: 0;}
 html, body { width: 100%; height: 100%; overflow: hidden;}
-#container, .page { height: 100%;}
-.page { position:relative; width: 6.4rem; margin:0 auto;overflow: hidden;}
+.swiper-container { width: 6.4rem; height:100%;margin:0 auto;}
+.page { position:relative; width: 6.4rem; height: 100%;margin:0 auto;overflow: hidden;}
 .word { text-align: center;}
 .btn { width: 2.82rem; height: 0.76rem; margin:0 auto; line-height: 0.76rem; border-radius:0.09rem; -webkit-border-radius:0.09rem; font-size:2.5em; text-align: center; color:#fff; background:#44b336;}
 .btn a { color:#fff;}
 .dpr2 .btn { font-size: 1.8em;}
 .dpr1 .btn { font-size: 1.6em;}
-
-
+/*第一屏*/
 .first_page_header { position:absolute; top:0; left:0; width: 100%; height: 0.86rem;}
 .logo { height: 100%; margin:0.28rem 0 0 0.23rem;}
 .logo img { width: 4.98rem; height: 0.63rem;}
@@ -36,7 +33,7 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
 .first_page_footer { width: 100%; height: 1.48rem; padding-bottom: 0.24rem}
 .arrow  { position:absolute; bottom:0.24rem; left:0; width: 100%;  height: 0.14rem; text-align: center;}
 .arrow img { width: 0.41rem; height: 100%;}
-
+/*第二屏*/
 .second_page_header {text-align: center; color:#aeaeae; padding-top: 0.15rem;}
 .video { width: 5.97rem; height: 3.36rem; margin:0 auto;  margin-bottom: 0.25rem; text-align: center;}
 .video img, .video video { width: 100%;  height: 100%;}
@@ -60,9 +57,6 @@ html, body { width: 100%; height: 100%; overflow: hidden;}
   .word4 { margin-bottom: 0.15rem;}
   .copywriter .word { margin-bottom: 0.1rem;}
 }
-
-.swiper-container{width:100%;height:100%;}
-.swiper-container { width: 6.4rem; margin:0 auto;}
 
 
 

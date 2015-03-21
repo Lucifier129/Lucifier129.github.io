@@ -1,0 +1,48 @@
+@charset "utf-8";
+html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:none;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:transparent}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:""}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}
+.clearfloat:before,.clearfloat:after {content:"";display:table;}
+.clearfloat:after { clear:both; }
+/* For IE 6/7 (trigger hasLayout) */
+.clearfloat { *zoom:1; }
+/* center class */
+.c-wrap { display: table;}
+.c-inner { display: table-cell; vertical-align: middle;}
+/*main*/
+html, body {width: 100%; height: 100%; overflow: hidden;}
+.swiper-container { width: 6.4rem; height: 100%; margin:0 auto;}
+.swiper-slide { position: relative; height: 100%; overflow:hidden;}
+
+.page1-header { height: 0.63rem; padding-top: 0.23rem; margin-bottom: -.01rem;}
+.logo { float: left; width: 1.8rem; height:100%; overflow: hidden;}
+.logo img { width: 4.45rem; height: 100%;}
+.tel-num { float: right; width: 2.5rem; height:100%; margin-right: 0.17rem; overflow: hidden;}
+.tel-num img { width: 4.45rem; height: 100%; margin-left:-1.95rem;}
+.focus-img { width: 100%; height: 4.73rem; margin:0 auto 0.4rem auto; }
+.focus-img img { width: 100%; height: 100%; margin-bottom: -0.1rem;}
+.form-area  { display: block; width: 100%; }
+.form-area input { display:block; margin:0 auto; line-height: normal; font-size: 1.5em; color:#333;-webkit-border-radius:0.1rem;border-radius:0.1rem;}
+.form-area input[type="text"] { width: 4.6rem; height: 0.66rem; margin-bottom:0.25rem;text-indent: 0.2rem;  border:1px solid #bfbfbf;}
+.form-area input[type="text"]:nth-child(3) { margin-bottom: 0.32rem;}
+.form-area input[type="submit"] { width: 2.82rem; height: 0.76rem; background: #66c138; color:#fff; font-size: 1.6em; border:none; outline:none;}
+.arrow { width: 100%; height: 0.14rem; padding: 0.15rem 0; text-align: center;}
+.arrow img { height: 100%;}
+
+.word01 { width: 4.7rem; height: 3.45rem; margin:0.7rem auto 0 auto;}
+.word01 img { width: 100%; height: 100%;}
+.word02 { width: 4.7rem; height: 3.33rem; margin:0.95rem auto 0 auto;}
+.word02 img { width: 100%; height: 100%;}
+input[type="button"] { display: block; width: 4.38rem; height: 0.76rem; margin:0.65rem auto 0.2rem auto; font-size: 1.6em; -webkit-border-radius:0.1rem;border-radius:0.1rem;color:#fff; background:#66c138; border:none; outline:none;}
+.tips { font-size: 1em; padding-bottom:0.2rem; text-align: center; color:#989898; }
+
+
+
+
+
+
+
+
+
+
+
+
+
