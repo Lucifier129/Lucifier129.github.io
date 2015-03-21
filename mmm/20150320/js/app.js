@@ -109,11 +109,19 @@ $(function() {
 		direction: 'vertical'
 	})
 
-	//
-	$('[data-role="goToForm"]').on('click', swiper.slidePrev.bind(swiper))
+	var $goToForm = $('[data-role="goToForm"]')
+	var $submit = $('.form-area [type="submit"]')
 
-	$('.form-area [type="submit"]').on('click', function(e) {
+	FastClick.attach($goToForm[0])
+	FastClick.attach($submit[0])
+
+	$goToForm.on('click', swiper.slidePrev.bind(swiper))
+
+	$submit.on('click', function(e) {
 		e.preventDefault()
 		verify('.form-area')
 	})
+
+
+
 })
