@@ -18,15 +18,24 @@ $(function() {
 		var diff = curHeight - winHeight
 
 		if (diff > 0) {
-			var $focusImg = $('.focus-img')
-			var oldHeight = $focusImg.height()
-			var oldWidth = $focusImg.width()
-			var ratio = oldWidth / oldHeight
-			var newHeight = $focusImg.height() - diff
-			$focusImg.css({
-				height: newHeight,
-				width: newHeight * ratio
-			})
+			var $header = $('.page1-header')
+			var headerHeightTwoThird = $header.height() * 2 / 3
+			if (headerHeightTwoThird > diff) {
+				$header.height(headerHeightTwoThird)
+			} else {
+				$header.height(headerHeightTwoThird)
+				diff -= headerHeightTwoThird
+
+				var $focusImg = $('.focus-img')
+				var oldHeight = $focusImg.height()
+				var oldWidth = $focusImg.width()
+				var ratio = oldWidth / oldHeight
+				var newHeight = $focusImg.height() - diff
+				$focusImg.css({
+					height: newHeight,
+					width: newHeight * ratio
+				})
+			}
 		}
 
 		curHeight = 0
@@ -66,6 +75,7 @@ $(function() {
 
 	reflow()
 
+	//验证表单
 	function verify(form) {
 		var $form = $(form)
 		var $required = $form.find('input[required]')
