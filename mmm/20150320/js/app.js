@@ -19,12 +19,13 @@ $(function() {
 
 		if (diff > 0) {
 			var $header = $('.page1-header')
-			var headerHeightTwoThird = $header.height() * 2 / 3
-			if (headerHeightTwoThird > diff) {
-				$header.height(headerHeightTwoThird)
+			var headerHeight = $header.height()
+			var scale = 1 / 3
+			if (headerHeight * scale > diff) {
+				$header.height(headerHeight - diff)
 			} else {
-				$header.height(headerHeightTwoThird)
-				diff -= headerHeightTwoThird
+				$header.height(headerHeight * (1 - scale))
+				diff -= headerHeight * scale
 
 				var $focusImg = $('.focus-img')
 				var oldHeight = $focusImg.height()
