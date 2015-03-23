@@ -3,6 +3,15 @@
 */
 $(function() {
 
+	//ajax配置
+	var ajaxSettings = {
+		//@url 请求handle
+		url: '/test',
+		//@method 请求方法
+		method: 'post'
+	}
+
+
 	//根据高度重新布局
 	function reflow() {
 		var $page = $('.page')
@@ -85,7 +94,17 @@ $(function() {
 				return
 			}
 		}
-		$form.submit()
+		var options = $.extend(ajaxSettings, {
+			data: verify.data
+		})
+
+		$.ajax(options)
+		.done(function() {
+			verify.popup('success')
+		})
+		.error(function() {
+			alert('申请失败，请再试一次！')
+		})
 	}
 
 	verify.parttern = {
@@ -94,25 +113,29 @@ $(function() {
 		email: /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$/
 	}
 
-	verify.tips = {
-		name: '姓名',
-		phone: '手机号',
-		email: '邮箱'
-	}
+	verify.data = {}
 
 	verify.check = function(elem) {
 		var $elem = $(elem)
-		var type = $elem .attr('name')
+		var type = $elem.attr('name').trim()
 		var parttern = this.parttern[type]
-		if (parttern && !parttern.test($elem.val())) {
-			var tips = $elem.attr('placeholder')
-			if (!tips) {
-				tips =  this.tips[type] || '格式'
-			}
-			alert('请输入有效的' + tips)
+		var val = $elem.val()
+		if (parttern && !parttern.test(val)) {
+			this.popup(type)
 			return false
 		}
+		this.data[type] = val
 		return true
+	}
+
+	verify.popup = function(type) {
+		var $tips = $('[data-tips="' + type + '"]')
+
+		if ($tips.length <=0) {
+			return
+		}
+		$tips.addClass('active').siblings('.active').removeClass('active')
+		$('.mask').show()
 	}
 
 
@@ -132,6 +155,8 @@ $(function() {
 		e.preventDefault()
 		verify('.form-area')
 	})
+
+	$('.mask .closer').on('click', $.fn.fadeOut.bind($('.mask')))
 
 
 
