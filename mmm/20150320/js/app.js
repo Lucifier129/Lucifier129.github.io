@@ -158,5 +158,4 @@ $(function() {
 
 	$('.mask .closer').on('click', $.fn.fadeOut.bind($('.mask')))
 
-
 })
