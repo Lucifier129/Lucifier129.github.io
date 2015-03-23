@@ -1,6 +1,6 @@
 /**
  *app.js
-*/
+ */
 $(function() {
 
 	//ajax配置
@@ -89,7 +89,7 @@ $(function() {
 	function verify(form) {
 		var $form = $(form)
 		var $required = $form.find('input[required]')
-		for (var i =0, len = $required.length; i < len; i += 1) {
+		for (var i = 0, len = $required.length; i < len; i += 1) {
 			if (!verify.check($required.get(i))) {
 				return
 			}
@@ -99,12 +99,12 @@ $(function() {
 		})
 
 		$.ajax(options)
-		.done(function() {
-			verify.popup('success')
-		})
-		.error(function() {
-			alert('申请失败，请再试一次！')
-		})
+			.done(function() {
+				verify.popup('success')
+			})
+			.error(function() {
+				alert('申请失败，请再试一次！')
+			})
 	}
 
 	verify.parttern = {
@@ -131,7 +131,7 @@ $(function() {
 	verify.popup = function(type) {
 		var $tips = $('[data-tips="' + type + '"]')
 
-		if ($tips.length <=0) {
+		if ($tips.length <= 0) {
 			return
 		}
 		$tips.addClass('active').siblings('.active').removeClass('active')
@@ -158,6 +158,72 @@ $(function() {
 
 	$('.mask .closer').on('click', $.fn.fadeOut.bind($('.mask')))
 
+	$(function() {
+		var lujing = $('.focus-img img').attr("src"); //分享中带有的图片
+		var url = window.location.href; //分享页的地址
+		var title = document.title; //分享内容的标题
+		weixin("http://m.e-iot.com/images/bg.jpg", url, title);
+	});
 
+	weixin($('.focus-img img').attr("src"), location.href, '免费领取口语资料包', '练就流利口语，领跑2015')
+
+
+	function weixin(a, b, c, d) {
+		document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+			window.shareData = {
+				"imgUrl": a,
+				"timeLineLink": b,
+				"sendFriendLink": b,
+				"weiboLink": b,
+				"tTitle": c,
+				"tContent": d,
+				"fTitle": c,
+				"fContent": d,
+				"wContent": d
+			};
+
+
+			// 发送给好友
+			WeixinJSBridge.on('menu:share:appmessage', function(argv) {
+				WeixinJSBridge.invoke('sendAppMessage', {
+					"img_url": window.shareData.imgUrl,
+					"img_width": "640",
+					"img_height": "640",
+					"link": window.shareData.sendFriendLink,
+					"desc": window.shareData.fContent,
+					"title": window.shareData.fTitle
+				}, function(res) {
+					_report('send_msg', '111111');
+				})
+			});
+
+
+			// 分享到朋友圈
+			WeixinJSBridge.on('menu:share:timeline', function(argv) {
+				WeixinJSBridge.invoke('shareTimeline', {
+					"img_url": window.shareData.imgUrl,
+					"img_width": "640",
+					"img_height": "640",
+					"link": window.shareData.timeLineLink,
+					"desc": window.shareData.tContent,
+					"title": window.shareData.tTitle
+				}, function(res) {
+					_report('timeline', res.err_msg);
+				});
+			});
+
+
+			// 分享到微博
+			WeixinJSBridge.on('menu:share:weibo', function(argv) {
+				WeixinJSBridge.invoke('shareWeibo', {
+					"content": window.shareData.wContent,
+					"url": window.shareData.weiboLink
+				}, function(res) {
+					_report('weibo', res.err_msg);
+				});
+			});
+		}, false)
+	}
 
 })
