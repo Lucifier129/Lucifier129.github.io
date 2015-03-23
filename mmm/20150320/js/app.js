@@ -103,7 +103,7 @@ $(function() {
 				verify.popup('success')
 			})
 			.error(function() {
-				alert('申请失败，请再试一次！')
+				verify.popup('error')
 			})
 	}
 
