@@ -148,14 +148,11 @@ $(function() {
 
 	reflow()
 
-	FastClick.attach(document.body)
-
-	var swiper = new Swiper('.swiper-container', {
-		direction: 'vertical'
-	})
-
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area [type="submit"]')
+
+	FastClick.attach($goToForm[0])
+	FastClick.attach($submit[0])
 
 
 	$goToForm.on('click', function() {
@@ -171,6 +168,10 @@ $(function() {
 
 	$('.mask').on('click', function() {
 		$(this).fadeOut(200)
+	})
+
+	var swiper = new Swiper('.swiper-container', {
+		direction: 'vertical'
 	})
 
 })
