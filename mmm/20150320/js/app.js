@@ -150,9 +150,11 @@ $(function() {
 
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area [type="submit"]')
+	var $mask = $('.mask')
 
 	FastClick.attach($goToForm[0])
 	FastClick.attach($submit[0])
+	FastClick.attach($mask[0])
 
 
 	$goToForm.on('click', function() {
