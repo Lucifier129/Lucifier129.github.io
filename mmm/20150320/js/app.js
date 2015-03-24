@@ -24,6 +24,8 @@ $(function() {
 			data: verify.data
 		})
 
+		verify.popup('submit')
+
 		$.ajax(options)
 			.done(function(data) {
 				//根据接口返回的数据字段可调整逻辑
