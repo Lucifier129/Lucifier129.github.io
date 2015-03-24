@@ -11,6 +11,67 @@ $(function() {
 		method: 'post'
 	}
 
+	//验证表单
+	function verify(form) {
+		var $form = $(form)
+		var $required = $form.find('input[required]')
+		for (var i = 0, len = $required.length; i < len; i += 1) {
+			if (!verify.check($required.get(i))) {
+				return
+			}
+		}
+		var options = $.extend(ajaxSettings, {
+			data: verify.data
+		})
+
+		$.ajax(options)
+			.done(function(data) {
+				//根据接口返回的数据字段可调整逻辑
+				// if ($.isString(data)) {
+				// 	data = JSON.parse(data)
+				// }
+				// if (data.ok) {
+				// 	verify.popup('success')
+				// } else {
+				// 	verify.popup('error')
+				// }
+				verify.popup('success')
+			})
+			.error(function() {
+				verify.popup('error')
+			})
+	}
+
+	verify.parttern = {
+		name: /.{2,}/,
+		phone: /^1\d{10}$/,
+		email: /^[a-z0-9._%-]+@[qQ]{2}\.com$/
+	}
+
+	verify.data = {}
+
+	verify.check = function(elem) {
+		var $elem = $(elem)
+		var type = $elem.attr('name').trim()
+		var parttern = this.parttern[type]
+		var val = $elem.val()
+		if (parttern && !parttern.test(val)) {
+			this.popup(type)
+			return false
+		}
+		this.data[type] = val
+		return true
+	}
+
+	verify.popup = function(type) {
+		var $tips = $('[data-tips="' + type + '"]')
+
+		if ($tips.length <= 0) {
+			return
+		}
+		$tips.addClass('active').siblings('.active').removeClass('active')
+		$('.mask').show()
+	}
 
 	//根据高度重新布局
 	function reflow() {
@@ -85,59 +146,7 @@ $(function() {
 
 	reflow()
 
-	//验证表单
-	function verify(form) {
-		var $form = $(form)
-		var $required = $form.find('input[required]')
-		for (var i = 0, len = $required.length; i < len; i += 1) {
-			if (!verify.check($required.get(i))) {
-				return
-			}
-		}
-		var options = $.extend(ajaxSettings, {
-			data: verify.data
-		})
-
-		$.ajax(options)
-			.done(function() {
-				verify.popup('success')
-			})
-			.error(function() {
-				verify.popup('error')
-			})
-	}
-
-	verify.parttern = {
-		name: /.{2,}/,
-		phone: /^1\d{10}$/,
-		email: /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$/
-	}
-
-	verify.data = {}
-
-	verify.check = function(elem) {
-		var $elem = $(elem)
-		var type = $elem.attr('name').trim()
-		var parttern = this.parttern[type]
-		var val = $elem.val()
-		if (parttern && !parttern.test(val)) {
-			this.popup(type)
-			return false
-		}
-		this.data[type] = val
-		return true
-	}
-
-	verify.popup = function(type) {
-		var $tips = $('[data-tips="' + type + '"]')
-
-		if ($tips.length <= 0) {
-			return
-		}
-		$tips.addClass('active').siblings('.active').removeClass('active')
-		$('.mask').show()
-	}
-
+	FastClick.attach(document.body)
 
 	var swiper = new Swiper('.swiper-container', {
 		direction: 'vertical'
@@ -146,16 +155,20 @@ $(function() {
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area [type="submit"]')
 
-	FastClick.attach($goToForm[0])
-	FastClick.attach($submit[0])
 
-	$goToForm.on('click', swiper.slidePrev.bind(swiper))
+	$goToForm.on('click', function() {
+		//在此埋点
+		swiper.slidePrev()
+	})
 
 	$submit.on('click', function(e) {
+		//在此埋点
 		e.preventDefault()
 		verify('.form-area')
 	})
 
-	$('.mask .closer').on('click', $.fn.fadeOut.bind($('.mask')))
+	$('.mask').on('click', function() {
+		$(this).fadeOut(200)
+	})
 
 })
