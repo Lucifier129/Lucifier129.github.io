@@ -13,9 +13,9 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"],
 input{-webkit-appearance:none;}
-html, body {width: 100%; height: 100%; }
-.swiper-container {position: relative; width: 6.4rem; height: 100%; margin:0 auto; }
-.swiper-slide { position: relative;	width: 100%; overflow:hidden;-webkit-transition: all .3s ease-out;transition: all .3s ease-out;}
+html, body {width: 100%; height: 100%; overflow: hidden;}
+.swiper-container {position: relative; width: 6.4rem; height: 100%; margin:0 auto; overflow: hidden;}
+.swiper-slide { position: relative;	width: 100%; overflow:hidden; }
 
 .page1-header { position:relative; z-index:3; height: 0.76rem;}
 .logo { position:absolute; top:0.23rem; left:0.28rem; width: 1.8rem; height:0.63rem;overflow: hidden;}
