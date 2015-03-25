@@ -199,6 +199,7 @@ $(function() {
 		})
 		.on('touchend', function(e) {
 			e.preventDefault()
+			that.focus()
 		})
 		.on('blur', 'input', function() {
 			$page.css({
