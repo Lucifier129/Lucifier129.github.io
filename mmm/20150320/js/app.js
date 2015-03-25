@@ -186,13 +186,10 @@ $(function() {
 	$form
 		.on('focus', 'input', function(e) {
 			if (!trigger) {
-				e.preventDefault()
-				$form.prepend($page.offset().top + '<br>')
 				var top = $form.offset().top
 				if ($page.offset().top !== 0) {
 					return
 				}
-				$form.prepend(top)
 				$page.css({
 					top: -top
 				})
@@ -200,10 +197,12 @@ $(function() {
 				setTimeout(function() {
 					trigger = true
 					$this.trigger('focus')
-				}, 4000)
+				}, 320)
 			} else {
 				trigger = false
 			}
+
+
 
 		})
 		.on('blur', 'input', function() {
