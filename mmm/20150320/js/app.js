@@ -187,11 +187,14 @@ $(function() {
 		.on('focus', 'input', function() {
 			setTimeout(function() {
 				var top = $form.offset().top
-				if (top !== 0)
+				if (top !== 0) {
+					return
+				}
 				$page.css({
 					top: -top
 				})
 			}, 100)
+			
 		})
 		.on('blur', 'input', function() {
 				$page.css({
