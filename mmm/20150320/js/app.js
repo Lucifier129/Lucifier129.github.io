@@ -196,8 +196,8 @@ $(function() {
 				var $this = $(this)
 				setTimeout(function() {
 					trigger = true
-					$this.trigger('focus')
-				}, 320)
+					$this.trigger('blur')
+				}, 820)
 			} else {
 				trigger = false
 			}
