@@ -171,8 +171,8 @@ $(function() {
 		verify('.form-area')
 	})
 
-	$('.mask').on('click', function() {
-		$(this).fadeOut(200)
+	$mask.on('click', function() {
+		$(this).hide()
 	})
 
 })
