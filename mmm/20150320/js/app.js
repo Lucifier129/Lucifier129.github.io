@@ -184,26 +184,20 @@ $(function() {
 	var trigger = false
 
 	$form
-		.on('focus', 'input', function(e) {
-			if (!trigger) {
-				var top = $form.offset().top
-				if ($page.offset().top !== 0) {
-					return
-				}
-				$page.css({
-					top: -top
-				})
-				var $this = $(this)
-				setTimeout(function() {
-					trigger = true
-					$this.trigger('blur').trigger('focus')
-				}, 320)
-			} else {
-				trigger = false
+		.on('touchstart', 'input', function(e) {
+			e.preventDefault()
+			var top = $form.offset().top
+			if ($page.offset().top !== 0) {
+				return
 			}
-
-
-
+			$page.css({
+				top: -top
+			})
+			var that = this
+			setTimeout(function() {
+				trigger = true
+				that.focus()
+			}, 320)
 		})
 		.on('blur', 'input', function() {
 			$page.css({
