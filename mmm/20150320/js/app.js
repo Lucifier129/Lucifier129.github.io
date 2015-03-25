@@ -185,12 +185,7 @@ $(function() {
 
 	$form
 		.on('focus', 'input', function(e) {
-			if (!trigger) {
-				e.preventDefault()
-			} else {
-				trigger = false
-				return
-			}
+			
 			$form.prepend($page.offset().top + '<br>')
 			var top = $form.offset().top
 			if ($page.offset().top !== 0) {
@@ -201,7 +196,12 @@ $(function() {
 				top: -top
 			})
 			var $this = $(this)
-			
+			if (!trigger) {
+				e.preventDefault()
+			} else {
+				trigger = false
+				return
+			}
 			setTimeout(function() {
 				trigger = true
 				$this.trigger('focus')
