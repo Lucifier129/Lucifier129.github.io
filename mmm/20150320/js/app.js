@@ -180,4 +180,27 @@ $(function() {
 		$(this).hide()
 	})
 
+	var $form = $('.form-area')
+	var $page = $('.page:eq(0)')
+	var top = $form.offset().top
+	var timer = null
+
+	$form
+		.on('focus', 'input', function() {
+			clearTimeout(timer)
+
+			$page.css({
+				top: -top
+			})
+			console.log('focus')
+		})
+		.on('blur', 'input', function() {
+			timer = setTimeout(function() {
+				$page.css({
+					top: 0
+				})
+			}, 10)
+			console.log('blur')
+		})
+
 })

@@ -15,7 +15,7 @@ input[type="button"],
 input{-webkit-appearance:none;}
 html, body {width: 100%; height: 100%; overflow: hidden;}
 .swiper-container {position: relative; width: 6.4rem; height: 100%; margin:0 auto; overflow: hidden;}
-.swiper-slide { position: relative;}
+.swiper-slide { position: relative; top:0; -webkit-transition: all .3s ease-out;transition: all .3s ease-out;}
 
 .page1-header { position:relative; z-index:3; height: 0.76rem;}
 .logo { position:absolute; top:0.23rem; left:0.28rem; width: 1.8rem; height:0.63rem;overflow: hidden;}
@@ -24,7 +24,7 @@ html, body {width: 100%; height: 100%; overflow: hidden;}
 .tel-num img { width: 4.45rem; height: 100%; margin-left:-1.95rem;}
 .focus-img { position:relative; z-index: 2; width: 100%; height: 4.73rem; margin:0 auto 0.4rem auto; }
 .focus-img img { width: 100%; height: 100%;}
-.form-area  { display: block; width: 100%; }
+.form-area  { position: relative;width: 100%; }
 .form-area input { position:relative; display:block; margin:0 auto; line-height: normal; font-size: 1.5em; color:#333; -webkit-border-radius:0.1rem;border-radius:0.1rem;}
 .form-area input[type="text"] { width: 4.6rem; height: 0.66rem; margin-bottom:0.25rem;text-indent: 0.2rem; box-shadow:none;  border:1px solid #bfbfbf;}
 .form-area input[type="text"]:nth-child(3) { margin-bottom: 0.32rem;}
