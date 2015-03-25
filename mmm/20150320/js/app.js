@@ -181,12 +181,6 @@ $(function() {
 
 	var $form = $('.form-area')
 	var $page = $('.page:eq(0)')
-	var isIPhone = win.navigator.appVersion.match(/iphone/gi)
-
-	if (isIPhone) {
-
-	}
-
 	$form
 		.on('blur', 'input', function() {
 			$page.css({
@@ -208,6 +202,10 @@ $(function() {
 				that.focus()
 			}, 320)
 		})
+
+	$(window).on('scroll resize', function(e) {
+		$('body').prepend(e.type)
+	})
 
 
 
