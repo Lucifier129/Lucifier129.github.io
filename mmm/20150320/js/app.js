@@ -147,6 +147,9 @@ $(function() {
 	}
 
 	reflow()
+	var swiper = new Swiper('.swiper-container', {
+		direction: 'vertical'
+	})
 
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area .submit')
@@ -170,10 +173,6 @@ $(function() {
 
 	$('.mask').on('click', function() {
 		$(this).fadeOut(200)
-	})
-
-	var swiper = new Swiper('.swiper-container', {
-		direction: 'vertical'
 	})
 
 })
