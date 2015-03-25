@@ -184,7 +184,7 @@ $(function() {
 	var timer = null
 
 	$form
-		.on('click', 'input', function() {
+		.on('focus', 'input', function(e) {
 			var top = $form.offset().top
 			if (top === 0) {
 				return
@@ -198,5 +198,13 @@ $(function() {
 				top: 0
 			})
 		})
+
+
+	$(window).on('resize', function() {
+		clearTimeout(timer)
+		timer = setTimeout(function() {
+			$('body').prepend('s')
+		}, 100)
+	})
 
 })
