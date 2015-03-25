@@ -186,7 +186,7 @@ $(function() {
 	$form
 		.on('click', 'input', function() {
 			var top = $form.offset().top
-			if (top !== 0) {
+			if (top === 0) {
 				return
 			}
 			$page.css({
