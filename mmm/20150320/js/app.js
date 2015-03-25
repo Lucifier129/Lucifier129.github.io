@@ -191,10 +191,12 @@ $(function() {
 				trigger = false
 				return
 			}
+			$form.prepend($page.offset().top + '<br>')
 			var top = $form.offset().top
 			if ($page.offset().top !== 0) {
 				return
 			}
+			$form.prepend(top)
 			$page.css({
 				top: -top
 			})
@@ -203,7 +205,6 @@ $(function() {
 			setTimeout(function() {
 				trigger = true
 				$this.trigger('focus')
-				$this.val(1)
 			}, 400)
 			
 		})
