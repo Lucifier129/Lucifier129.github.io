@@ -185,7 +185,6 @@ $(function() {
 
 	$form
 		.on('touchstart', 'input', function(e) {
-			e.preventDefault()
 			var top = $form.offset().top
 			if ($page.offset().top !== 0) {
 				return
@@ -196,11 +195,10 @@ $(function() {
 			var that = this
 			setTimeout(function() {
 				that.focus()
-				$(that).trigger('focus')
 			}, 320)
 		})
-		.on('focus', function(e) {
-			console.log(e.type)
+		.on('touchend', function(e) {
+			e.preventDefault()
 		})
 		.on('blur', 'input', function() {
 			$page.css({
