@@ -56,7 +56,7 @@ $(function() {
 		var $elem = $(elem)
 		var type = $elem.attr('name').trim()
 		var parttern = this.parttern[type]
-		var val = $elem.val()
+		var val = $elem.val().trim()
 		if (parttern && !parttern.test(val)) {
 			this.popup(type)
 			return false
