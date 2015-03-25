@@ -198,8 +198,13 @@ $(function() {
 			$page.css({
 				top: -top
 			})
-			trigger = true
-			$(this).trigger('focus')
+			var $this = $(this)
+			
+			setTimeout(function() {
+				trigger = true
+				$this.trigger('focus')
+			}, 400)
+			
 		})
 		.on('blur', 'input', function() {
 			$page.css({
