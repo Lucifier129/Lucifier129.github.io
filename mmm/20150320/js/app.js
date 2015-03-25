@@ -181,10 +181,16 @@ $(function() {
 
 	var $form = $('.form-area')
 	var $page = $('.page:eq(0)')
-	var timer = null
+	var trigger = false
 
 	$form
 		.on('focus', 'input', function(e) {
+			if (!trigger) {
+				e.preventDefault()
+			} else {
+				trigger = false
+				return
+			}
 			var top = $form.offset().top
 			if (top === 0) {
 				return
@@ -192,6 +198,8 @@ $(function() {
 			$page.css({
 				top: -top
 			})
+			trigger = true
+			$(this).trigger('focus')
 		})
 		.on('blur', 'input', function() {
 			$page.css({
@@ -199,12 +207,5 @@ $(function() {
 			})
 		})
 
-
-	$(window).on('resize', function() {
-		clearTimeout(timer)
-		timer = setTimeout(function() {
-			$('body').prepend('s')
-		}, 100)
-	})
 
 })
