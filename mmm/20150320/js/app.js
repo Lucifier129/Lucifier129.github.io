@@ -181,31 +181,16 @@ $(function() {
 
 	var $form = $('.form-area')
 	var $page = $('.page:eq(0)')
-	// $form
-	// 	.on('blur', 'input', function() {
-	// 		$page.css({
-	// 			top: 0
-	// 		})
-	// 	})
-	// 	.find('input')
-	// 	.on('touchstart', function(e) {
-	// 		e.preventDefault()
-	// 		var top = $form.offset().top
-	// 		if ($page.offset().top !== 0) {
-	// 			return
-	// 		}
-	// 		$page.css({
-	// 			top: -top
-	// 		})
-	// 		var that = this
-	// 		setTimeout(function() {
-	// 			that.focus()
-	// 		}, 320)
-	// 	})
 
-	$(window).on('scroll resize', function(e) {
-		$('body').prepend(e.type)
-	})
+	$form
+		.on('focus', 'input', function() {
+			$('body, html, .swiper-container').css('overflow', 'auto')
+		})
+		.on('blur', 'input', function() {
+			$('body, html, .swiper-container').css('overflow', 'hidden')
+		})
+
+
 
 
 
