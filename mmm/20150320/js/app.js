@@ -149,7 +149,7 @@ $(function() {
 	reflow()
 
 	var $goToForm = $('[data-role="goToForm"]')
-	var $submit = $('.form-area [type="submit"]')
+	var $submit = $('.form-area .submit')
 	var $mask = $('.mask')
 
 	FastClick.attach($goToForm[0])
