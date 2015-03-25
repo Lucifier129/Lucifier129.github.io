@@ -179,18 +179,6 @@ $(function() {
 		$(this).hide()
 	})
 
-	var $form = $('.form-area')
-	var $page = $('.page:eq(0)')
-
-	$form
-		.on('focus', 'input', function() {
-			$('body, html, .swiper-container').css('overflow', 'auto')
-		})
-		.on('blur', 'input', function() {
-			$('body, html, .swiper-container').css('overflow', 'hidden')
-		})
-
-
 
 
 
