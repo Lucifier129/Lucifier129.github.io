@@ -181,10 +181,21 @@ $(function() {
 
 	var $form = $('.form-area')
 	var $page = $('.page:eq(0)')
-	var trigger = false
+	var isIPhone = win.navigator.appVersion.match(/iphone/gi)
+
+	if (isIPhone) {
+
+	}
 
 	$form
-		.on('touchstart', 'input', function(e) {
+		.on('blur', 'input', function() {
+			$page.css({
+				top: 0
+			})
+		})
+		.find('input')
+		.on('touchstart', function(e) {
+			e.preventDefault()
 			var top = $form.offset().top
 			if ($page.offset().top !== 0) {
 				return
@@ -197,15 +208,7 @@ $(function() {
 				that.focus()
 			}, 320)
 		})
-		.on('touchend', function(e) {
-			e.preventDefault()
-			that.focus()
-		})
-		.on('blur', 'input', function() {
-			$page.css({
-				top: 0
-			})
-		})
+
 
 
 })
