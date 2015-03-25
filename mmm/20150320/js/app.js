@@ -196,7 +196,11 @@ $(function() {
 			var that = this
 			setTimeout(function() {
 				that.focus()
+				$(that).trigger('focus')
 			}, 320)
+		})
+		.on('focus', function(e) {
+			console.log(e.type)
 		})
 		.on('blur', 'input', function() {
 			$page.css({
