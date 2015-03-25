@@ -196,8 +196,8 @@ $(function() {
 				var $this = $(this)
 				setTimeout(function() {
 					trigger = true
-					$this.trigger('blur')
-				}, 820)
+					$this.trigger('blur').trigger('input')
+				}, 320)
 			} else {
 				trigger = false
 			}
