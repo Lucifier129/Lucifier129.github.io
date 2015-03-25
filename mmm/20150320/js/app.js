@@ -153,7 +153,7 @@ $(function() {
 		direction: 'vertical'
 	})
 
-	
+
 
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area .submit')
@@ -184,22 +184,19 @@ $(function() {
 	var timer = null
 
 	$form
-		.on('focus', 'input', function() {
-			setTimeout(function() {
-				var top = $form.offset().top
-				if (top !== 0) {
-					return
-				}
-				$page.css({
-					top: -top
-				})
-			}, 100)
-			
+		.on('click', 'input', function() {
+			var top = $form.offset().top
+			if (top !== 0) {
+				return
+			}
+			$page.css({
+				top: -top
+			})
 		})
 		.on('blur', 'input', function() {
-				$page.css({
-					top: 0
-				})
+			$page.css({
+				top: 0
+			})
 		})
 
 })
