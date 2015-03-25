@@ -148,13 +148,12 @@ $(function() {
 
 		reflow = $.noop
 	}
-
-
+	reflow()
 	var swiper = new Swiper('.swiper-container', {
 		direction: 'vertical'
 	})
 
-	reflow()
+	
 
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area .submit')
@@ -182,25 +181,22 @@ $(function() {
 
 	var $form = $('.form-area')
 	var $page = $('.page:eq(0)')
-	var top = $form.offset().top
 	var timer = null
 
 	$form
 		.on('focus', 'input', function() {
-			clearTimeout(timer)
-
-			$page.css({
-				top: -top
-			})
-			console.log('focus')
+			setTimeout(function() {
+				var top = $form.offset().top
+				if (top !== 0)
+				$page.css({
+					top: -top
+				})
+			}, 100)
 		})
 		.on('blur', 'input', function() {
-			timer = setTimeout(function() {
 				$page.css({
 					top: 0
 				})
-			}, 10)
-			console.log('blur')
 		})
 
 })
