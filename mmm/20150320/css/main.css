@@ -14,7 +14,7 @@ input[type="reset"],
 input[type="button"],
 input{-webkit-appearance:none;}
 html, body {width: 100%; height: 100%; overflow: hidden;}
-.swiper-container {position: relative; width: 6.4rem; height: 100%; margin:0 auto;}
+.swiper-container {position: relative; width: 6.4rem; height: 100%; margin:0 auto; overflow: hidden;}
 .swiper-slide { position: relative;}
 
 .page1-header { position:relative; z-index:3; height: 0.76rem;}

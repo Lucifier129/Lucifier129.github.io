@@ -6,9 +6,10 @@ $(function() {
 	//ajax配置
 	var ajaxSettings = {
 		//@url 请求handle
-		url: '/test',
+		url: '/classzt/MKTTopic_149/handler/Handler.ashx',
 		//@method 请求方法
-		method: 'post'
+		type: 'post',
+		dataType: 'json'
 	}
 
 	//验证表单
@@ -20,8 +21,13 @@ $(function() {
 				return
 			}
 		}
+		var data = verify.data
 		var options = $.extend(ajaxSettings, {
-			data: verify.data
+			data: {
+				username: data.name,
+				cellphone: data.phone,
+				userqq: data.email
+			}
 		})
 
 		verify.popup('submit')
@@ -29,17 +35,14 @@ $(function() {
 		$.ajax(options)
 			.done(function(data) {
 				//根据接口返回的数据字段可调整逻辑
-				// if ($.isString(data)) {
-				// 	data = JSON.parse(data)
-				// }
-				// if (data.ok) {
-				// 	verify.popup('success')
-				// } else {
-				// 	verify.popup('error')
-				// }
-				verify.popup('success')
+				if (data.Msg !== 'noContent') {
+					verify.popup('success')
+				} else {
+					verify.popup('error')
+				}
 			})
 			.error(function() {
+				console.log('error')
 				verify.popup('error')
 			})
 	}
@@ -146,10 +149,12 @@ $(function() {
 		reflow = $.noop
 	}
 
-	reflow()
+
 	var swiper = new Swiper('.swiper-container', {
 		direction: 'vertical'
 	})
+
+	reflow()
 
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area .submit')
