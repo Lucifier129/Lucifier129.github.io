@@ -195,7 +195,14 @@ $(function() {
 				direction: 'vertical',
 				freeMode: true
 			})
-			$('.page').css('height', 'auto')
+			$('.page').each(function() {
+				var $this = $(this)
+				var height = 0
+				$this.children(function() {
+					height += $(this).outerHeight(true)
+				})
+				$this.height(height)
+			})
 			swiper.update(true);
 		}
 	}
