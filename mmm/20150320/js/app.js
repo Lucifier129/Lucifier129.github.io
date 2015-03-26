@@ -196,6 +196,7 @@ $(function() {
 				freeMode: true
 			})
 			$('.page').css('height', 'auto')
+			swiper.update(true);
 		}
 	}
 
