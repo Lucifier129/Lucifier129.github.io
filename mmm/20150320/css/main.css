@@ -8,11 +8,13 @@ html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;
 .c-wrap { display: table;}
 .c-inner { display: table-cell; vertical-align: middle;}
 /*main*/
-input {-webkit-appearance:none; /*去除input默认样式*/}
+input {-webkit-appearance:none; appearance:none;/*去除input默认样式*/}
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
-input{-webkit-appearance:none;}
+input[type="tel"],
+input[type="email"],
+input{-webkit-appearance:none;appearance:none;}
 html, body {width: 100%; height: 100%; overflow: hidden;}
 .swiper-container {position: relative; width: 6.4rem; height: 100%; margin:0 auto; overflow: hidden;}
 .swiper-slide { position: relative;	width: 100%; overflow:hidden; }
