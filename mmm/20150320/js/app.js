@@ -81,7 +81,7 @@ $(function() {
 	//根据高度重新布局
 	function reflow() {
 		var $page = $('.page')
-		var winHeight = $(window).height()
+		var pageHeight = $('html,body').height()
 		var curHeight = 0
 
 		function addUp() {
@@ -90,7 +90,7 @@ $(function() {
 
 		$page.eq(0).children().each(addUp)
 
-		var diff = curHeight - winHeight
+		var diff = curHeight - pageHeight
 
 		if (diff > 0) {
 			var $header = $('.page1-header')
@@ -118,7 +118,7 @@ $(function() {
 
 		$page.eq(1).children().each(addUp)
 
-		diff = curHeight - winHeight
+		diff = curHeight - pageHeight
 
 		if (diff > 0) {
 			var selectors = ['.word01', '.word02', '[data-role="goToForm"]']
@@ -177,39 +177,6 @@ $(function() {
 
 	$mask.on('click', function() {
 		$(this).hide()
-	})
-
-	var timer = null
-
-	function toggleEvents() {
-		var $win = $(window)
-		var height = $win.height()
-		var width = $win.width()
-		swiper.destroy()
-		if (height >= width) {
-			swiper = new Swiper('.swiper-container', {
-				direction: 'vertical'
-			})
-		} else {
-			swiper = new Swiper('.swiper-container', {
-				direction: 'vertical',
-				freeMode: true
-			})
-			$('.page').each(function() {
-				var $this = $(this)
-				var height = 0
-				$this.children(function() {
-					height += $(this).outerHeight(true)
-				})
-				$this.height(height)
-			})
-			swiper.update(true);
-		}
-	}
-
-	$(window).on('resize', function() {
-		clearTimeout(timer)
-		timer = setTimeout(toggleEvents, 300)
 	})
 
 })
