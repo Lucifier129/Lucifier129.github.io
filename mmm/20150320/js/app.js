@@ -179,21 +179,22 @@ $(function() {
 		$(this).hide()
 	})
 
-	var hasEvents = true
 	var timer = null
 
 	function toggleEvents() {
 		var $win = $(window)
 		var height = $win.height()
 		var width = $win.width()
-		if (height >= width && !hasEvents) {
-			swiper.attachEvents()
-			hasEvents = true
+		swiper.destroy()
+		if (height >= width) {
+			swiper = new Swiper('.swiper-container', {
+				direction: 'vertical'
+			})
 		} else {
-			if (hasEvents) {
-				swiper.detachEvents()
-				hasEvents = false
-			}
+			swiper = new Swiper('.swiper-container', {
+				direction: 'vertical',
+				freeMode: true
+			})
 		}
 	}
 
