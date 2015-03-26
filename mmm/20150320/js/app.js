@@ -179,7 +179,27 @@ $(function() {
 		$(this).hide()
 	})
 
+	var hasEvents = true
+	var timer = null
 
+	function toggleEvents() {
+		var $win = $(window)
+		var height = $win.height()
+		var width = $win.width()
+		if (height >= width && !hasEvents) {
+			swiper.attachEvents()
+			hasEvents = true
+		} else {
+			if (hasEvents) {
+				swiper.detachEvents()
+				hasEvents = false
+			}
+		}
+	}
 
+	$(window).on('resize', function() {
+		clearTimeout(timer)
+		timer = setTimeout(toggleEvents, 300)
+	})
 
 })
