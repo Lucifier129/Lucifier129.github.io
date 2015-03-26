@@ -195,6 +195,7 @@ $(function() {
 				direction: 'vertical',
 				freeMode: true
 			})
+			$('.page').css('height', 'auto')
 		}
 	}
 
