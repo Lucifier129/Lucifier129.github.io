@@ -42,7 +42,6 @@ $(function() {
 				}
 			})
 			.error(function() {
-				console.log('error')
 				verify.popup('error')
 			})
 	}
@@ -149,11 +148,10 @@ $(function() {
 		reflow = $.noop
 	}
 	reflow()
+
 	var swiper = new Swiper('.swiper-container', {
 		direction: 'vertical'
 	})
-
-
 
 	var $goToForm = $('[data-role="goToForm"]')
 	var $submit = $('.form-area .submit')
@@ -165,12 +163,10 @@ $(function() {
 
 
 	$goToForm.on('click', function() {
-		//在此埋点
 		swiper.slidePrev()
 	})
 
 	$submit.on('click', function(e) {
-		//在此埋点
 		e.preventDefault()
 		verify('.form-area')
 	})
