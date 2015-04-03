@@ -1,0 +1,1 @@
+define(["require","exports","module","react"],function(e,t,n){var r=e("react"),i=13,s=27,o=r.createClass({displayName:"NewTodo",render:function(){return r.createElement("div",null,r.createElement("h1",null,"todos"),r.createElement("input",{id:"new-todo",placeholder:"What needs to be done?",autofocus:!0}))}});n.exports=o});

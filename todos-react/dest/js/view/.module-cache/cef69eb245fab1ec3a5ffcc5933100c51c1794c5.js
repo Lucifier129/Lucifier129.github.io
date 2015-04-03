@@ -1,0 +1,1 @@
+define(["require","exports","module","react","./todo"],function(e,t,n){var r=e("react"),i=e("./todo"),s=r.createClass({displayName:"Todos",render:function(){return r.createElement("ul",{id:"todo-list"},r.createElement(i,null))}});n.exports=s});

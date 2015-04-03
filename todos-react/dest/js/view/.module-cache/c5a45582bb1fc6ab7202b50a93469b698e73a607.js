@@ -1,0 +1,1 @@
+define(["require","exports","module","react","./todos"],function(e,t,n){var r=e("react"),i=e("./todos"),s=r.createClass({displayName:"Main",render:function(){return r.createElement("div",null,r.createElement("input",{id:"toggle-all",type:"checkbox"}),r.createElement("label",{htmlFor:"toggle-all"},"Mark all as complete"),r.createElement(i,null))}});n.exports=s});
