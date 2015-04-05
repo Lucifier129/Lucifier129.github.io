@@ -1,0 +1,1 @@
+var React=require("react"),NewTodo=require("./newTodo"),Main=require("./main"),Filters=require("./filters"),View={NewTodo:NewTodo,Main:Main,Filters:Filters};module.exports=View;
