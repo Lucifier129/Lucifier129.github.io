@@ -32,8 +32,6 @@ var Todo = React.createClass({displayName: "Todo",
 				title: newTitle,
 				time: new Date().toLocaleString()
 			})
-		} else if (!newTitle) {
-			this.removeTodo()
 		}
 	},
 

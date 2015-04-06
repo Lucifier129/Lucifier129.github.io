@@ -32,6 +32,8 @@ var Todo = React.createClass({
 				title: newTitle,
 				time: new Date().toLocaleString()
 			})
+		} else if (!newTitle) {
+			this.removeTodo()
 		}
 	},
 
@@ -74,16 +76,10 @@ var Todo = React.createClass({
 	},
 
 	render: function() {
-		var toggle
-		if (this.props.completed) {
-			toggle = <input className="toggle" type="checkbox" onChange={this.toggleTodo} checked />
-		} else {
-			toggle = <input className="toggle" type="checkbox" onChange={this.toggleTodo} />
-		}
 		return (
 			<li className={this.getClassName()} title={this.props.time}>
 				<div className="view">
-					{toggle}
+					<input className="toggle" type="checkbox" onChange={this.toggleTodo} checked={this.props.completed} />
 					<label onDoubleClick={this.handleDblclick}>{this.props.title}</label>
 					<button className="destroy" onClick={this.removeTodo}></button>
 				</div>

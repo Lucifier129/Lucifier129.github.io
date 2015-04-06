@@ -77,7 +77,7 @@ var Todo = React.createClass({displayName: "Todo",
 
 	render: function() {
 		return (
-			React.createElement("li", {className: this.getClassName(), title: this.props.time}, 
+			React.createElement("li", {className: this.getClassName(), title: this.props.time, key: this.props.id}, 
 				React.createElement("div", {className: "view"}, 
 					React.createElement("input", {className: "toggle", type: "checkbox", onChange: this.toggleTodo, checked: this.props.completed}), 
 					React.createElement("label", {onDoubleClick: this.handleDblclick}, this.props.title), 

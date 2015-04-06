@@ -8,15 +8,9 @@ var Main = React.createClass({
 	},
 
 	render: function() {
-		var toggleAll
-		if (this.props.isAllCompleted) {
-			toggleAll = <input id="toggle-all" type="checkbox" checked onChange={this.handleChange} />
-		} else {
-			toggleAll = <input id="toggle-all" type="checkbox" onChange={this.handleChange} />
-		}
 		return (
 			<div>
-				{toggleAll}
+				<input id="toggle-all" type="checkbox" onChange={this.handleChange} checked={this.props.isAllCompleted} />
 				<label htmlFor="toggle-all">Mark all as complete</label>
 				<Todos todos={this.props.todos}
 					updateTodo={this.props.updateTodo}
