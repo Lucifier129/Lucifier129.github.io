@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>waterfall</title>
+	<style type="text/css">
+	* {margin:0; padding:0;}
+	img { border:none;}
+	html, body { height: 110%; width: 100%; }
+	#container {margin:0 auto; width: 100%; overflow-x:hidden; text-align: center;}
+	.waterfall-list { position:relative; width: 100%;}
+	.waterfall-list .waterfall-item { position:absolute; width: 50%;
+	-webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+	-webkit-animation-name: lightSpeedIn;
+    animation-name: lightSpeedIn;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;}
+	.waterfall-list .waterfall-item img { display:block;  box-sizing:border-box;  width: 100%; border-left:5px solid #fff;border-right:5px solid #fff;}
+	.waterfall-list .waterfall-item:nth-child(2n+1) { left:0;}
+	.waterfall-list .waterfall-item:nth-child(2n) { right:0;}
+
+	.waterfall-list .waterfall-item:nth-child(6n+1) { animation-delay: .1s;-webkit-animation-delay: .1s;}
+	.waterfall-list .waterfall-item:nth-child(6n+2) { animation-delay: .2s;-webkit-animation-delay: .2s;}
+	.waterfall-list .waterfall-item:nth-child(6n+3) { animation-delay: .3s;-webkit-animation-delay: .3s;}
+	.waterfall-list .waterfall-item:nth-child(6n+4) { animation-delay: .4s;-webkit-animation-delay: .4s;}
+	.waterfall-list .waterfall-item:nth-child(6n+5) { animation-delay: .5s;-webkit-animation-delay: .5s;}
+
+
+
+
+
+	@-webkit-keyframes lightSpeedIn {
+    0% {
+        -webkit-transform: translate3d(100%,0,0) skewX(-30deg);
+        transform: translate3d(100%,0,0) skewX(-30deg);
+        opacity: 0;
+    }
+
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1;
+    }
+
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes lightSpeedIn {
+    0% {
+        -webkit-transform: translate3d(100%,0,0) skewX(-30deg);
+        -ms-transform: translate3d(100%,0,0) skewX(-30deg);
+        transform: translate3d(100%,0,0) skewX(-30deg);
+        opacity: 0;
+    }
+
+    60% {
+        -webkit-transform: skewX(20deg);
+        -ms-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1;
+    }
+
+    80% {
+        -webkit-transform: skewX(-5deg);
+        -ms-transform: skewX(-5deg);
+        transform: skewX(-5deg);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: none;
+        -ms-transform: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+
+      
+	</style>
+</head>
+<body>
+<div id="container">waterfall</div>
+<script src="lib/require.js"></script>
+<script src="require-config.js"></script>
+<script>
+	require(['waterfall'], function(waterfall) {
+		waterfall.init()
+	})
+</script>
+</body>
+</html>
