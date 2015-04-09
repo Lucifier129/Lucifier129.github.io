@@ -22,15 +22,14 @@ define(function (require, exports, module) {
 
 			var $parent = $item.parent()
 			var img = $item.find('img')[0]
-			var ratio = img.naturalHeight / img.naturalWidth
-			var height = img.width * ratio + 30
+			var height = $item.height()
 			top += height
 			if ($parent.height() < top) {
 				$parent.height(top)
 			}
 
 			this.setState({
-				height: height
+				height: 'width:' + img.width + ';height:' + img.height
 			})
 
 			console.log(index)
@@ -39,7 +38,7 @@ define(function (require, exports, module) {
 		render: function() {
 			return (
 				<div className="waterfall-item" ref="item">
-					<div><img src={this.props.url} /></div>
+					<img src={this.props.url} />
 					<p>{this.state.height}px</p>
 				</div>
 				)

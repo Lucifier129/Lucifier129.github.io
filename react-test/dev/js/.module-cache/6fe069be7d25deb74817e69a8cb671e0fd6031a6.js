@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 			}
 
 			this.setState({
-				height: 'width:' + img.width + ';height:' + img.height
+				height: height
 			})
 
 			console.log(index)
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
 		render: function() {
 			return (
 				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
-					React.createElement("img", {src: this.props.url}), 
+					React.createElement("div", null, React.createElement("img", {src: this.props.url})), 
 					React.createElement("p", null, this.state.height, "px")
 				)
 				)

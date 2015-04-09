@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 			}
 
 			this.setState({
-				height: 'width:' + img.width + ';height:' + img.height
+				height: height
 			})
 
 			console.log(index)
