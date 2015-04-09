@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 			})
 
 			var $parent = $item.parent()
-			var img = $item.find('img')[0]
+			var img = $item.find('img')[0].parentNode
 			var height = $item.height()
 			top += height
 			if ($parent.height() < top) {
