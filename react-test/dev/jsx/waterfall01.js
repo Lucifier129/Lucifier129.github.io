@@ -39,12 +39,20 @@ define(function (require, exports, module) {
 		},
 
 		componentDidMount: function() {
+			this.reflow(this.props.itemLength)
+		},
+		reflow: function(itemLength) {
 			var $parent = $(this.refs.waterfall.getDOMNode())
 			var width = $parent.width()
-			var dw = width / this.props.itemLength
+			var dw = width / itemLength
 			this.setState({
 				width: dw
 			})
+		},
+		componentWillReceiveProps: function(nextProps) {
+			if (nextProps.itemLength !== this.props.itemLength) {
+				this.reflow(nextProps.itemLength)
+			}
 		},
 		assign: function() {
 			var itemList = []
@@ -107,7 +115,9 @@ define(function (require, exports, module) {
 						$(window).off('scroll')
 					}
 					this.onAjax = false
-					this.render(data.html.join(''))
+					var dataList = this.convertData(data.html.join(''))
+					this.dataList = this.dataList.concat(dataList)
+					this.render()
 				}.bind(this)
 			})
 		},
@@ -129,11 +139,8 @@ define(function (require, exports, module) {
 			return dataList
 		},
 
-		render: function(html) {
-			var dataList = this.convertData(html)
-			var itemLength = +(location.search.match(/list\=\d+/) || [''])[0].replace('list=', '')
-			this.dataList = this.dataList.concat(dataList)
-
+		render: function() {
+			var itemLength = +(location.hash.match(/list\=\d+/) || [''])[0].replace('list=', '')
 			React.render(
 				<Waterfall itemLength={itemLength || 2} dataList={this.dataList} />,
 				document.getElementById('container')
@@ -162,6 +169,8 @@ define(function (require, exports, module) {
 		},
 		init: function() {
 			this.nearBottom().onScroll()
+
+			$(window).on('hashchange', this.render.bind(this))
 		}
 	}
 

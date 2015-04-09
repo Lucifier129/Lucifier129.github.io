@@ -51,7 +51,7 @@ define(function (require, exports, module) {
 		},
 		componentWillReceiveProps: function(nextProps) {
 			if (nextProps.itemLength !== this.props.itemLength) {
-				this.reflow(nextProps.itemLength)
+				this.reflow()
 			}
 		},
 		assign: function() {

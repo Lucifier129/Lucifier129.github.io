@@ -34,30 +34,28 @@ define(function (require, exports, module) {
 	var Waterfall = React.createClass({displayName: "Waterfall",
 		getInitialState: function() {
 			return {
-				width: 0
+				width: 0,
+				itemLength: 2
 			}
 		},
 
 		componentDidMount: function() {
-			this.reflow(this.props.itemLength)
-		},
-		reflow: function(itemLength) {
 			var $parent = $(this.refs.waterfall.getDOMNode())
 			var width = $parent.width()
-			var dw = width / itemLength
+			var dw = width / this.props.itemLength
 			this.setState({
 				width: dw
 			})
-		},
-		componentWillReceiveProps: function(nextProps) {
-			if (nextProps.itemLength !== this.props.itemLength) {
-				this.reflow(nextProps.itemLength)
-			}
 		},
 		assign: function() {
 			var itemList = []
 			var itemLength = this.props.itemLength
 			var dataList = this.props.dataList
+			if (itemLength) {
+				this.setState({
+					itemLength: itemLength
+				})
+			}
 			for (var i = 0, len = dataList.length; i < len; i += 1) {
 				var item = itemList[i % itemLength] = itemList[i % itemLength] || []
 				item.push(dataList[i])

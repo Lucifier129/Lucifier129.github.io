@@ -39,19 +39,19 @@ define(function (require, exports, module) {
 		},
 
 		componentDidMount: function() {
-			this.reflow(this.props.itemLength)
+			this.reflow()
 		},
-		reflow: function(itemLength) {
+		reflow: function() {
 			var $parent = $(this.refs.waterfall.getDOMNode())
 			var width = $parent.width()
-			var dw = width / itemLength
+			var dw = width / this.props.itemLength
 			this.setState({
 				width: dw
 			})
 		},
 		componentWillReceiveProps: function(nextProps) {
 			if (nextProps.itemLength !== this.props.itemLength) {
-				this.reflow(nextProps.itemLength)
+				this.reflow()
 			}
 		},
 		assign: function() {

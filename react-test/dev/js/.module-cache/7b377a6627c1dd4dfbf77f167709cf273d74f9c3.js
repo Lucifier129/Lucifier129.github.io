@@ -39,20 +39,12 @@ define(function (require, exports, module) {
 		},
 
 		componentDidMount: function() {
-			this.reflow(this.props.itemLength)
-		},
-		reflow: function(itemLength) {
 			var $parent = $(this.refs.waterfall.getDOMNode())
 			var width = $parent.width()
-			var dw = width / itemLength
+			var dw = width / this.props.itemLength
 			this.setState({
 				width: dw
 			})
-		},
-		componentWillReceiveProps: function(nextProps) {
-			if (nextProps.itemLength !== this.props.itemLength) {
-				this.reflow(nextProps.itemLength)
-			}
 		},
 		assign: function() {
 			var itemList = []
@@ -117,7 +109,6 @@ define(function (require, exports, module) {
 					this.onAjax = false
 					var dataList = this.convertData(data.html.join(''))
 					this.dataList = this.dataList.concat(dataList)
-					this.render()
 				}.bind(this)
 			})
 		},
@@ -139,8 +130,8 @@ define(function (require, exports, module) {
 			return dataList
 		},
 
-		render: function() {
-			var itemLength = +(location.hash.match(/list\=\d+/) || [''])[0].replace('list=', '')
+		render: function(html) {
+			var itemLength = +(location.search.match(/list\=\d+/) || [''])[0].replace('list=', '')
 			React.render(
 				React.createElement(Waterfall, {itemLength: itemLength || 2, dataList: this.dataList}),
 				document.getElementById('container')
@@ -169,8 +160,6 @@ define(function (require, exports, module) {
 		},
 		init: function() {
 			this.nearBottom().onScroll()
-
-			$(window).on('hashchange', this.render.bind(this))
 		}
 	}
 
