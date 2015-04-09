@@ -110,11 +110,11 @@ define(function (require, exports, module) {
 			}.bind(this), false)
 		},
 		init: function() {
-			this.preload(this.onScroll.bind(this))
-			// setInterval(function() {
-			// 	var $item = $('.waterfall-item')
-			// 	$item.find('p').text($item.height() + 'px')
-			// }, 100)
+			// this.preload(this.onScroll.bind(this))
+			setInterval(function() {
+				var $item = $('.waterfall-item')
+				$item.find('p').text($item.height() + 'px')
+			}, 100)
 		}
 	}
 
