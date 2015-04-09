@@ -27,10 +27,6 @@ define(function (require, exports, module) {
 				$parent.height(top)
 			}
 
-			this.setState({
-				height: height
-			})
-
 			console.log(index)
 		},
 		render: function() {

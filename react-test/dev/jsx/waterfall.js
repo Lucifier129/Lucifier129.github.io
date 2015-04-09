@@ -3,6 +3,11 @@ define(function (require, exports, module) {
 	var $ = require('jquery')
 
 	var Item = React.createClass({
+		getInitialState: function() {
+			return {
+				height: 0
+			}
+		},
 		componentDidMount: function() {
 			var $item = $(this.refs.item.getDOMNode())
 			var index = $item.index() - 2
@@ -16,16 +21,24 @@ define(function (require, exports, module) {
 			})
 			
 			var $parent = $item.parent()
-			top += $item.height()
+			var height = $item.height()
+			top += height
 			if ($parent.height() < top) {
 				$parent.height(top)
 			}
+
+			this.setState({
+				height: height
+			})
 
 			console.log(index)
 		},
 		render: function() {
 			return (
-				<div className="waterfall-item" ref="item"><img src={this.props.url} /></div>
+				<div className="waterfall-item" ref="item">
+					<img src={this.props.url} />
+					<p>{this.state.height}</p>
+				</div>
 				)
 		}
 	})

@@ -21,24 +21,16 @@ define(function (require, exports, module) {
 			})
 			
 			var $parent = $item.parent()
-			var height = $item.height()
-			top += height
+			top += $item.height()
 			if ($parent.height() < top) {
 				$parent.height(top)
 			}
-
-			this.setState({
-				height: height
-			})
 
 			console.log(index)
 		},
 		render: function() {
 			return (
-				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
-					React.createElement("img", {src: this.props.url}), 
-					React.createElement("p", null, this.state.height)
-				)
+				React.createElement("div", {className: "waterfall-item", ref: "item"}, React.createElement("img", {src: this.props.url}))
 				)
 		}
 	})
