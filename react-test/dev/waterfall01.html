@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>waterfall</title>
+	<style type="text/css">
+	* {margin:0; padding:0;}
+	img { border:none;}
+	html, body { width: 100%; }
+	#container {margin:0 auto; width: 100%; overflow-x:hidden; text-align: center;}
+	.waterfall-list { float: left;width: 100%;}
+	.waterfall-list .waterfall-item { width: 100%; margin: 0 0 10px 0;box-shadow: 0 0 2px rgba(0,0,0,0.2); border-radius: 2px;}
+	.waterfall-list .waterfall-item img { display:block; width: 100%; margin-bottom: 2px;}
+	.waterfall-list .waterfall-item p { background:#eaeaea; line-height: 30px;}
+	</style>
+</head>
+<body>
+<div id="container">waterfall
+<div class="waterfall-list">
+	<div class="waterfall-item">
+		<img src="img/01.jpg" alt="">
+		<p></p>
+	</div>
+    <div class="waterfall-item">
+        <img src="img/02.jpg" alt="">
+        <p></p>
+    </div>
+    <div class="waterfall-item">
+        <img src="img/03.jpg" alt="">
+        <p></p>
+    </div>
+    <div class="waterfall-item">
+        <img src="img/04.jpg" alt="">
+        <p></p>
+    </div>
+</div>
+</div>
+<script src="lib/require.js"></script>
+<script src="require-config.js"></script>
+<script>
+	require(['waterfall01'], function(waterfall) {
+		waterfall.init()
+	})
+</script>
+</body>
+</html>
