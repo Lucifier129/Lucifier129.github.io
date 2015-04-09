@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 	var React = require('react')
 	var $ = require('jquery')
 
-	var Item = React.createClass({
+	var Item = React.createClass({displayName: "Item",
 		componentDidMount: function() {
 			var $item = $(this.refs.item.getDOMNode())
 			var index = $item.index() - 2
@@ -25,22 +25,22 @@ define(function (require, exports, module) {
 		},
 		render: function() {
 			return (
-				<div className="waterfall-item" ref="item"><img src={this.props.url} /></div>
+				React.createElement("div", {className: "waterfall-item", ref: "item"}, React.createElement("img", {src: this.props.url}))
 				)
 		}
 	})
 
 
-	var List = React.createClass({
+	var List = React.createClass({displayName: "List",
 		render: function() {
 			return (
-				<div className="waterfall-list">
-					{
+				React.createElement("div", {className: "waterfall-list"}, 
+					
 						this.props.urls.map(function(url) {
-							return <Item url={url} />
+							return React.createElement(Item, {url: url})
 						})
-					}
-				</div>
+					
+				)
 				)
 		}
 	})
@@ -59,12 +59,10 @@ define(function (require, exports, module) {
 				img.onload = function() {
 					count += 1
 					if (count === total) {
-						document.body.removeChild(div)
 						callback()
 					}
 				}
 				img.src = url
-				div.appendChild(img)
 			})
 		},
 		onScroll: function() {
@@ -80,7 +78,7 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 					React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)
 				}
