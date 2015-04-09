@@ -39,7 +39,7 @@ define(function (require, exports, module) {
 			return (
 				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
 					React.createElement("div", null, React.createElement("img", {src: this.props.url})), 
-					React.createElement("p", null, this.state.height)
+					React.createElement("p", null, this.state.height, "px")
 				)
 				)
 		}

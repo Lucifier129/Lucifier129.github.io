@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 			})
 
 			var $parent = $item.parent()
-			var img = $item.find('img')[0]
+			var img = $item.find('img')[0].parentNode()
 			var height = $item.height()
 			top += height
 			if ($parent.height() < top) {
@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 			}
 
 			this.setState({
-				height: 'width:' + getComputedStyle(img, null).width + ';height:' + getComputedStyle(img, null).height
+				height: 'width:' + img.width + ';height:' + img.height
 			})
 
 			console.log(index)
@@ -39,7 +39,7 @@ define(function (require, exports, module) {
 			return (
 				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
 					React.createElement("div", null, React.createElement("img", {src: this.props.url})), 
-					React.createElement("p", null, this.state.height)
+					React.createElement("p", null, this.state.height, "px")
 				)
 				)
 		}

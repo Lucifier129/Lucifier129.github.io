@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 			}
 
 			this.setState({
-				height: 'width:' + img.width + ';height:' + img.height
+				height: 'width:' + getComputedStyle(img, null).width + ';height:' + getComputedStyle(img, null).height
 			})
 
 			console.log(index)
@@ -38,8 +38,8 @@ define(function (require, exports, module) {
 		render: function() {
 			return (
 				<div className="waterfall-item" ref="item">
-					<img src={this.props.url} />
-					<p>{this.state.height}px</p>
+					<div><img src={this.props.url} /></div>
+					<p>{this.state.height}</p>
 				</div>
 				)
 		}
