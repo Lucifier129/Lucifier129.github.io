@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 	var React = require('react')
 	var $ = require('jquery')
 
-	var Item = React.createClass({
+	var Item = React.createClass({displayName: "Item",
 		getInitialState: function() {
 			return {
 				height: 0
@@ -36,25 +36,25 @@ define(function (require, exports, module) {
 		},
 		render: function() {
 			return (
-				<div className="waterfall-item" ref="item">
-					<div><img src={this.props.url} /></div>
-					<p>{this.state.height}px</p>
-				</div>
+				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
+					React.createElement("div", null, React.createElement("img", {src: this.props.url})), 
+					React.createElement("p", null, this.state.height, "px")
+				)
 				)
 		}
 	})
 
 
-	var List = React.createClass({
+	var List = React.createClass({displayName: "List",
 		render: function() {
 			return (
-				<div className="waterfall-list">
-					{
+				React.createElement("div", {className: "waterfall-list"}, 
+					
 						this.props.urls.map(function(url) {
-							return <Item url={url} />
+							return React.createElement(Item, {url: url})
 						})
-					}
-				</div>
+					
+				)
 				)
 		}
 	})
@@ -88,7 +88,7 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 			React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)			
 
@@ -103,18 +103,15 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 					React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)
 				}
 			}.bind(this), false)
 		},
 		init: function() {
-			this.preload(this.onScroll.bind(this))
-			// setInterval(function() {
-			// 	var $item = $('.waterfall-item')
-			// 	$item.find('p').text($item.height() + 'px')
-			// }, 100)
+			//this.preload(this.onScroll.bind(this))
+			
 		}
 	}
 
