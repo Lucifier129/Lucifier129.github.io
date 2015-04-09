@@ -37,7 +37,7 @@ define(function (require, exports, module) {
 		render: function() {
 			return (
 				<div className="waterfall-item" ref="item">
-					<div><img src={this.props.url} /></div>
+					<img src={this.props.url} />
 					<p>{this.state.height}</p>
 				</div>
 				)

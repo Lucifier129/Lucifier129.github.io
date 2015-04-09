@@ -8,7 +8,7 @@
 	* {margin:0; padding:0;}
 	img { border:none;}
 	html, body { width: 100%; }
-	#container {margin:0 auto; width: 100%; text-align: center;}
+	#container {margin:0 auto; width: 100%; overflow-x:hidden; text-align: center;}
 	.waterfall-list { position:relative; width: 100%;}
 	.waterfall-list .waterfall-item { position:absolute; top:0; width: 50%;
 	-webkit-animation-duration: .3s;
@@ -19,8 +19,8 @@
     animation-name: lightSpeedIn;
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;}
-	.waterfall-list .waterfall-item img {  width: 100%; }
-	.waterfall-list .waterfall-item p { background:#eaeaea; line-height: 30px;}
+	.waterfall-list .waterfall-item img { display:block;  box-sizing:border-box;  width: 100%; border-left:5px solid #fff;border-right:5px solid #fff;}
+	.waterfall-list .waterfall-item p { background:#eaeaea; line-height: 30px; box-sizing:border-box;border-left:5px solid #fff;border-right:5px solid #fff;}
 	.waterfall-item p .f00 { color:#f00;}
 	.waterfall-list .waterfall-item:nth-child(2n+1) { left:0;}
 	.waterfall-list .waterfall-item:nth-child(2n) { right:0;}
