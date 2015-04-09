@@ -27,8 +27,8 @@ define(function (require, exports, module) {
 				$parent.height(top)
 			}
 
-			this.setState({
-				height: $item.find('img').get(0).height + 'px'
+			setState({
+				height: img.height + 'px'
 			})
 
 			console.log(index)
@@ -62,13 +62,13 @@ define(function (require, exports, module) {
 
 	var waterfall = {
 		urls: ['img/01.jpg','img/02.jpg','img/03.jpg','img/04.jpg','img/05.jpg','img/06.jpg'],
-		preload: function(urls, callback) {
+		preload: function(callback) {
 			var count = 0
-			var total = urls.length
+			var total = this.urls.length
 			var div = document.createElement('div')
 			div.style.display = 'none'
 			document.body.appendChild(div)
-			urls.forEach(function(url) {
+			this.urls.forEach(function(url) {
 				var img = new Image()
 				img.onload = function() {
 					count += 1
@@ -83,38 +83,32 @@ define(function (require, exports, module) {
 		},
 		onScroll: function() {
 			var urls = []
+
 			urls = urls.concat(this.urls.concat(this.urls).sort(function() {
-				return Math.random() - 0.5
-			}))
-
-			this.preload(urls, function() {
-					React.render( React.createElement(List, {urls: urls}),
+						return Math.random() - 0.5
+					}))
+			React.render(
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
-					)
-					window.addEventListener('scroll', function() {
-							var $win = $(window);
-							var scrollTop = $win.scrollTop();
-							var winHeight = $win.height();
-							var docHeight = $(document).height();
-							var diff = scrollTop + winHeight - docHeight;
-							if (Math.abs(diff) <= 50) {
-								var newUrls = this.urls.sort(function() {
-									return Math.random() - 0.5
-								})
-							this.preload(newUrls, function() {
-								urls = urls.concat(newUrls)
-								React.render( React.createElement(List, {urls: urls}),
-									document.getElementById('container')
-								)
-							})
+						)			
 
-						}
-					}.bind(this), false)
-			}.bind(this))
-
-
-
-	},
+			window.addEventListener('scroll', function() {
+				var $win = $(window);
+				var scrollTop = $win.scrollTop();
+				var winHeight = $win.height();
+				var docHeight = $(document).height();
+				var diff = scrollTop + winHeight - docHeight;
+				if (Math.abs(diff) <= 50) {
+					urls = urls.concat(this.urls.sort(function() {
+						return Math.random() - 0.5
+					}))
+					React.render(
+						React.createElement(List, {urls: urls}),
+						document.getElementById('container')
+						)
+				}
+			}.bind(this), false)
+		},
 		init: function() {
 			this.onScroll()
 		}

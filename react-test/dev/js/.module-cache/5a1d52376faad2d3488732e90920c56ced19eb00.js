@@ -27,8 +27,8 @@ define(function (require, exports, module) {
 				$parent.height(top)
 			}
 
-			this.setState({
-				height: $item.find('img').get(0).height + 'px'
+			setState({
+				height: img.height + 'px'
 			})
 
 			console.log(index)
@@ -83,38 +83,33 @@ define(function (require, exports, module) {
 		},
 		onScroll: function() {
 			var urls = []
+
 			urls = urls.concat(this.urls.concat(this.urls).sort(function() {
-				return Math.random() - 0.5
-			}))
-
-			this.preload(urls, function() {
-					React.render( React.createElement(List, {urls: urls}),
+						return Math.random() - 0.5
+					}))
+			React.render(
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
-					)
-					window.addEventListener('scroll', function() {
-							var $win = $(window);
-							var scrollTop = $win.scrollTop();
-							var winHeight = $win.height();
-							var docHeight = $(document).height();
-							var diff = scrollTop + winHeight - docHeight;
-							if (Math.abs(diff) <= 50) {
-								var newUrls = this.urls.sort(function() {
-									return Math.random() - 0.5
-								})
-							this.preload(newUrls, function() {
-								urls = urls.concat(newUrls)
-								React.render( React.createElement(List, {urls: urls}),
-									document.getElementById('container')
-								)
-							})
+						)			
 
-						}
-					}.bind(this), false)
-			}.bind(this))
-
-
-
-	},
+			window.addEventListener('scroll', function() {
+				var $win = $(window);
+				var scrollTop = $win.scrollTop();
+				var winHeight = $win.height();
+				var docHeight = $(document).height();
+				var diff = scrollTop + winHeight - docHeight;
+				if (Math.abs(diff) <= 50) {
+					urls = urls.concat(this.urls.sort(function() {
+						return Math.random() - 0.5
+					}))
+					this.preload()
+					React.render(
+						React.createElement(List, {urls: urls}),
+						document.getElementById('container')
+						)
+				}
+			}.bind(this), false)
+		},
 		init: function() {
 			this.onScroll()
 		}

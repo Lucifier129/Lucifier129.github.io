@@ -28,7 +28,7 @@ define(function (require, exports, module) {
 			}
 
 			this.setState({
-				height: $item.find('img').get(0).height + 'px'
+				height: img.height + 'px'
 			})
 
 			console.log(index)
