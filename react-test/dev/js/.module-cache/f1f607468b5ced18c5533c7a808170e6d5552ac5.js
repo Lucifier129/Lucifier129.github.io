@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 	var React = require('react')
 	var $ = require('jquery')
 
-	var Item = React.createClass({
+	var Item = React.createClass({displayName: "Item",
 		getInitialState: function() {
 			return {
 				height: 0
@@ -10,63 +10,52 @@ define(function (require, exports, module) {
 		},
 		componentDidMount: function() {
 			var $item = $(this.refs.item.getDOMNode())
-			var img = $item.find('img')[0]
-			var setState = this.setState.bind(this)
-			function set() {
-				var index = $item.index() - 2
-				var $prev = $item.prev().prev()
-				if ($prev.length === 0) {
-					return
-				}
-				var top = $prev.position().top + $prev.height() + 10
-				$item.css({
-					top: top
-				})
+			var $img = $item.find('img')
+			var index = $item.index() - 2
+			var $prev = $item.prev().prev()
+			if ($prev.length === 0) {
+				return
+			}
+			var top = $prev.position().top + $prev.height() + 10
+			$item.css({
+				top: top
+			})
 
-				var $parent = $item.parent()
-				var height = $item.height()
-				top += height
-				if ($parent.height() < top) {
-					$parent.height(top)
-				}
-
-				setState({
-					height: img.height
-				})
-
-				console.log(index)
+			var $parent = $item.parent()
+			var height = $item.height()
+			top += height
+			if ($parent.height() < top) {
+				$parent.height(top)
 			}
 
-			
-			var timer = setInterval(function() {
-				if (img.height !== 0) {
-					set()
-					clearInterval(timer)
-				}
-			}.bind(this), 30)
+			this.setState({
+				height: 'width:' + getComputedStyle(img, null).width + ';height:' + getComputedStyle(img, null).height
+			})
+
+			console.log(index)
 
 		},
 		render: function() {
 			return (
-				<div className="waterfall-item" ref="item">
-					<div><img src={this.props.url} /></div>
-					<p>{this.state.height}</p>
-				</div>
+				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
+					React.createElement("div", null, React.createElement("img", {src: this.props.url})), 
+					React.createElement("p", null, this.state.height)
+				)
 				)
 		}
 	})
 
 
-	var List = React.createClass({
+	var List = React.createClass({displayName: "List",
 		render: function() {
 			return (
-				<div className="waterfall-list">
-					{
+				React.createElement("div", {className: "waterfall-list"}, 
+					
 						this.props.urls.map(function(url) {
-							return <Item url={url} />
+							return React.createElement(Item, {url: url})
 						})
-					}
-				</div>
+					
+				)
 				)
 		}
 	})
@@ -100,7 +89,7 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 			React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)			
 
@@ -115,7 +104,7 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 					React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)
 				}

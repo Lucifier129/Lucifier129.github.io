@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 	var React = require('react')
 	var $ = require('jquery')
 
-	var Item = React.createClass({
+	var Item = React.createClass({displayName: "Item",
 		getInitialState: function() {
 			return {
 				height: 0
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 		componentDidMount: function() {
 			var $item = $(this.refs.item.getDOMNode())
 			var img = $item.find('img')[0]
-			var setState = this.setState.bind(this)
+			var setState = this.setState
 			function set() {
 				var index = $item.index() - 2
 				var $prev = $item.prev().prev()
@@ -33,8 +33,6 @@ define(function (require, exports, module) {
 				setState({
 					height: img.height
 				})
-
-				console.log(index)
 			}
 
 			
@@ -44,29 +42,32 @@ define(function (require, exports, module) {
 					clearInterval(timer)
 				}
 			}.bind(this), 30)
+			
+
+			console.log(index)
 
 		},
 		render: function() {
 			return (
-				<div className="waterfall-item" ref="item">
-					<div><img src={this.props.url} /></div>
-					<p>{this.state.height}</p>
-				</div>
+				React.createElement("div", {className: "waterfall-item", ref: "item"}, 
+					React.createElement("div", null, React.createElement("img", {src: this.props.url})), 
+					React.createElement("p", null, this.state.height)
+				)
 				)
 		}
 	})
 
 
-	var List = React.createClass({
+	var List = React.createClass({displayName: "List",
 		render: function() {
 			return (
-				<div className="waterfall-list">
-					{
+				React.createElement("div", {className: "waterfall-list"}, 
+					
 						this.props.urls.map(function(url) {
-							return <Item url={url} />
+							return React.createElement(Item, {url: url})
 						})
-					}
-				</div>
+					
+				)
 				)
 		}
 	})
@@ -100,7 +101,7 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 			React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)			
 
@@ -115,7 +116,7 @@ define(function (require, exports, module) {
 						return Math.random() - 0.5
 					}))
 					React.render(
-						<List urls={urls} />,
+						React.createElement(List, {urls: urls}),
 						document.getElementById('container')
 						)
 				}
