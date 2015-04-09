@@ -10,31 +10,37 @@ define(function (require, exports, module) {
 		},
 		componentDidMount: function() {
 			var $item = $(this.refs.item.getDOMNode())
-			var index = $item.index() - 2
-			var $prev = $item.prev().prev()
-			if ($prev.length === 0) {
-				return
-			}
-			var top = $prev.position().top + $prev.height() + 10
-			$item.css({
-				top: top
-			})
 
-			var $parent = $item.parent()
-			var img = $item.find('img')[0]
-			var ratio = img.naturalHeight / img.naturalWidth
-			var height = img.width * ratio + 30
-			top += height
-			if ($parent.height() < top) {
-				$parent.height(top)
-			}
 
-			this.setState({
-				height: height
-			})
+				var index = $item.index() - 2
+				var $prev = $item.prev().prev()
+				if ($prev.length === 0) {
+					return
+				}
+				var top = $prev.position().top + $prev.height() + 10
+				$item.css({
+					top: top
+				})
+				
+				var $parent = $item.parent()
+				var img = $item.find('img')[0]
+				var ratio = img.naturalHeight / img.naturalWidth
+				var height = img.width * ratio + 30
+				top += height
+				if ($parent.height() < top) {
+					$parent.height(top)
+				}
+
+				this.setState({
+					height: height
+				})
+
+
+			
+			
 
 			console.log(index)
-
+			
 		},
 		render: function() {
 			return (
@@ -112,7 +118,11 @@ define(function (require, exports, module) {
 			}.bind(this), false)
 		},
 		init: function() {
-			this.preload(this.onScroll.bind(this))
+			// this.preload(this.onScroll.bind(this))
+			setInterval(function() {
+				var $item = $('.waterfall-item')
+				$item.find('p').text($item.find('img').height() + 'px')
+			}, 100)
 		}
 	}
 

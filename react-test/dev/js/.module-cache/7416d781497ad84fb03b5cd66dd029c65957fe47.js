@@ -112,7 +112,11 @@ define(function (require, exports, module) {
 			}.bind(this), false)
 		},
 		init: function() {
-			this.preload(this.onScroll.bind(this))
+			// this.preload(this.onScroll.bind(this))
+			setInterval(function() {
+				var $item = $('.waterfall-item')
+				$item.find('p').text($item.find('img').height() + 'px')
+			}, 100)
 		}
 	}
 

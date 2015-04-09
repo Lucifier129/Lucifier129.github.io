@@ -19,11 +19,9 @@ define(function (require, exports, module) {
 			$item.css({
 				top: top
 			})
-
+			
 			var $parent = $item.parent()
-			var img = $item.find('img')[0]
-			var ratio = img.naturalHeight / img.naturalWidth
-			var height = img.width * ratio + 30
+			var height = $item.height()
 			top += height
 			if ($parent.height() < top) {
 				$parent.height(top)
@@ -34,7 +32,7 @@ define(function (require, exports, module) {
 			})
 
 			console.log(index)
-
+			
 		},
 		render: function() {
 			return (
@@ -112,7 +110,11 @@ define(function (require, exports, module) {
 			}.bind(this), false)
 		},
 		init: function() {
-			this.preload(this.onScroll.bind(this))
+			// this.preload(this.onScroll.bind(this))
+			setInterval(function() {
+				var $item = $('.waterfall-item')
+				$item.find('p').text($item.find('img').height() + 'px')
+			}, 100)
 		}
 	}
 
