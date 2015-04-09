@@ -2,36 +2,36 @@ define(function (require, exports, module) {
 	var React = require('react')
 	var $ = require('jquery')
 
-	var Item = React.createClass({
+	var Item = React.createClass({displayName: "Item",
 		render: function() {
 			return (
-				<div className="waterfall-item">
-					{
+				React.createElement("div", {className: "waterfall-item"}, 
+					
 						this.props.pics.map(function(pic) {
-							return <img src={pic} />
-						})
-					}
-					<p>{this.props.content}</p>
-				</div>
+							return React.createElement("img", {src: pic})
+						}), 
+					
+					React.createElement("p", null, this.props.content)
+				)
 				)
 		}
 	})
 
-	var List = React.createClass({
+	var List = React.createClass({displayName: "List",
 		render: function() {
 			return (
-				<div className="waterfall-list" style={ {width: this.props.width} }>
-				{
+				React.createElement("div", {className: "waterfall-list", style:  {width: this.props.width} }, 
+				
 					this.props.items.map(function(item) {
-						return <Item {...item} />
+						return React.createElement(Item, React.__spread({},  item))
 					})
-				}
-				</div>
+				
+				)
 				)
 		}
 	})
 
-	var Waterfall = React.createClass({
+	var Waterfall = React.createClass({displayName: "Waterfall",
 		getInitialState: function() {
 			return {
 				width: 0
@@ -66,13 +66,13 @@ define(function (require, exports, module) {
 		},
 		render: function() {
 			return (
-				<div className="waterfall" ref="waterfall">
-					{
+				React.createElement("div", {className: "waterfall", ref: "waterfall"}, 
+					
 						this.assign().map(function(items) {
-							return <List width={this.state.width} items={items} />
+							return React.createElement(List, {width: this.state.width, items: items})
 						}.bind(this))
-					}
-				</div>
+					
+				)
 				)
 		}
 	})
@@ -119,8 +119,8 @@ define(function (require, exports, module) {
 					this.dataList = this.dataList.concat(dataList)
 					this.render()
 				}.bind(this),
-				error: function () {
-					$('body').html('error')
+				error: function (data) {
+					$('body').html()
 				}
 			})
 		},
@@ -145,7 +145,7 @@ define(function (require, exports, module) {
 		render: function() {
 			var itemLength = +(location.hash.match(/list\=\d+/) || [''])[0].replace('list=', '')
 			React.render(
-				<Waterfall itemLength={itemLength || 2} dataList={this.dataList} />,
+				React.createElement(Waterfall, {itemLength: itemLength || 2, dataList: this.dataList}),
 				document.getElementById('container')
 				)
 		},
