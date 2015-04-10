@@ -10,7 +10,6 @@ define(function (require, exports, module) {
 		},
 		componentDidMount: function() {
 			var $item = $(this.refs.item.getDOMNode())
-			var index = $item.index() - 2
 			var $prev = $item.prev().prev()
 			if ($prev.length === 0) {
 				return
@@ -31,8 +30,7 @@ define(function (require, exports, module) {
 				height: $item.find('img').get(0).height + 'px'
 			})
 
-			console.log(index)
-
+			console.log($item.index())
 		},
 		render: function() {
 			return (
