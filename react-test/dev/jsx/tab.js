@@ -39,7 +39,7 @@ define(function (require, exports, mdoule) {
 
 	exports.init = function() {
 		var data = {
-			tabList: [1,2,3,4],
+			tabList: [1,2,3,4, 5],
 			dataList: [{
 				title: 01,
 				content: 01
@@ -52,6 +52,9 @@ define(function (require, exports, mdoule) {
 			},{
 				title: 04,
 				content: 04
+			},{
+				title: 05,
+				content: 05
 			}]
 		}
 
