@@ -11,6 +11,9 @@
         {
             //module names are relative to baseUrl
             name: 'listview/app'
+        },
+        {
+            name: 'c_listview/app'
         }
     ]
 })
