@@ -28,7 +28,7 @@ define(function (require, exports, module) {
 			})
 			return (
 				<Group style={this.getStyle()}>
-					<Image src={this.props.imgUrl} style={this.getImgStyle()} />
+					<Image src={this.props.imgUrl} style={this.getImgStyle()} fadeIn={true} />
 					{texts}
 				</Group>
 				)

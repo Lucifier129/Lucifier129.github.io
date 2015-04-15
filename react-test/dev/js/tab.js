@@ -1,7 +1,7 @@
 define(function (require, exports, mdoule) {
 	var React = require('react')
 
-	var Tap = React.createClass({displayName: "Tap",
+	var Tab = React.createClass({displayName: "Tab",
 		getInitialState: function() {
 			return {
 				index: 0
@@ -59,7 +59,7 @@ define(function (require, exports, mdoule) {
 		}
 
 		React.render(
-			React.createElement(Tap, React.__spread({},  data)),
+			React.createElement(Tab, React.__spread({},  data)),
 			document.getElementById('container')
 			)
 	}

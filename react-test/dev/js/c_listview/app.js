@@ -28,7 +28,7 @@ define(function (require, exports, module) {
 			})
 			return (
 				React.createElement(Group, {style: this.getStyle()}, 
-					React.createElement(Image, {src: this.props.imgUrl, style: this.getImgStyle()}), 
+					React.createElement(Image, {src: this.props.imgUrl, style: this.getImgStyle(), fadeIn: true}), 
 					texts
 				)
 				)
