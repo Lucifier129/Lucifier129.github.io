@@ -52,28 +52,29 @@ define(function (require, exports, module) {
 		},
 		render: function() {
 			var View = this.View
-			React.render(
-				<View.NewTodo addTodo={this.addTodo.bind(this)} />,
-				document.getElementById('header')
-				)
 
 			React.render(
-				<View.Main 
-					isAllCompleted={this.model.isAllCompleted()}
-					todos={this.getTodosByHash()}
-					toggleAll={this.toggleAll.bind(this)}
-					updateTodo={this.updateTodo.bind(this)} 
-					removeTodo={this.removeTodo.bind(this)} />,
-				document.getElementById('main')
-				)
-
-			React.render(
-				<View.Filters 
-					hash={'/' + location.hash.replace('#/', '')}
-					clearCompleted={this.clearCompleted.bind(this)} 
-					completedCount={this.model.getCompleted().length}
-					todoCount={this.model.getActive().length} />,
-				document.getElementById('footer')
+				<div>
+					<header id="header">
+						<View.NewTodo addTodo={this.addTodo.bind(this)} />
+					</header>
+					<section id="main">
+						<View.Main
+							isAllCompleted={this.model.isAllCompleted()}
+							todos={this.getTodosByHash()}
+							toggleAll={this.toggleAll.bind(this)}
+							updateTodo={this.updateTodo.bind(this)}
+							removeTodo={this.removeTodo.bind(this)} />
+					</section>
+					<footer id="footer">
+						<View.Filters
+							hash={'/' + location.hash.replace('#/', '')}
+							clearCompleted={this.clearCompleted.bind(this)}
+							completedCount={this.model.getCompleted().length}
+							todoCount={this.model.getActive().length} />
+					</footer>
+				</div>,
+				document.getElementById('todoapp')
 				)
 		}
 	}

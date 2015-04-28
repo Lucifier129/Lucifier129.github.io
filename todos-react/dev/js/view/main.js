@@ -3,8 +3,7 @@ var React = require('react')
 var Todos = require('./todos')
 var Main = React.createClass({displayName: "Main",
 	handleChange: function(e) {
-		var checked = e.target.checked
-		this.props.toggleAll(checked)
+		this.props.toggleAll(e.target.checked)
 	},
 
 	render: function() {

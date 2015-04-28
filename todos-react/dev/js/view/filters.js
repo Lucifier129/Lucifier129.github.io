@@ -9,16 +9,16 @@ var Filters = React.createClass({displayName: "Filters",
 
 	getTodoCount: function() {
 		var count = this.props.todoCount
-		return count > 0 ? count + ' item left' : ''
+		var text = ''
+		if (count > 0) {
+			text += count + (count > 1 ? ' items left' : ' item left')
+		}
+		return text
 	},
 
 	getCompletedCount: function() {
 		var count = this.props.completedCount
 		return count > 0 ? 'Clear completed (' + count + ')' : ''
-	},
-
-	clearCompleted: function() {
-		this.props.clearCompleted()
 	},
 
 	render: function() {
@@ -36,7 +36,7 @@ var Filters = React.createClass({displayName: "Filters",
 						React.createElement("a", {href: "#/completed", className: this.getClassName('/completed')}, "Completed")
 					)
 				), 
-				React.createElement("button", {id: "clear-completed", onClick: this.clearCompleted}, this.getCompletedCount())
+				React.createElement("button", {id: "clear-completed", onClick: this.props.clearCompleted}, this.getCompletedCount())
 			)
 			)
 	}

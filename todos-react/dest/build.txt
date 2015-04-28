@@ -7,7 +7,7 @@ bower_components/todomvc-common/base.css
 ----------------
 bower_components/todomvc-common/base.css
 
-js/view/view.js
+js/app.js
 ----------------
 lib/react.min.js
 js/view/newTodo.js
@@ -16,3 +16,5 @@ js/view/todos.js
 js/view/main.js
 js/view/filters.js
 js/view/view.js
+js/model.js
+js/app.js

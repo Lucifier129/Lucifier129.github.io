@@ -60,10 +60,9 @@ var Todo = React.createClass({displayName: "Todo",
 	},
 
 	toggleTodo: function(e) {
-		var options = {
+		this.updateTodo({
 			completed: e.target.checked
-		}
-		this.updateTodo(options)
+		})
 	},
 
 	updateTodo: function(options) {

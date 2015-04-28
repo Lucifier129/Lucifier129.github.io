@@ -9,7 +9,7 @@
         //First set up the common build layer.
         {
             //module names are relative to baseUrl
-            name: 'view/view'
+            name: 'app'
         }
     ]
 })

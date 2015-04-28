@@ -1,12 +1,13 @@
 /*
- * jplus2
+ * jplus
+ * Author: Jade
+ * Github:https://github.com/Lucifier129/jplus
  */
 ! function($, undefined) {
 
 	//base
 	var objProto = Object.prototype
 	var arrProto = Array.prototype
-	var call = Function.prototype.call
 
 	if (!arrProto.indexOf) {
 		arrProto.indexOf = function(value) {
@@ -29,15 +30,16 @@
 	//反柯里化
 	//接受一个函数
 	//返回一个函数：1）首个参数作为原函数的this；2）其余参数传入原函数
-	function calling(fn) {
+	function unCurring(fn) {
 		return function() {
-			return call.apply(fn, arguments)
+			return Function.prototype.call.apply(fn, arguments)
 		}
 	}
 
-	var toStr = calling(objProto.toString)
-	var hasOwn = calling(objProto.hasOwnProperty)
-	var slice = calling(arrProto.slice)
+	var toStr = unCurring(objProto.toString)
+	var hasOwn = unCurring(objProto.hasOwnProperty)
+	var slice = unCurring(arrProto.slice)
+	var indexOf = unCurring(arrProto.indexOf)
 
 	//返回一个检测输入的obj是否符合特定数据类型的函数
 	function isType(type) {
@@ -57,16 +59,8 @@
 	var isNum = isType('Number')
 	var isArr = Array.isArray || isType('Array')
 
-	//简洁实现，为性能计
-	var each = Object.keys && arrProto.forEach ? function(obj, callback) {
-		if (isArr(obj)) {
-			obj.forEach(callback)
-		} else if (isObj(obj)) {
-			Object.keys(obj).forEach(function(key) {
-				callback(obj[key], key)
-			})
-		}
-	} : function(obj, callback) {
+	//简洁实现
+	var each = function(obj, callback) {
 		if (isArr(obj)) {
 			for (var i = 0, len = obj.length; i < len; i += 1) {
 				callback(obj[i], i)
@@ -312,42 +306,45 @@
 	}
 
 	//根据特定指令名与作用域，扫描出特定结构的viewModel对象
-	function Scan($scope, directiveName, ignoreScope) {
+	function Scan($scope, directiveName) {
 		this.$scope = $scope
 		this.directiveName = directiveName
-		this.ignoreScope = ignoreScope
 	}
 
 	Scan.prototype.done = function() {
 		var $scope = this.$scope
-		var id = $scope.attr('id')
-		var randomId
-
-		//Zepto的$.fn.find实现与jQuery不同；构造id + selector
-		if (!id) {
-			randomId = 'random-id-' + Math.random().toString(36).substr(2)
-			$scope.attr('id', id = randomId)
+		var allowScan = $scope.attr('noscan') == undefined
+		if (!allowScan) {
+			$scope.removeAttr('noscan')
 		}
 		var directiveName = this.directiveName
-		var prefix = '#' + id + ' '
 		var selector = '[' + directiveName + ']'
 		var filter = '[noscan] ' + selector
-		var $elems = $(prefix + selector)
-		var $noScanElems = $(prefix + filter)
-		if ($noScanElems.length) {
-			//Zepto的$.fn.not方法，对选择器的处理性能奇差；用$()包装起来，效果更优
-			$elems = $elems.not($noScanElems)
+		var $noScanElems = $scope.find(filter)
+		var directiveCache = []
+		//Zepto的$.fn.not性能堪忧，不如先删除属性，躲过属性选择器，再添加回去
+		$noScanElems.each(function() {
+			var $this = $(this)
+			directiveCache.push($this.attr(directiveName))
+			$this.removeAttr(directiveName)
+		})
+		var $elems = $scope.find(selector)
+		each(directiveCache, function(directive, i) {
+			$($noScanElems[i]).attr(directiveName, directive)
+		})
+
+		if (!allowScan) {
+			$scope.attr('noscan', '')
 		}
 		var combine = new Combine()
-		if (!this.ignoreScope) {
+		var index = indexOf($elems, $scope[0])
+		//$scope 有可能存在于 $elems 中，因为Zepto的$.fn.find用的是querySelectorAll，没有处理是从自身开始查询的
+		if (index === -1) {
 			new Collect(combine, $scope, directiveName).done()
 		}
 		$elems.each(function() {
 			new Collect(combine, $(this), directiveName).done()
 		})
-		if (randomId) {
-			$scope.removeAttr('id')
-		}
 		return {
 			$scope: $scope,
 			view: combine.view
@@ -518,6 +515,7 @@
 		var $elem = view.$elem
 		var elem = $elem[0]
 		var propList = view.propList
+		var hasDeliver
 
 		each(propList, function(propName) {
 			propName = propName.split('-')
@@ -527,8 +525,14 @@
 
 			//先查$scope及其原型链，注：$.fn为其原型之一
 			if (isFn(prop)) {
-				if (part1 === 'refresh' || part1 === 'vm') {
+				var dataCache = new DataCache($elem, data, part1)
+				//字符串或数值类型的数据，如果跟上一次传入同名方法的一致，则忽略
+				if (dataCache.isEqual()) {
+					return
+				}
+				if ((part1 === 'refresh' || part1 === 'vm') && !hasDeliver) {
 					new Deliver($elem, $scope).done()
+					hasDeliver = true
 				}
 				prop.apply($elem, part2.concat(data))
 			} else {
@@ -546,6 +550,32 @@
 		})
 	}
 
+	function DataCache($elem, data, methodName) {
+		this.$elem = $elem
+		this.data = data
+		this.methodName = this.prefix + methodName
+	}
+
+	DataCache.prototype = {
+		prefix: 'jplus_',
+		isEqual: function() {
+			var $elem = this.$elem
+			var data = this.data
+			//只考察和缓存string|number类型的数据，其余的当做不相等
+			//约能覆盖80%的使用场景
+			if (isStr(data) || isNum(data)) {
+				var oldData = $elem.data(this.methodName)
+				var isEqual = oldData === data
+				if (!isEqual) {
+					$elem.data(this.methodName, data)
+				}
+				return isEqual
+			}
+			return false
+		}
+	}
+
+
 	//备用的指令名称
 	$.directive = {
 		getter: 'data-bind',
@@ -560,7 +590,7 @@
 		}
 
 		//刷新视图时，扫描自身的指令；获取视图数据时，不扫描
-		var viewModel = $.fn.scan.call(this, directiveName || $.directive.setter)
+		var viewModel = this.scan(directiveName || $.directive.setter)
 		new Sync(viewModel, dataModel).done()
 		return this
 	}
@@ -573,35 +603,51 @@
 	Extract.prototype.done = function() {
 		var that = this
 		var result = {}
+		var hasValue
 		each(this.viewModel.view, function(itemList, propChain) {
 			var data = that.get(itemList)
 			if (data !== undefined) {
 				new Set(result, propChain, data).done()
+				hasValue = true
 			}
 		})
-		return result
+		if (hasValue) {
+			return result
+		}
 	}
 
 	Extract.prototype.get = function(itemList) {
 		var viewModel = this.viewModel
 		var view = viewModel.view
 		var $scope = viewModel.$scope
+		var scope = $scope[0]
 		var result = []
+
 		each(itemList, function(item) {
 			var $elem = item.$elem
+			var elem = $elem[0]
 			var propName = item.propList[0]
 			propName = propName.split('-')
 			var part1 = propName[0]
 			var part2 = propName.slice(1)
 			var prop = new Get($scope, part1).done()
+			var hasDeliver
 			var ret
 			if (isFn(prop)) {
+				if (part1 === 'refresh' || part1 === 'vm') {
+					if (elem === scope) {
+						return
+					}
+					if (!hasDeliver) {
+						new Deliver($elem, $scope).done()
+						hasDeliver = true
+					}
+				}
 				ret = prop.apply($elem, part2)
 
 				//不收集返回的this值
 				ret = ret !== $elem ? ret : undefined
 			} else {
-				var elem = $elem[0]
 				prop = new Get(elem, part1).done()
 				if (isFn(prop)) {
 					ret = prop.apply(elem, part2)
@@ -620,7 +666,14 @@
 
 	//收集视图中的数据，根据source指定要收集的数据及其数据结构
 	$.fn.collect = function(source, directiveName) {
-		var viewModel = $.fn.scan.call(this, directiveName || $.directive.getter, true)
+
+		if (isStr(source)) {
+			directiveName = source
+			source = null
+		}
+
+		var viewModel = this.scan(directiveName || $.directive.getter)
+
 		if (isObj(source)) {
 			var oldView = viewModel.view
 			var newView = {}
@@ -631,6 +684,7 @@
 			})
 			viewModel.view = newView
 		}
+
 		return new Extract(viewModel).done()
 	}
 

@@ -23,7 +23,7 @@ var NewTodo = React.createClass({displayName: "NewTodo",
 
 	handleKeyup: function(e) {
 		var keyCode = e.keyCode
-		if (keyCode === ENTER_KEY ||  keyCode === ESCAPE_KEY) {
+		if (keyCode === ENTER_KEY || keyCode === ESCAPE_KEY) {
 			this.handleBlur(e)
 		}
 	},
@@ -32,7 +32,12 @@ var NewTodo = React.createClass({displayName: "NewTodo",
 		return (
 			React.createElement("div", null, 
 				React.createElement("h1", null, "todos"), 
-				React.createElement("input", {id: "new-todo", placeholder: "What needs to be done?", autofocus: true, onBlur: this.handleBlur, onKeyUp: this.handleKeyup})
+				React.createElement("input", {
+					id: "new-todo", 
+					placeholder: "What needs to be done?", 
+					onBlur: this.handleBlur, 
+					onKeyUp: this.handleKeyup, 
+					autofocus: true})
 			)
 			)
 	}
