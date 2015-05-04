@@ -14,6 +14,9 @@
         },
         {
             name: 'c_listview/app'
+        },
+        {
+            name: 'router'
         }
     ]
 })
