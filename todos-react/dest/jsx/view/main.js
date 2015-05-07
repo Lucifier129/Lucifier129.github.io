@@ -8,13 +8,13 @@ var Main = React.createClass({
 
 	render: function() {
 		return (
-			<div>
+			<section id="main">
 				<input id="toggle-all" type="checkbox" onChange={this.handleChange} checked={this.props.isAllCompleted} />
 				<label htmlFor="toggle-all">Mark all as complete</label>
 				<Todos todos={this.props.todos}
 					updateTodo={this.props.updateTodo}
 					removeTodo={this.props.removeTodo} />
-			</div>
+			</section>
 			)
 	}
 })

@@ -7,8 +7,7 @@ var ESCAPE_KEY = 27
 var NewTodo = React.createClass({displayName: "NewTodo",
 
 	handleBlur: function(e) {
-		var input = e.target
-		var title = input.value.trim()
+		var title = e.target.value.trim()
 		if (title) {
 			var now = new Date()
 			this.props.addTodo({
@@ -30,7 +29,7 @@ var NewTodo = React.createClass({displayName: "NewTodo",
 
 	render: function() {
 		return (
-			React.createElement("div", null, 
+			React.createElement("header", {id: "header"}, 
 				React.createElement("h1", null, "todos"), 
 				React.createElement("input", {
 					id: "new-todo", 

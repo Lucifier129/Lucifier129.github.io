@@ -1,7 +1,7 @@
-define(function (require, exports, module) {
-/**
-* model.js
-*/
+define(function(require, exports, module) {
+	/**
+	 * model.js
+	 */
 	function Model(name) {
 		this.name = name
 		this.todos = localStorage.getItem(name)
@@ -60,6 +60,14 @@ define(function (require, exports, module) {
 				this.todos.splice(index, 1)
 			}
 		},
+		updateTodo: function(todo) {
+			var target = this.getTodo(todo.id)
+			for (var key in todo) {
+				if (todo.hasOwnProperty(key)) {
+					target[key] = todo[key]
+				}
+			}
+		},
 		clearCompleted: function() {
 			var todos = this.todos
 			for (var i = todos.length - 1; i >= 0; i--) {
@@ -76,12 +84,12 @@ define(function (require, exports, module) {
 				return false
 			}
 			for (var i = todos.length - 1; i >= 0; i--) {
-			 	if (!todos[i].completed) {
-			 		isAllCompleted = false
-			 		break
-			 	}
-			 }
-			 return isAllCompleted
+				if (!todos[i].completed) {
+					isAllCompleted = false
+					break
+				}
+			}
+			return isAllCompleted
 		},
 		save: function() {
 			localStorage.setItem(this.name, JSON.stringify(this.todos))

@@ -50,9 +50,7 @@ var Todo = React.createClass({
 		this.setState({
 			onEdit: true
 		})
-		setTimeout(function() {
-			editor.focus()
-		}, 20)
+		setTimeout(editor.focus.bind(editor), 20)
 	},
 
 	removeTodo: function() {

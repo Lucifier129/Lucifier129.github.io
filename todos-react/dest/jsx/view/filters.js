@@ -23,7 +23,7 @@ var Filters = React.createClass({
 
 	render: function() {
 		return (
-			<div>
+			<footer id="footer">
 				<span id="todo-count">{this.getTodoCount()}</span>
 				<ul id="filters">
 					<li>
@@ -37,7 +37,7 @@ var Filters = React.createClass({
 					</li>
 				</ul>
 				<button id="clear-completed" onClick={this.props.clearCompleted}>{this.getCompletedCount()}</button>
-			</div>
+			</footer>
 			)
 	}
 })

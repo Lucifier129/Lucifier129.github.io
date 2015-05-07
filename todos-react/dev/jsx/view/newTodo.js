@@ -7,8 +7,7 @@ var ESCAPE_KEY = 27
 var NewTodo = React.createClass({
 
 	handleBlur: function(e) {
-		var input = e.target
-		var title = input.value.trim()
+		var title = e.target.value.trim()
 		if (title) {
 			var now = new Date()
 			this.props.addTodo({
@@ -30,7 +29,7 @@ var NewTodo = React.createClass({
 
 	render: function() {
 		return (
-			<div>
+			<header id="header">
 				<h1>todos</h1>
 				<input
 					id="new-todo"
@@ -38,7 +37,7 @@ var NewTodo = React.createClass({
 					onBlur={this.handleBlur}
 					onKeyUp={this.handleKeyup}
 					autofocus />
-			</div>
+			</header>
 			)
 	}
 })

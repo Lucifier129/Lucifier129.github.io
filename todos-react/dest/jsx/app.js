@@ -34,12 +34,7 @@ define(function (require, exports, module) {
 			this.render()
 		},
 		updateTodo: function(todo) {
-			var target = this.model.getTodo(todo.id)
-			for (var key in todo) {
-				if (todo.hasOwnProperty(key)) {
-					target[key] = todo[key]
-				}
-			}
+			this.model.updateTodo(todo)
 			this.render()
 		},
 		removeTodo: function(id) {
@@ -50,30 +45,26 @@ define(function (require, exports, module) {
 			this.model.clearCompleted()
 			this.render()
 		},
+
 		render: function() {
 			var View = this.View
 
+			var props = {
+				//actions
+				addTodo: this.addTodo.bind(this),
+				updateTodo: this.updateTodo.bind(this),
+				removeTodo: this.removeTodo.bind(this),
+				clearCompleted: this.clearCompleted.bind(this),
+				toggleAll: this.toggleAll.bind(this),
+				//data
+				hash: '/' + location.hash.replace('#/', ''),
+				completedCount: this.model.getCompleted().length,
+				todoCount: this.model.getActive().length,
+				todos: this.getTodosByHash()
+			}
+
 			React.render(
-				<div>
-					<header id="header">
-						<View.NewTodo addTodo={this.addTodo.bind(this)} />
-					</header>
-					<section id="main">
-						<View.Main
-							isAllCompleted={this.model.isAllCompleted()}
-							todos={this.getTodosByHash()}
-							toggleAll={this.toggleAll.bind(this)}
-							updateTodo={this.updateTodo.bind(this)}
-							removeTodo={this.removeTodo.bind(this)} />
-					</section>
-					<footer id="footer">
-						<View.Filters
-							hash={'/' + location.hash.replace('#/', '')}
-							clearCompleted={this.clearCompleted.bind(this)}
-							completedCount={this.model.getCompleted().length}
-							todoCount={this.model.getActive().length} />
-					</footer>
-				</div>,
+				<View {...props} />,
 				document.getElementById('todoapp')
 				)
 		}

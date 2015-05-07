@@ -23,7 +23,7 @@ var Filters = React.createClass({displayName: "Filters",
 
 	render: function() {
 		return (
-			React.createElement("div", null, 
+			React.createElement("footer", {id: "footer"}, 
 				React.createElement("span", {id: "todo-count"}, this.getTodoCount()), 
 				React.createElement("ul", {id: "filters"}, 
 					React.createElement("li", null, 
