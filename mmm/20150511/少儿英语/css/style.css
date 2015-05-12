@@ -51,9 +51,10 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	width: 400px;
 	height: 248px;
 }
-.main .ad-section {
-	overflow: hidden;
+.main .img-section {
+	width: 100%;
 	height: 120px;
+	overflow: hidden;
 	margin-bottom: 10px;
 	background: #fff;
 }
@@ -70,18 +71,19 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 .aside {
 	position: absolute;
 	top:46px;
-	right: 0;
+	right: 0px;
 	width: 320px;
 }
 .aside .hot-section {
 	height: 278px;
 	background: #fff;
 }
-.aside .ad-section {
+.aside .img-section {
 	height: 120px;
+	overflow:hidden;
 	margin-bottom: 10px;
 }
-.aside .small-ad-section {
+.aside .small-img-section {
 	height: 76px;
 	margin-bottom: 10px;
 }
@@ -94,7 +96,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	background: #fff;
 }
 
-.ad-footer {
+.img-footer {
 	height: 88px;
 	padding-bottom: 30px;
 }
@@ -175,7 +177,7 @@ ul.list-type-01 {
 	overflow: hidden;
 }
 ul.list-type-01 li {
-	margin-bottom: 9px;
+	margin-bottom: 7px;
 	font-size: 12px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -198,6 +200,7 @@ ul.list-type-02 {
 }
 ul.list-type-02 li {
 	float: left;
+	*display:inline;
 	width: 210px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -206,6 +209,7 @@ ul.list-type-02 li {
 /*links header*/
 .links-header {
 	height: 35px;
+	overflow:hidden;
 	line-height: 35px;
 	background: #dcdddc;
 	vertical-align: middle;
@@ -271,14 +275,13 @@ ul.list-type-03 li a:hover {
 /*icon list*/
 ul.icon-list {
 	height: 70px;
-	overflow: hidden;
-	padding-left: 30px;
+	margin-left: 30px;
 	margin-top:20px;
 }
 .icon-list li {
 	float: left;
+	*display:inline;
 	margin-right: 23px;
-	overflow: hidden;
 	text-align: center;
 }
 .icon-list li a {
@@ -307,8 +310,7 @@ ul.list-type-04 li {
 /*get more*/
 a.more {
 	float: right;
-	*display: inline;
-	margin-right:10px;
+	padding-right:10px;
 	color:#6e6e6e;
 	vertical-align: middle;
 }
