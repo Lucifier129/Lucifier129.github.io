@@ -44,7 +44,6 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	position: relative;
 	height: 248px;
 	padding:15px 10px;
-	overflow: hidden;
 	background: #fff;
 }
 .main .header .slider {
@@ -178,8 +177,9 @@ ul.list-type-01 {
 }
 ul.list-type-01 li {
 	margin-bottom: 7px;
+	height: 16px;
 	font-size: 12px;
-	overflow: hidden;
+	line-height: 16px;
 	white-space: nowrap;
 }
 ul.list-type-01 li a {
