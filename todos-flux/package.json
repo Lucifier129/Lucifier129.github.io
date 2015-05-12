@@ -1,0 +1,21 @@
+{
+  "name": "todos-flux",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": ""
+  },
+  "dependencies": {
+    "es6-promise": "^2.1.1",
+    "gulp": "^3.8.11",
+    "gulp-webpack": "^1.4.0",
+    "react": "^0.13.2",
+    "flux": "^2.0.0",
+    "jsx-loader": "^0.12.2"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.5.2",
+    "gulp-react": "^3.0.1",
+    "gulp-uglify": "^1.2.0"
+  }
+}

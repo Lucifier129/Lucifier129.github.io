@@ -5,7 +5,6 @@ ehthumbs.db
 .module-cache
 
 /node_modules
-todos-flux/node_modules
 
 # Folder config file
 Desktop.ini
