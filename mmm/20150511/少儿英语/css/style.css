@@ -234,11 +234,12 @@ ul.list-type-02 li {
 }
 /*list type 03*/
 ul.list-type-03 {
-	float: left;
-	width: 310px;
+	width: 100%;
 	padding-left: 10px;
 }
 ul.list-type-03 li {
+	float: left;
+	width: 310px;
 	height: 18px;
 	overflow: hidden;
 	padding-left: 13px;
@@ -295,12 +296,12 @@ ul.icon-list {
 
 /*list type 04*/
 ul.list-type-04 {
-	float: left;
-	width: 140px;
 	margin-top: 10px;
 }
 
 ul.list-type-04 li {
+	float: left;
+	width: 140px;
 	height: 18px;
 	overflow: hidden;
 	white-space: nowrap;
