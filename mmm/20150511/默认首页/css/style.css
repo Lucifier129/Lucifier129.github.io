@@ -81,7 +81,9 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 }
 
 .recite-words {
+	width: 100%;
 	height: 300px;
+	overflow:hidden;
 	margin-bottom: 10px;
 	background: #fff;
 }
@@ -215,7 +217,8 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 
 .words-src {
 	position: relative;
-	padding-top: 15px;
+	width: 610px;
+	padding-top: 8px;
 	padding-left: 100px;
 }
 
@@ -231,16 +234,18 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 }
 
 .words-dl {
-	position: relative;
+	position:relative;
 	float: left;
-	padding-bottom: 8px;
+	*float:none;
+	padding-top: 8px;
 }
 
 .words-dl dt {
-	float: left;
-	*display: inline;
+	position:absolute;
+	top:0;
+	left:-100px;
 	width: 87px;
-	margin-left:-100px;
+	padding-top: 8px;
 	font-size: 14px;
 	font-weight: 700;
 	color:#26771d;
@@ -249,18 +254,27 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 
 .words-dl dd {
 	float: left;
-	min-width: 70px;
+	*float:none;
+	*display:inline;
+	*zoom:1;
+	min-width:70px;
 	*width:70px;
-	*width:auto;
+	height: 14px;
 	margin:0;
 	padding-right:5px;
-	padding-bottom: 10px;
+	padding-bottom: 9px;
 	white-space: nowrap;
 }
 
+.words-dl dd span {
+	font-size: 12px;
+	font-family:Arial;
+	background:#f00;
+}
 dd.long-word {
 	min-width: 0;
-	padding-right: 27px;
+	*width:auto;
+	padding-right: 25px;
 }
 
 /*link float right*/
