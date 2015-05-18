@@ -23,7 +23,7 @@
             })
         }
         var timer
-        var type = options.type ? options.type + ' mouseenter' || 'mouseenter'
+        var type = options.type ? options.type + ' mouseenter' : 'mouseenter'
         var src = options.src || 'li'
         this.on(type, src, function() {
             var that = this
