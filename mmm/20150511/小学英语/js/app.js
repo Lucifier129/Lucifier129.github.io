@@ -23,9 +23,8 @@
             })
         }
         var timer
-        var type = options.type ? options.type + ' mouseenter' : 'mouseenter'
         var src = options.src || 'li'
-        this.on(type, src, function() {
+        this.on('mouseenter', src, function() {
             var that = this
             timer = setTimeout(function() {
                 change.call(that)
@@ -33,49 +32,39 @@
         }).on('mouseleave', src, function() {
             clearTimeout(timer)
         })
-        this.find(src).eq(0).trigger(type)
+        this.find(src).eq(0).trigger('mouseenter')
     }
 }(jQuery))
 
 $(function() {
-	//dom ready
-	$('.left-side-content .height01 .tab-list').tab({
-		target: '.left-side-content .height01 .the-content',
-		src: 'a'
-	})
+    //dom ready
+    $('.left-side-content .height01 .tab-list').tab({
+        target: '.left-side-content .height01 .the-content',
+        src: 'a'
+    })
 
 
-	$('.img-player.fl .img-pager').tab({
-		target: '.img-player.fl .img-inner a',
-		src: 'span',
-		type: 'click'
-	})
+    $('.img-player.fl .img-pager').tab({
+        target: '.img-player.fl .img-inner a',
+        src: 'span'
+    })
 
-	$('.img-player.fr .img-pager').tab({
-		target: '.img-player.fr .img-inner a',
-		src: 'span',
-		type: 'click'
-	})
+    $('.img-player.fr .img-pager').tab({
+        target: '.img-player.fr .img-inner a',
+        src: 'span'
+    })
 
 
-	$('.img-player').each(function() {
-		var $elem = $(this)
-		var next = function() {
-			var $children = $elem.find('.img-pager').children()
-			var index = $elem.find('.img-pager .active').index()
-			index = (index + 1) % $children.length
-			$children.eq(index).trigger('click')
-		}
-		var timer
-		function addTimer() {
-			timer = setInterval(next, 3000)
-		}
-		$elem.on('mouseenter', '.img-pager', function() {
-			clearInterval(timer)
-		}).on('mouseleave', '.img-pager', addTimer)
-		addTimer()
-        next()
-	})
+    $('.img-player').each(function() {
+        var $elem = $(this)
+        var next = function() {
+            var $children = $elem.find('.img-pager').children()
+            var index = $elem.find('.img-pager .active').index()
+            index = (index + 1) % $children.length
+            $children.eq(index).trigger('mouseenter')
+        }
+        setInterval(next, 3000)
+    })
 
 
 

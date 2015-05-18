@@ -85,13 +85,19 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 
 .img-pager {
 	position:absolute;
-	bottom: 0px;
+	bottom: 10px;
 	left:15px;
+	z-index:2;
 	width: 100%;
+	height: 12px;
+	overflow:hidden;
 }
 
 .img-pager span {
+	position:relative;
 	display: inline-block;
+	*display:inline;
+	*zoom:1;
 	width: 12px;
 	height: 12px;
 	overflow: hidden;

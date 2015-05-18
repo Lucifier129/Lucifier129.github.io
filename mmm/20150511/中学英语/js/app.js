@@ -23,9 +23,8 @@
             })
         }
         var timer
-        var type = options.type ? options.type + ' mouseenter' : 'mouseenter'
         var src = options.src || 'li'
-        this.on(type, src, function() {
+        this.on('mouseenter', src, function() {
             var that = this
             timer = setTimeout(function() {
                 change.call(that)
@@ -33,7 +32,7 @@
         }).on('mouseleave', src, function() {
             clearTimeout(timer)
         })
-        this.find(src).eq(0).trigger(type)
+        this.find(src).eq(0).trigger('mouseenter')
     }
 }(jQuery))
 
@@ -47,14 +46,12 @@ $(function() {
 
 	$('.img-player.fl .img-pager').tab({
 		target: '.img-player.fl .img-inner a',
-		src: 'span',
-		type: 'click'
+		src: 'span'
 	})
 
 	$('.img-player.fr .img-pager').tab({
 		target: '.img-player.fr .img-inner a',
-		src: 'span',
-		type: 'click'
+		src: 'span'
 	})
 
 
@@ -64,17 +61,9 @@ $(function() {
 			var $children = $elem.find('.img-pager').children()
 			var index = $elem.find('.img-pager .active').index()
 			index = (index + 1) % $children.length
-			$children.eq(index).trigger('click')
+			$children.eq(index).trigger('mouseenter')
 		}
-		var timer
-		function addTimer() {
-			timer = setInterval(next, 3000)
-		}
-		$elem.on('mouseenter', '.img-pager', function() {
-			clearInterval(timer)
-		}).on('mouseleave', '.img-pager', addTimer)
-		addTimer()
-        next()
+        setInterval(next, 3000)
 	})
 
 

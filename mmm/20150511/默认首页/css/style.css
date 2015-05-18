@@ -65,6 +65,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 
 
 .tab-of-slider {
+	position:relative;
 	height: 165px;
 	overflow: hidden;
 	border-top:1px solid #d2d2d2;
@@ -74,6 +75,8 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 
 .main-section {
 	position:relative;
+	width: 100%;
+	overflow:hidden;
 }
 
 .left-of-main {
@@ -108,10 +111,12 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	right:0;
 	top:0;
 	width: 260px;
+	overflow:hidden;
 }
 
 .english-exam {
 	height: 310px;
+	overflow:hidden;
 	background: #fff;
 }
 
@@ -218,9 +223,8 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
     color: #c00
 }
 
-.news li a:hover,.hot .news li a:hover em {
-    border-bottom: 1px solid #000;
-    color: #333;
+.news li a:hover {
+    border-bottom: 1px solid #26771d;
 }
 
 /*introduction*/
@@ -435,6 +439,7 @@ ul.list02 {
 }
 ul.list02 li {
 	float: left;
+	width: 218px;
 	height: 18px;
 	overflow: hidden;
 	padding-left: 13px;
@@ -453,7 +458,8 @@ ul.list02 li a:hover {
 }
 
 .list03-item {
-	margin-bottom: 12px;
+	height: 16px;
+	margin-bottom: 10px;
 }
 
 .list03-item .time {
@@ -626,7 +632,9 @@ ul.icon-list {
 .tab-slider-inner {
 	position:relative;
 	width: 870px;
+	height: 104px;
 	padding:0 45px;
+	overflow:hidden;
 }
 
 .tab-slider-inner .bx-prev {
@@ -732,6 +740,7 @@ ul.icon-list {
 
 /*slidershow*/
 ul.slideshow {
+	position:relative;
 	width: 290px;
 	height: 270px;
 	overflow: hidden;
