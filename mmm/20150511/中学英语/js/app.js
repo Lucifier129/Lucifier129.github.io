@@ -43,29 +43,4 @@ $(function() {
 		src: 'a'
 	})
 
-
-	$('.img-player.fl .img-pager').tab({
-		target: '.img-player.fl .img-inner a',
-		src: 'span'
-	})
-
-	$('.img-player.fr .img-pager').tab({
-		target: '.img-player.fr .img-inner a',
-		src: 'span'
-	})
-
-
-	$('.img-player').each(function() {
-		var $elem = $(this)
-		var next = function() {
-			var $children = $elem.find('.img-pager').children()
-			var index = $elem.find('.img-pager .active').index()
-			index = (index + 1) % $children.length
-			$children.eq(index).trigger('mouseenter')
-		}
-        setInterval(next, 3000)
-	})
-
-
-
 })

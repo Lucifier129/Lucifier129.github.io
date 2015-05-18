@@ -115,6 +115,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 }
 
 .english-exam {
+	width: 100%;
 	height: 310px;
 	overflow:hidden;
 	background: #fff;

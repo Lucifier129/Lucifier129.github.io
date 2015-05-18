@@ -76,40 +76,7 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 	margin-bottom: 10px;
 }
 
-.img-player {
-	position:relative;
-	width: 320px;
-	height: 100%;
-	overflow: hidden;
-}
-
-.img-pager {
-	position:absolute;
-	bottom: 0px;
-	left:15px;
-	width: 100%;
-}
-
-.img-pager span {
-	display: inline-block;
-	width: 12px;
-	height: 12px;
-	overflow: hidden;
-	margin:0 3px;
-	text-indent: -999em;
-	border-radius: 50%;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	-o-border-radius: 50%;
-	background: #fff;
-	cursor:pointer;
-}
-
-.img-pager span.active {
-	background: #449b49;
-}
-
-.img-content a.fl {
+.ml10 {
 	margin-left: 10px;
 }
 
