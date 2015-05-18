@@ -94,10 +94,6 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	background: #fff;
 }
 
-.learn-english .links-title {
-	padding-left: 0;
-	background: none;
-}
 
 .main-learn-english,
 .main-recommend-english,
@@ -263,7 +259,7 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 	line-height: 35px;
 	font-size: 14px;
 	color:#000;
-	font-weight: 300;
+	font-weight: 700;
 	background:url(../img/icon-note.png) no-repeat left 9px;
 }
 
@@ -864,7 +860,7 @@ ul.slideshow {
 }
 
 .links-header .fr {
-	margin-right: 10px;
+	margin-right: 6px;
 }
 
 .links-header em {
