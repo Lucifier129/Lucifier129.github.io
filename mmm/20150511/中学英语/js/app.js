@@ -1,5 +1,4 @@
-;
-(function($) {
+;(function($) {
 
     $.fn.tab = function(options) {
         if (!options || !options.target) {
@@ -24,16 +23,17 @@
             })
         }
         var timer
-        var type = options.type || 'mouseenter'
-        this.on(type, options.src || 'li', function() {
+        var type = options.type ? options.type + ' mouseenter' || 'mouseenter'
+        var src = options.src || 'li'
+        this.on(type, src, function() {
             var that = this
             timer = setTimeout(function() {
                 change.call(that)
             }, 100)
-        }).on('mouseleave', 'li', function() {
+        }).on('mouseleave', src, function() {
             clearTimeout(timer)
         })
-        this.find(options.src || 'li').eq(0).trigger(type)
+        this.find(src).eq(0).trigger(type)
     }
 }(jQuery))
 
