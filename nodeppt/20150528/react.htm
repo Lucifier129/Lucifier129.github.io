@@ -1,0 +1,275 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.2.2
+    site: https://github.com/ksky521/nodePPT
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>体验React - By 古映杰</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    <link rel="stylesheet" media="print" href="./css/pdf.css">
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>体验React</h1>
+<h2>团队游研发部-前端</h2>
+<p><small>分享者: 古映杰</small><br>
+<small>Date: 2015.05.28</small></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>前端模板引擎的两种实现方式</h1>
+<h3 style="text-align:left; margin:10px 0;"><code>string-base</code>：replace替换字符或new Function拼接字符，innerHTML转化为DOM</h3>
+
+<h3 style="text-align:left; margin:10px 0;"><code>dom-base</code>：搜索现有dom上的指令（特殊的html属性），createElement或elem.cloneNode</h3>
+
+<h3 style="text-align:left; margin:10px 0;"><code>react</code>集成了两种方式，按需使用</h3>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>react 是强化版模板引擎</p>
+<div class="subSlide"><article>
+<h2>小粒度更新 DOM</h2>
+<pre><code class="javascript">var container = document.getElementById(&#39;container&#39;)
+
+//每次替换整个DOM
+container.innerHTML = Handlebars.compile(template)(data)
+</code></pre>
+<pre><code class="html">//每次对比上一次的数据，根据diff按需刷新视图
+React.render(&lt;View data={data} /&gt;, container)
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>多种渲染方案</h2>
+<ul>
+<li>demo: <a href="http://jsbin.com/zonetezace/1/edit?js,output" target="_blank">http://jsbin.com/zonetezace/1/edit?js,output</a></li>
+<li>同构JavaScript的玩法： <a href="https://github.com/Lucifier129/Isomorphism-react-todomvc" target="_blank">https://github.com/Lucifier129/Isomorphism-react-todomvc</a></li>
+</ul>
+<pre><code class="javascript">//转化为纯净的html字符串(主要用在服务端渲染)
+React.renderToStaticMarkup(vdom)
+
+//转化为带data-reactid标记的html字符串(主要用在服务端渲染)
+React.renderToString(vdom)
+
+//渲染到container中
+React.render(vdom, container)
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Virtual DOM 是什么？</h1>
+<div class="subSlide"><article>
+<h2><code>React.createElement</code> === <code>document.createElement</code>？</h2>
+<pre><code class="javascript">var link = React.createElement(&#39;a&#39;, {
+    href: &quot;http://vacations.ctrip.com/&quot;,
+    className: &#39;ctrip&#39;
+}, &#39;度假&#39;)
+
+React.render(link, document.body)
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2><code>_isReactElement</code> 属性为 <code>true</code> 的特定数据</h2>
+<pre><code class="javascript">var link = {
+    type: &#39;a&#39;,
+    props: {
+        children: &#39;度假&#39;,
+        href: &quot;http://vacations.ctrip.com/&quot;,
+        className: &#39;ctrip&#39;
+    },
+    _isReactElement: true
+};
+console.log(React.renderToString(link));
+console.log(React.renderToStaticMarkup(link));
+React.render(link, document.body);
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>JSX 语法是可视化数据构造过程</h2>
+<pre><code class="html">//数据构造
+React.createElement(&#39;a&#39;, {
+    href: &quot;http://vacations.ctrip.com/&quot;,
+    className: &#39;ctrip&#39;
+}, &#39;度&#39;, &#39;假&#39;, &#39;版&#39;, &#39;块&#39;)
+
+//可视化标签
+&lt;a className=&quot;ctrip&quot; href=&quot;http://vacations.ctrip.com/&quot;&gt;度假版块&lt;/a&gt;
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React Component 是什么？</h1>
+<div class="subSlide"><article>
+<h2>React.createClass 构造 component</h2>
+<pre><code class="html">var Link = React.createClass({
+    render: function() {
+        return &lt;a className={this.props.className} href=&quot;http://vacations.ctrip.com/&quot;&gt;{this.props.children}&lt;/a&gt;
+    }
+});
+React.render(&lt;Link className=&quot;ctrip&quot;&gt;度假板块&lt;/Link&gt;, document.body)
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>一个组织<code>Virtual DOM</code>的<code>构造函数</code></h2>
+<pre><code class="javascript">function Link(props) {this.props = props}
+Link.prototype.render = function() {
+  return {type: &#39;a&#39;, props: this.props, _isReactElement: true}
+}
+var link = {
+    type: Link,
+    props: {children: &#39;React&#39;, className: &#39;link&#39;, href: &#39;https://github.com/facebook/react&#39;},
+    _isReactElement: true
+}
+React.render(link, document.body);
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>拥有丰富的生命周期方法</h2>
+<ul>
+<li><code>getInitialState</code> &amp; <code>getDefaultProps</code>:获取初始化的状态state/props</li>
+<li><code>componentWillMount</code>: 组件将插入DOM树时调用，只会调用一次</li>
+<li><code>componentDidMount</code>: 组件已插入DOM树时调用，此时虚拟DOM有了实体DOM的对应</li>
+<li><code>componentWillReceiveProps</code>: 组件从父级组件中获得新的props时调用，组件初始化时不调用该方法</li>
+<li><code>componentWillUpdate</code>: 组件刷新视图前调用</li>
+<li><code>componentDidUpdate</code>: 组件刷新视图后调用</li>
+<li><code>componentWillUnmount</code>: 组件从DOM树中移除时调用</li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>生命周期很有用,两种瀑布流布局实现</h2>
+<ul>
+<li>绝对定位模式：在componentDidMount时，waterfall-item自动寻位</li>
+<li><a href="http://lucifier129.github.io/react-test/dest/waterfall.html" target="_blank">http://lucifier129.github.io/react-test/dest/waterfall.html</a></li>
+<li>web component 的生命周期能实现相同效果</li>
+<li><a href="http://lucifier129.github.io/lab/waterfall.html" target="_blank">http://lucifier129.github.io/lab/waterfall.html</a></li>
+<li>多列表模式：在componentWillReceiveProps时，根据数据输入确定列表数量</li>
+<li><a href="http://lucifier129.github.io/react-test/dest/waterfall01.html" target="_blank">http://lucifier129.github.io/react-test/dest/waterfall01.html</a></li>
+</ul>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Virtual DOM 的玩法</h1>
+<div class="subSlide"><article>
+<h2>渲染到Canvas</h2>
+<ul>
+<li>The listView demo of React-canvas</li>
+<li><img src="./image/02.png" alt="React-canvas ListView" title="React-canvas ListView"></li>
+<li>The listView demo of DOM</li>
+<li><img src="./image/03.png" alt="DOM ListView" title="DOM ListView"></li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>渲染成IOS、Android原生UI</h2>
+<ul>
+<li>天猫iPad客户端「猜你喜欢」业务的React Native 改造</li>
+<li><img src="./image/01.png" alt="猜你喜欢" title="猜你喜欢"></li>
+</ul>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>react 核心理念</h1>
+<ul>
+<li><p>公式：UI = f(states)</p>
+</li>
+<li><p>UI事件尽量不操作UI，操作states</p>
+</li>
+<li><p>UI组件之间的通讯尽量抽象到数据层面</p>
+</li>
+<li><p>优势：<code>learn once, write everywhere</code></p>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>谢谢</h1>
+
+</article></section></slide>
+        <!--slide class="slide thank-you-slide segue nobackground">
+            <article class="flexbox vleft auto-fadein">
+                <h2>Q &amp; A</h2>
+                <h3>&lt;Thank You!&gt;</h3>
+            </article>
+        </slide-->
+        <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+              <h2 style="color: white;">Powered By nodePPT v1.2.2</h2>
+            </article>
+          </slide>
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = location.pathname.split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'zoomin',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/hljs-0.8.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+<!--placeholder-->
+</body>
+</html>

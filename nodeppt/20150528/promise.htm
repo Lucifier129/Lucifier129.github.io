@@ -1,0 +1,341 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.2.2
+    site: https://github.com/ksky521/nodePPT
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Promise异步编程风格 - By yj_gu</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    <link rel="stylesheet" media="print" href="./css/pdf.css">
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise异步编程风格</h1>
+<p><small>分享者: 古映杰</small><br>
+<small>Date: 2015.05.28</small></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Callback Hell</h1>
+<h2>著名的回调地狱</h2>
+<pre><code class="javascript">$.get(provinceUrl, function(provinceList) {
+  $.each(provinceList, function(province) {
+    $.get(cityUrl, {province: province}, function(cityList) {
+      $.each(cityList, function(city) {
+        $.get(areaUrl, {city:city}, function(areaList) {
+          //all data is ready, do something here
+        })
+      })
+    })
+  })
+})
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise style</h1>
+<pre><code class="javascript">getProvince(provinceUrl)
+.then(getCityByProvince)
+.then(getAreaByCity)
+.then(handleAllData)
+.catch(handleError)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise的含义</h1>
+<ul>
+<li>中文语义：<code>承诺</code></li>
+<li>状态列表：<code>Pedding</code>待定、<code>Fulfilled</code>完成、<code>Rejected</code>拒绝</li>
+<li>状态规则：<ul>
+<li>状态的变化单向不可逆</li>
+<li>初始化状态：Pedding</li>
+<li>Pedding =&gt; Fulfilled</li>
+<li>Pedding =&gt; Rejected</li>
+</ul>
+</li>
+<li>Promise/A+规范: <a href="http://segmentfault.com/a/1190000002452115" target="_blank">http://segmentfault.com/a/1190000002452115</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 的语法</h1>
+<pre><code class="javascript">var promise = new Promise(function(resolve, reject) {
+    var xhr = new XMLHttpRequest()
+    xhr.open(&#39;GET&#39;, &#39;package.json&#39;, true)
+    xhr.onload = function() { 
+        resolve(this.responseText)
+    }
+    xhr.onerror = reject
+    xhr.send(null)
+})
+
+promise.then(onFulfilled, onRejected)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 特性之异步</h1>
+<h2>承诺不会立即兑现</h2>
+<pre><code class="javascript">var promise = new Promise(function(resolve, reject) {
+    console.log(0)
+    resolve(1)
+    console.log(2)
+})
+console.log(3)
+promise.then(function(value) {
+    console.log(value)
+})
+console.log(4)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 特性之慷慨</h1>
+<h2>除非承诺被忽略，否则承诺到天荒地老</h2>
+<h2><code>then</code> 方法总返回新的<code>Promise</code>实例</h2>
+<pre><code class="javascript">var promise0 = new Promise(function(resolve, reject) {
+    resolve(0)
+})
+var promise1 = promise0.then(function(value) {return value})
+var promise2 = promise0.then(function(value) {return value})
+var promise3 = promise1.then(function(value) {return value})
+console.log(promise0 === promise1, promise0 === promise2, promise0 === promise3)
+console.log(promise1 === promise2, promise1 === promise3)
+console.log(promise2 === promise3)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 特性之传递</h1>
+<h2>onFulfilled 的返回值在 onFulfilled 里传递，onRejected 的返回值在 onRejected 里传递</h2>
+<pre><code class="javascript">new Promise(function(resolve) {
+    resolve(1)
+}).then(function(value) {
+    return value + 1
+}).then(function(value) {
+    return value * value
+}).then(function(value) {
+    console.log(value)
+})
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 特性之嵌套</h1>
+<h2><code>resolve</code>权限掌握在最里层的<code>promise对象</code>手中</h2>
+<h2><code>then</code>方法返回的<code>promise对象</code>能插队</h2>
+<pre><code class="javascript">new Promise(function(parentResolve) {
+    parentResolve(new Promise(function(childResolve) {
+        setTimeout(childResolve.bind(null, &#39;嵌套promise&#39;), 1000)
+    }))
+}).then(function(value) {
+    return new Promise(function(anotherResolve) {
+        setTimeout(anotherResolve.bind(null, value + &#39; &amp; then方法返回的promise&#39;), 1000)
+    })
+}).then(function(value) {
+    console.log(value)
+})
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 的语法糖</h1>
+<h2><code>Promise.resolve</code> and <code>Promise.reject</code> and <code>Promise.prototype.catch</code></h2>
+<pre><code class="javascript">Promise.resolve(1)
+new Promise(function(resolve) {
+    resolve(1)
+})
+
+Promise.reject(2)
+new Promise(function(resolve, reject) {
+    reject(2)
+})
+
+Promise.resolve(1).catch(onRejected)
+Promise.resolve(1).then(undefined, onRejected)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Promise 的两个静态方法</h1>
+<h2><code>Promise.all</code> and <code>Promise.race</code></h2>
+<pre><code class="javascript">//@promiseList {Array}
+//@resultList {Array}
+Promise.all(promiseList).then(function(resultList) {})
+
+//@promiseList {Array}
+//@result {*}
+Promise.race(promiseList).then(function(result) {})
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Thenable 对象</h1>
+<div class="subSlide"><article>
+<h2>Promise.resolve 能将 thenabel 转化成 promise 对象</h2>
+<pre><code class="javascript">var thenable = {
+    value: 1,
+    then: function(onFulfilled, onRejected) {
+        if (this.value) {
+            onFulfilled(this.value)
+        } else {
+            onRejected()
+        }
+    }
+}
+Promise.resolve(thenable).then(function(value) {console.log(value)})
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>假承诺模式 <a href="http://code.w3ctech.com/detail/209" target="_blank">http://code.w3ctech.com/detail/209</a></h2>
+<pre><code class="javascript">var thenable = {
+    value: 0,
+    then: function(onFulfilled) {
+        console.log(this.value++)
+        setTimeout(onFulfilled.bind(null, this), 1000)
+    }
+}
+Promise.resolve(thenable).then(function(value) {
+    console.log(value) //never run
+})
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>$.ajax 的返回值是一个 thenable 对象</h2>
+<pre><code class="javascript">var fetchData = Promise.resolve($.get(&#39;a.txt&#39;)) //转化为promise对象
+fetchData.then(function(result) {
+    //do something
+}).catch(function(error) {
+    //handle error
+})
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>jQuery 实现了一个不完备的 promise</h1>
+<div class="subSlide"><article>
+<h2>没有传递，并不慷慨</h2>
+<pre><code class="javascript">$.get(&#39;data.txt&#39;).then(function(data){
+    return $.parseJSON(data)
+}).then(function(data) {
+    console.log(data) //还是字符串
+})
+
+fetch(&#39;data.txt&#39;).then(JSON.parse).then(function(json) {
+    cosnole.log(json) //javascript plain object
+})
+
+//jquery then 方法源码
+function (a,b,c){i.done(a).fail(b).progress(c);return this}
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>没有嵌套</h2>
+<pre><code class="javascript">$.get(&#39;data1.txt&#39;).then(function(data1) {
+    return $.get(&#39;data2.txt&#39;) //默默发出请求
+}).then(function(data2) {
+    //data2 === data1
+})
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>jQuery.when !== Promise.all</h2>
+<pre><code class="javascript">var urls = [&#39;a.txt&#39;, &#39;b.txt&#39;, &#39;c.txt&#39;, &#39;d.txt&#39;]
+
+$.when.apply(null, urls.map($.get)).then(function(result1, result2, result3) {
+    console.log(result1, result2, result3)
+})
+
+Promise.all(urls.map($.get)).then(function(results) {
+    console.log(results) //results is Array type
+})
+</code></pre>
+
+</article></div>
+</article></section></slide>
+        <!--slide class="slide thank-you-slide segue nobackground">
+            <article class="flexbox vleft auto-fadein">
+                <h2>Q &amp; A</h2>
+                <h3>&lt;Thank You!&gt;</h3>
+            </article>
+        </slide-->
+        <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+              <h2 style="color: white;">Powered By nodePPT v1.2.2</h2>
+            </article>
+          </slide>
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = location.pathname.split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'move',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/hljs-0.8.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+<!--placeholder-->
+</body>
+</html>
