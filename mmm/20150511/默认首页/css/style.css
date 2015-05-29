@@ -198,12 +198,14 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 
 .news li {
     height: 26px;
-    line-height: 26px
+    line-height: 26px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .news li a {
     font-size: 14px;
-    color: #333
+    color: #333;
 }
 
 .news li a em {
@@ -508,8 +510,14 @@ ul.icon-list {
 }
 
 .list04 a {
+	float: left;
+	*display: inline;
+	width: 112px;
 	margin:0 4px;
+	height: 24px;
+	white-space: nowrap;
 	line-height: 24px;
+	overflow: hidden;
 }
 
 /*tab list*/
@@ -839,8 +847,13 @@ ul.slideshow {
 
 .dl02 dd {
 	float: left;
+	width: 48px;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 16px;
+	line-height: 16px;
 	margin:0;
-	margin-right:28px;
+	padding-right:28px;
 	margin-bottom: 10px;
 }
 
