@@ -1,6 +1,16 @@
-# 用promise模式读取目录下的所有文件
+# Promise实战之读取文件目录
 
-读取某一目录下的所有文件信息，是`nodejs`里的经典题目之一。看一下用`Promise`风格来写是怎样的。
+读取某一目录下的所有文件信息，是`nodejs`的经典题目之一。看一下用`Promise`风格来写是怎样的。
+
+我们的目标是写一个`Tree`类
+
+- `Tree#readdir`：读取目录下的所有文件
+- `Tree#stringify`: 输出`JSON`字符串的数据
+- `Tree#saveTo(path)`: 以`JSON`格式保存数据到`path`路径
+- `Tree`#get(path): 根据`path`返回子`tree`
+- `Tree`#set(path): 根据`path`建立文件夹
+－ `Tree`#add(file, data): 添加文件并写入数据
+
 
 首先是将`fs.readdir`、`fs.stat`以及`fs.writeFile`包装成`Promise`版本
 
