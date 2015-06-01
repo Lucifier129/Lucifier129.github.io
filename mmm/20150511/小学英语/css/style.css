@@ -228,8 +228,8 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 
 .tree li {
     height: 24px;
+    overflow: hidden;
     line-height: 24px;
-    font-size: 0
 }
 
 .tree li a {
@@ -251,6 +251,8 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 	float: left;
 	*display: inline;
 	width: 185px;
+	height: 16px;
+	overflow: hidden;
 	margin-left: 28px;
 	margin-bottom: 12px;
 }
@@ -269,6 +271,8 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 
 .list-view02 a {
 	display: block;
+	height: 16px;
+	overflow: hidden;
 	margin-bottom: 12px;
 }
 
@@ -300,6 +304,8 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
     float: left;
     _display: inline;
     width: 570px;
+    height: 36px;
+    overflow: hidden;
     font-size: 0;
     *word-spacing: -1px
 }
@@ -327,7 +333,11 @@ ul.list-of-nav li.active a,ul.list-of-nav li a:hover {
 }
 
 .right-side-content .height01 .list-view02 a {
+	display: block;
+	width: 220px;
 	line-height: 24px;
+	height: 24px;
+	overflow: hidden;
 	margin-bottom: 0;
 }
 
@@ -341,6 +351,9 @@ ul.icon-list {
 .icon-list li {
 	float: left;
 	*display:inline;
+	width: 48px;
+	height: 70px;
+	overflow: hidden;
 	margin-right: 12px;
 	text-align: center;
 }
@@ -362,7 +375,12 @@ ul.icon-list {
 }
 
 .list04 a {
-	margin:0 4px;
+	float: left;
+	*display:inline;
+	width: 112px;
+	height: 24px;
+	overflow: hidden;
+	padding:0 4px;
 	line-height: 24px;
 }
 
@@ -374,6 +392,7 @@ ul.icon-list {
 
 .list-view03 a {
 	display: block;
+	width: 210px;
 	height: 24px;
 	line-height: 24px;
 	padding-left: 12px;

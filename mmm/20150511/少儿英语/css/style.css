@@ -128,6 +128,7 @@ ul.slideshow {
 .slideshow li {
 	position: relative;
 	height: 100%;
+	overflow: hidden;
 }
 .slideshow li span.translucent {
 	position: absolute;
@@ -139,6 +140,17 @@ ul.slideshow {
 	font-size: 14px;
 	text-indent: 20px;
 	color:#fff;
+}
+
+.slideshow li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.slideshow li img {
+	display: block;
+	width: 100%;
 }
 
 .bx-controls {
@@ -282,6 +294,9 @@ ul.icon-list {
 .icon-list li {
 	float: left;
 	*display:inline;
+	width: 48px;
+	height: 70px;
+	overflow: hidden;
 	margin-right: 23px;
 	text-align: center;
 }
@@ -307,6 +322,11 @@ ul.list-type-04 li {
 	white-space: nowrap;
 	margin-bottom: 5px;
 	line-height: 18px;
+}
+ul.list-type-04 li a {
+	display: block;
+	width: 130px;
+	overflow: hidden;
 }
 /*get more*/
 a.more {
