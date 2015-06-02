@@ -1,7 +1,32 @@
 var fs = require('fs')
 var join = require('path').join
 
-//获取Path路径下的所有文件files
+/**
+* 处理promise数组
+* @param {array<promise>} promiseList
+* @return {promise} reslove数组value的promise对象  
+*/
+var handlePromiseList = function(promiseList) {
+    if (!Array.isArray(promiseList)) {
+        throw new Error(promiseList + ' is not Array type')
+    }
+    var len = promiseList.length
+    if (len === 0) {
+        return Promise.resolve([])
+    } else if (len === 1) {
+        return promiseList[0].then(function(result) {
+            return [result]
+        })
+    } else if (len > 1) {
+        return Promise.all(promiseList)
+    }
+}
+
+/**
+* 获取目录下的所有文件
+* @param {string} path
+* @return {promise} resolve files || reject error
+*/
 var readdir = function(path) {
     return new Promise(function(resolve, reject) {
         fs.readdir(path, function(err, files) {
@@ -10,7 +35,12 @@ var readdir = function(path) {
     })
 }
 
-//将data写入path路径的文件中
+/**
+* 将data写入文件
+* @param {string} path 路径
+* @param {data} data
+* @return {promise} resolve files || reject error
+*/
 var writeFile = function(path, data) {
     return new Promise(function(resolve, reject) {
         fs.writeFile(path, data, function(err) {
@@ -19,6 +49,11 @@ var writeFile = function(path, data) {
     })
 }
 
+/**
+* 读取文件数据
+* @param {string} path 路径
+* @return {promise} resolve data || reject error
+*/
 var readFile = function(path) {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, function(err, data) {
@@ -27,9 +62,23 @@ var readFile = function(path) {
     })
 }
 
+/**
+* 判断path是否存在
+* @param {string} path 路径
+* @return {promise} resolve exists
+*/
+var exists = function(path) {
+    return new Promise(function(resolve) {
+        fs.exists(path, resolve)
+    })
+}
 
-//删除文件
-var del = function(path) {
+/**
+* 删除文件
+* @param {string} path 路径
+* @return {promise} resolve path || reject error
+*/
+var unlink = function(path) {
     return new Promise(function(resolve, reject) {
         fs.unlink(path, function(err) {
             err ? reject(err) : resolve(path)
@@ -37,57 +86,46 @@ var del = function(path) {
     })
 }
 
-//删除文件夹
-var rmdir = function(path) {
+/**
+* 重命名文件或文件夹
+* @param {string} oldName 
+* @param {string} newName
+* @return {promise} resolve newName || reject error
+*/
+var rename = function(oldName, newName) {
     return new Promise(function(resolve, reject) {
-        readdir(path).then(function(files) {
-            if (!files.length) {
-                return
-            }
-            var pathList = files.map(function(filename) {
-                return join(path, filename)
-            })
-            return handlePromiseList(pathList.map(getPathType)).then(function(types) {
-                types = Array.isArray(types) ? types : types ? [types] : []
-                var promiseList = types.map(function(type, index) {
-                    return type === 'directory' ? rmdir(pathList[index]) : del(pathList[index])
-                })
-                return handlePromiseList(promiseList)
-            })
+        fs.rename(oldName, newName, function(err) {
+            err ? reject(err) : resolve(newName)
         })
-        .then(function() {
-            fs.rmdir(path, function(err) {
-                err ? reject(err) : resolve(path)
-            })
-        }).catch(reject)
     })
 }
 
-//根据path判断是文件还是文件夹类型
-var getPathType = function(path) {
+/**
+* 获取文件属性
+* @param {string} path
+* @return {promise} resolve stats || reject error
+*/
+var stat = function(path) {
     return new Promise(function(resolve, reject) {
         fs.stat(path, function(err, stats) {
-            err ? reject(err) : resolve(stats.isDirectory() ? 'directory' : 'file')
+            err ? reject(err) : resolve(stats)
         })
     })
 }
 
-//判断path是否存在
-var exists = function(path) {
-    return new Promise(function(resolve) {
-        fs.exists(path, resolve)
-    })
-}
-
-//创建文件夹
+/**
+* 创建单个文件夹
+* @param {string} path
+* @return {promise} resolve path || reject error
+*/
 var mkdir = function(path) {
     return new Promise(function(resolve, reject) {
         exists(path).then(function(exists) {
             if (!exists) {
                 return false
             }
-            return getPathType(path).then(function(type) {
-                return type === 'directory'
+            return stat(path).then(function(stats) {
+                return stats.isDirectory()
             })
         }).then(function(exists) {
             if (exists) {
@@ -100,39 +138,68 @@ var mkdir = function(path) {
     })
 }
 
+/**
+* 创建链式文件夹
+* @param {string} path
+* @return {promise} resolve path || reject error
+*/
 var mkdirs = function(path) {
     var src = path.split(/[\\\/]+/)
     var index = 0
     var len = src.length
     var promise = Promise.resolve(process.cwd())
     while (index <= len - 1) {
-        promise = promise.then(mkdir.bind(null, join.apply(null, src.slice(0, ++index))))
+        promise = promise.then(mkdir.bind(null, join.apply(null, ['/'].concat(src.slice(0, ++index)))))
     }
     return promise
 }
 
-var rename = function(oldName, newName) {
+/**
+* 删除文件夹
+* @param {string} path
+* @return {promise} resolve path || reject error
+*/
+var rmdir = function(path) {
     return new Promise(function(resolve, reject) {
-        fs.rename(oldName, newName, function(err) {
-            err ? reject(err) : resolve(newName)
+        readdir(path).then(function(files) {
+            if (!files.length) {
+                return
+            }
+            var pathList = files.map(function(filename) {
+                return join(path, filename)
+            })
+            return handlePromiseList(pathList.map(stat)).then(function(statsList) {
+                var promiseList = statsList.map(function(stats, index) {
+                    return stats.isDirectory() ? rmdir(pathList[index]) : unlink(pathList[index])
+                })
+                return handlePromiseList(promiseList)
+            })
         })
+        .then(function() {
+            fs.rmdir(path, function(err) {
+                err ? reject(err) : resolve(path)
+            })
+        }).catch(reject)
     })
 }
 
-var handlePromiseList = function(promiseList) {
-    var len
-        //不是数组，或者是空数组，返回[[value]]为null的promise
-    if (!Array.isArray(promiseList) || !(len = promiseList.length)) {
-        return Promise.resolve(null)
-    } else if (len === 1) {
-        //只有一个promise，返回它
-        return promiseList[0]
-    } else if (len > 1) {
-        //有两个或两个以上的promise时，用Promise.all打包
-        return Promise.all(promiseList)
-    }
+/**
+* 根据path判断是文件还是文件夹类型
+* @param {string} path
+* @return {string} directory || file
+*/
+var getPathType = function(path) {
+    return stat(path).then(function(stats) {
+        return stats.isDirectory() ? 'directory' : 'file'
+    })
 }
 
+/**
+* 根据path判断是文件还是文件夹类型
+* @param {string} path 路径
+* @param {string} name 名称
+* @param {string} [type] 类型
+*/
 function Tree(path, name, type) {
     this.path = path
     this.name = name
@@ -141,11 +208,17 @@ function Tree(path, name, type) {
     this.type = typeof type === 'string' && type ? type : 'directory'
 }
 
+/**
+* 保存子树
+* @param {array<string>} files 文件名列表
+* @param {string} types 文件类型列表
+* @return {promise} 
+* @api private
+*/
 Tree.prototype._saveChildren = function(files, types) {
     var that = this
     var path = this.path
     var promiseList = []
-    types = Array.isArray(types) ? types : types ? [types] : []
     this.children = files.map(function(filename, index) {
         var type = types[index]
         var filepath = join(path, filename)
@@ -158,6 +231,12 @@ Tree.prototype._saveChildren = function(files, types) {
     return handlePromiseList(promiseList) //return promise
 }
 
+/**
+* 处理文件名列表
+* @param {array<string>} files 文件名列表
+* @return {promise} 
+* @api private
+*/
 Tree.prototype._handleFiles = function(files) {
     if (!files.length) {
         this.children = [] //空文件夹，children为空数组
@@ -174,6 +253,11 @@ Tree.prototype._handleFiles = function(files) {
     })
 }
 
+/**
+* 深度读取文件目录
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.readdir = function() {
     if (this.type !== 'directory') {
         return Promise.resolve(this)
@@ -194,20 +278,44 @@ Tree.prototype.readdir = function() {
     return promise
 }
 
+/**
+* 读取文件数据
+* @param {string} path 如果tree类型为file，忽略path，读取文件；如果是文件夹类型，path为相对路径
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.readFile = function(path) {
     return this.type === 'file' ? readFile(this.path) : readFile(join(this.path, path))
 }
 
+/**
+* 将tree按照json格式字符串化
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.stringify = function() {
     return this.readdir().then(JSON.stringify) //return promise
 }
 
+
+/**
+* 保存tree数据
+* @param {string} path 目标路径
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.saveTo = function(path) {
     return this.stringify().then(function(data) {
         return writeFile(path, data) //return promise
     })
 }
 
+/**
+* 获取子tree
+* @param {string} path 相对路径
+* @return {tree} 
+* @api private
+*/
 Tree.prototype._get = function(path) {
     var src = path.trim().replace(/^\.\//, '').split(/[\\\/]+/)
     var name = src.shift()
@@ -237,6 +345,12 @@ Tree.prototype._get = function(path) {
     return tree
 }
 
+/**
+* 保存tree数据
+* @param {string} path 目标路径
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.get = function(path) {
     if (this.type !== 'directory') {
         return Promise.reject(new Error(this.path + ' is not directory'))
@@ -246,6 +360,13 @@ Tree.prototype.get = function(path) {
     })
 }
 
+/**
+* 添加文件到tree
+* @param {string} filename 文件名
+* @param {data} data 写入文件的数据
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.add = function(filename, data) {
     if (this.type !== 'directory') {
         return Promise.reject(new Error(this.path + ' is not directory'))
@@ -253,6 +374,12 @@ Tree.prototype.add = function(filename, data) {
     return writeFile(join(this.path, filename), data || '').catch(console.error.bind(console))
 }
 
+/**
+* 添加文件夹到tree
+* @param {string} dirname 文件夹名
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.mkdir = function(dirname) {
     if (this.type !== 'directory') {
         return Promise.reject(new Error(this.path + ' is not directory'))
@@ -260,6 +387,12 @@ Tree.prototype.mkdir = function(dirname) {
     return mkdirs(join(this.path, dirname))
 }
 
+/**
+* 在tree中删除path路径
+* @param {string} path 要删除的路径，允许文件与文件夹类型
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.del = function(path) {
     if (this.type === 'file') {
         return del(this.path)
@@ -270,13 +403,20 @@ Tree.prototype.del = function(path) {
             return false
         }
         return getPathType(path).then(function(type) {
-            return type === 'directory' ? rmdir(path) : del(path)
+            return type === 'directory' ? rmdir(path) : unlink(path)
         }).then(function() {
             return true
         })
     })
 }
 
+/**
+* 重命名tree里的文件或文件夹
+* @param {string} oldName
+* @param {string} newName
+* @return {promise} 
+* @api public
+*/
 Tree.prototype.rename = function(oldName, newName) {
     if (this.type === 'file') {
         newName = oldName
@@ -287,5 +427,19 @@ Tree.prototype.rename = function(oldName, newName) {
     newName = join(this.path, newName.replace(/^\.\//, ''))
     return rename(oldName, newName)
 }
+
+Tree.readdir = readdir
+Tree.readFile = readFile
+Tree.writeFile = writeFile
+Tree.unlink = unlink
+Tree.exists = exists
+Tree.stat = stat
+Tree.mkdir = mkdir
+Tree.mkdirs = mkdirs
+Tree.rmdir = rmdir
+Tree.rename = rename
+Tree.getPathType = getPathType
+Tree.handlePromiseList = handlePromiseList
+
 
 module.exports = Tree
