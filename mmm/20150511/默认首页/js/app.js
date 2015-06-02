@@ -1,4 +1,5 @@
-;(function($) {
+;
+(function($) {
 
     $.fn.tab = function(options) {
         if (!options || !options.target) {
@@ -46,6 +47,7 @@ $(function() {
             touchEnabled: false,
             auto: true,
             autoHover: true,
+            responsive: false,
             slideMargin: 0,
             useCSS: false,
             onSlideAfter: function() {
@@ -53,30 +55,26 @@ $(function() {
                 slider.startAuto()
             }
         })
-        $(this).data('slider', slider)
     })
 
     $('.tab-slider').each(function() {
-    	var slider = $(this).bxSlider({
-	        slideWidth: 114,
-	        minSlides: 3,
-	        maxSlides: 30,
-	        moveSlides: 3,
-	        slideMargin: 12,
+        var slider = $(this).bxSlider({
+            slideWidth: 114,
+            minSlides: 3,
+            maxSlides: 30,
+            moveSlides: 3,
+            responsive: false,
+            slideMargin: 12,
             useCSS: false,
-	        pager: false,
-	        touchEnabled: false
-	    })
-	    $(this).data('slider', slider)
+            pager: false,
+            touchEnabled: false
+        })
     })
 
     $('.tab-of-slider .tab-header').tab({
         target: '.tab-of-slider .tab-slider-content',
         callback: function($target) {
-        	var slider = $target.find('.tab-slider').data('slider')
-        	if (slider) {
-        		slider.reloadSlider()
-        	}
+            regulate($target)
         }
     })
 
@@ -91,20 +89,24 @@ $(function() {
     })
 
     $('.english-skill .tab-list').tab({
-    	target: ['.english-skill .main-english-skill', '.english-skill .links-header .fr'],
-    	src: 'a'
+        target: ['.english-skill .main-english-skill', '.english-skill .links-header .fr'],
+        src: 'a'
     })
 
     $('.learn-english .tab-list').tab({
         target: '.learn-english .main-learn-english',
         src: 'a',
         callback: function($target, selector) {
-            var slider = $target.find('.slideshow').data('slider')
-            if (slider) {
-                slider.reloadSlider()
-            }
+            regulate($target)
         }
     })
+
+    function regulate(elem) {
+        $(elem || document).find('.bx-viewport').each(function() {
+            var $this = $(this)
+            $this.height($this.children().height())
+        })
+    }
 
 
 })

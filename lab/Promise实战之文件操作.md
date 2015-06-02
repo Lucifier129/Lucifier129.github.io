@@ -1,4 +1,4 @@
-# Promise实战之读取文件目录
+# Promise实战之文件操作
 
 读取某一目录下的所有文件信息，是`nodejs`的经典题目之一。看一下用`Promise`风格来写是怎样的。
 
@@ -7,9 +7,11 @@
 - `Tree#readdir`：读取目录下的所有文件
 - `Tree#stringify`: 输出`JSON`字符串的数据
 - `Tree#saveTo(path)`: 以`JSON`格式保存数据到`path`路径
-- `Tree`#get(path): 根据`path`返回子`tree`
-- `Tree`#set(path): 根据`path`建立文件夹
-－ `Tree`#add(file, data): 添加文件并写入数据
+- `Tree#get(path)`: 根据`path`返回子`tree`
+- `Tree#add(filename, data)`: 添加文件并写入数据
+- `Tree#del(path)`: 删除`path`路径的文件夹或文件，如果不传参数，则删除自身
+
+上述所有实例方法都返回promise对象。
 
 
 首先是将`fs.readdir`、`fs.stat`以及`fs.writeFile`包装成`Promise`版本

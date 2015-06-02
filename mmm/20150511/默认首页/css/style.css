@@ -711,10 +711,11 @@ ul.icon-list {
 }
 
 .tab-slider {
+	position:relative;
+	z-index:10;
 	width: 110%;
 	height: 104px;
 	overflow: hidden;
-	
 }
 
 .tab-slider li {
@@ -739,8 +740,13 @@ ul.icon-list {
 	position:relative;
 	float: left;
 	width: 232px;
-	height: 240px;
+	height: 230px;
 	overflow:hidden;
+}
+
+.slideshow02 .slider {
+	width: 232px;
+	height: 230px;
 }
 
 .slideshow02 ul.slideshow {
@@ -799,7 +805,7 @@ ul.slideshow {
 	height: 32px;
 	line-height: 32px;
 	font-size: 14px;
-	text-indent: 20px;
+	text-align: center;
 	color:#fff;
 }
 
