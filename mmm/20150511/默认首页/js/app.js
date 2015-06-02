@@ -46,6 +46,8 @@ $(function() {
             touchEnabled: false,
             auto: true,
             autoHover: true,
+            slideMargin: 0,
+            useCSS: false,
             onSlideAfter: function() {
                 slider.stopAuto()
                 slider.startAuto()
@@ -61,6 +63,7 @@ $(function() {
 	        maxSlides: 30,
 	        moveSlides: 3,
 	        slideMargin: 12,
+            useCSS: false,
 	        pager: false,
 	        touchEnabled: false
 	    })

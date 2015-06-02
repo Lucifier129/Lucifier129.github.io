@@ -66,9 +66,8 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 
 .tab-of-slider {
 	position:relative;
-	height: 165px;
-	overflow: hidden;
-	border-top:1px solid #d2d2d2;
+	height: 166px;
+	overflow:hidden;
 	background: #fff;
 	margin-bottom: 10px;
 }
@@ -133,11 +132,15 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	height: 300px;
 }
 
-.short-aside-tab ul.list01 li {
+.short-aside-tab ul.list01 li, .aside-tab ul.list01 li {
 	line-height: 24px;
 	padding-left: 10px;
 	text-indent: 0;
 	background: url(../img/square.jpg) no-repeat left center;
+}
+
+.short-aside-tab ul.list01 li a, .aside-tab ul.list01 li a {
+	height: 24px;
 }
 
 .footer {
@@ -410,11 +413,17 @@ ul.list01 {
 }
 
 .list01 li {
-	width: 280px;
+	width: 270px;
 	height: 24px;
 	overflow:hidden;
-	text-indent: 10px;
-	white-space: nowrap;
+	padding-left: 10px;
+}
+
+.list01 li a {
+	display:block;
+	width: 260px;
+	height: 16px;
+	overflow:hidden;
 }
 
 .list01 li span {
@@ -576,8 +585,8 @@ ul.icon-list {
 /*tab-header*/
 .tab-header {
 	height: 30px;
-	overflow: hidden;
 	line-height: 30px;
+	border-top:1px solid #d2d2d2;
 }
 
 .tab-header h3 {
@@ -597,14 +606,12 @@ ul.icon-list {
 	float: left;
 	*display: inline;
 	width: 500px;
-	overflow: hidden;
 	margin-left: 40px;
 }
 
 .tab-title li {
 	float: left;
 	height: 30px;
-	margin-left:-1px;
 	text-align: center;
 	vertical-align: middle;
 	cursor: pointer;
@@ -612,7 +619,11 @@ ul.icon-list {
 
 .tab-title li span {
 	padding:0 15px;
+}
+
+.tab-title li span.border {
 	border-left:1px solid #ebebf2;
+	border-right:1px solid #ebebf2;
 }
 
 .tab-title li.active {
@@ -725,9 +736,11 @@ ul.icon-list {
 
 /*slideshow02*/
 .slideshow02 {
+	position:relative;
 	float: left;
 	width: 232px;
 	height: 240px;
+	overflow:hidden;
 }
 
 .slideshow02 ul.slideshow {
@@ -755,19 +768,27 @@ ul.slideshow {
 
 .slideshow li {
 	position: relative;
+	*display:inline;
 	height: 100%;
 	overflow:hidden;
+}
+
+.slideshow02 li {
+	width: 232px;
 }
 
 .slideshow li a {
 	display: block;
 	width: 100%;
 	height: 100%;
+	overflow:hidden;
 }
 
 .slideshow li img {
+	position:relative;
 	display: block;
 	width: 100%;
+	height: 100%;
 }
 
 .slideshow li span.translucent {
@@ -812,7 +833,7 @@ ul.slideshow {
 /*white box*/
 .white-box {
 	float: left;
-	width: 200px;
+	width: 210px;
 	overflow: hidden;
 }
 
@@ -868,7 +889,7 @@ ul.slideshow {
 	height: 16px;
 	line-height: 16px;
 	margin:0;
-	padding-right:28px;
+	padding-right: 33px;
 	margin-bottom: 10px;
 }
 
