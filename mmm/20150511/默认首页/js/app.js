@@ -60,6 +60,11 @@ $(function() {
             }
         })
         var width = slider.parent().width()
+        setTimeout(function() {
+            slider.css({
+                left: Math.round(parseFloat(slider.css('left'), 10) / width) * width
+            })
+        }, 10)
     })
 
     $('.tab-slider').each(function() {
