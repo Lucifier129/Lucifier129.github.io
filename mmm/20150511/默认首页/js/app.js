@@ -51,10 +51,15 @@ $(function() {
             slideMargin: 0,
             useCSS: false,
             onSlideAfter: function() {
+                //插件有问题，在低版本浏览器里小数点不精确
+                slider.css({
+                    left: Math.round(parseFloat(slider.css('left'), 10) / width) * width
+                })
                 slider.stopAuto()
                 slider.startAuto()
             }
         })
+        var width = slider.parent().width()
     })
 
     $('.tab-slider').each(function() {
