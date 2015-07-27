@@ -7,18 +7,18 @@
 	</head>
 	<body>
 		<section id="todoapp">
-			<header id="header" data-helper="header">
+			<header id="header">
 				<h1>todos</h1>
 				<input id="new-todo" placeholder="What needs to be done?" autofocus>
 			</header>
-			<section id="main" data-helper="main">
-				<input id="toggle-all" type="checkbox">
+			<section id="main">
+				<input id="toggle-all" type="checkbox" data-directive="toggleAll">
 				<label for="toggle-all">Mark all as complete</label>
-				<ul id="todo-list"></ul>
+				<ul id="todo-list" data-directive="todoList"></ul>
 			</section>
-			<footer id="footer" data-helper="footer">
-				<span id="todo-count"></span>
-				<ul id="filters">
+			<footer id="footer">
+				<span id="todo-count" data-directive="todoCount"></span>
+				<ul id="filters" data-directive="filters">
 					<li>
 						<a href="#/" class="selected">All</a>
 					</li>
@@ -29,7 +29,7 @@
 						<a href="#/completed">Completed</a>
 					</li>
 				</ul>
-				<button id="clear-completed"></button>
+				<button id="clear-completed" data-directive="clearCompleted"></button>
 			</footer>
 		</section>
 		<footer id="info">

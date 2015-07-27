@@ -1,20 +1,47 @@
-/**
- * model.js
- */
+import { isObject } from './helper'
+
 export default class Model {
-    constructor() {
+    constructor(name) {
         this.name = name
-        Object.defineProperty(this, 'todos', {
-            get() {
-                return JSON.parse(localStorage.getItem(this.name) || '')
-            },
-            set(todos) {
-                return localStorage.setItem(this.name, JSON.stringify(todos))
-            }
-        })
+        this.todos = JSON.parse(localStorage.getItem(this.name) || '[]')
     }
-    getTodos() {
-        return this.todos
+    save() {
+        localStorage.setItem(this.name, JSON.stringify(this.todos))
+    }
+    onAction(action) {
+        if (!action::isObject()) {
+            return
+        }
+        let hasChange = true
+        switch (action.type) {
+            case 'add':
+                this.addTodo(action.title)
+                break
+            case 'remove':
+                this.removeTodo(action.id)
+                break
+            case 'update':
+                this.updateTodo({
+                    id: action.id,
+                    title: action.title
+                })
+                break
+            case 'toggle':
+                this.updateTodo({
+                    id: action.id,
+                    completed: action.completed
+                })
+                break
+            case 'clear':
+                this.clearCompleted()
+                break
+            case 'toggleAll':
+                this.toggleAll(action.completed)
+                break
+            default:
+                hasChange = false
+        }
+        hasChange && this.save()
     }
     addTodo(title) {
         let now = new Date()
@@ -55,7 +82,7 @@ export default class Model {
             return todo
         }
     }
-    getCompleted() {
+    get completeds() {
         return this.find({
             name: 'completed',
             value: true
@@ -74,14 +101,14 @@ export default class Model {
         }
         return true
     }
-    getActive() {
+    get actives() {
         return this.find({
             name: 'completed',
             value: false
         })
     }
     toggleAll(state) {
-        let todos = this.getTodos()
+        let todos = this.todos
         if (todos.length === 0) {
             return false
         }
@@ -90,7 +117,7 @@ export default class Model {
         })
         return true
     }
-    isAllCompleted() {
+    get isAllCompleted() {
         let isAllCompleted = true
         let todos = this.todos
         if (todos.length === 0) {
@@ -104,18 +131,18 @@ export default class Model {
         }
         return isAllCompleted
     }
-    getData(hash) {
+    getData(activeFilter) {
         let mapping = {
-            '/': 'getTodos',
-            '/active': 'getActive',
-            '/completed': 'getCompleted'
+            '/': 'todos',
+            '/active': 'actives',
+            '/completed': 'completeds'
         }
         return {
-            hash: hash,
-            isAllCompleted: this.isAllCompleted(),
-            completedCount: this.getCompleted().length,
-            todoCount: this.getActive().length,
-            todos: this[mapping[hash]]()
+            filters: activeFilter,
+            toggleAll: this.isAllCompleted,
+            clearCompleted: this.completeds.length,
+            todoCount: this.actives.length,
+            todoList: this[mapping[activeFilter]]
         }
     }
 }

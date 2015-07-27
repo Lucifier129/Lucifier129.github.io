@@ -1,8 +1,6 @@
-
 let noop = () => {}
 
 //type helper
-
 export let isArray = function() {
     return Array.isArray(this)
 }
@@ -23,24 +21,55 @@ export let isNumber = function() {
     return Object.prototype.toString.call(this) === '[object Number]'
 }
 
+export let isBoolean = function() {
+    return Object.prototype.toString.call(this) === '[object Boolean]'
+}
 
 //function helper
-export let pipe = function(next) {
-    return (...args) => {
-        return next(this(...args))
+export let pipe = function(next = noop) {
+    if (this::isFunction()) {
+        return (...args) => {
+            return next(this(...args))
+        }
+    } else if (this::isArray()) {
+        return this.reduce((prev, cur) => prev::pipe(cur))
+    }
+
+}
+
+export let then = function(next) {
+    if (this::isFunction) {
+        return (...args) => {
+            return Promise.resolve(this(...args)).then(next)
+        }
+    } else if (this::isArray()) {
+        return this.reduce((prev, cur) => prev::then(cur))
     }
 }
- 
-export let then = function(next) {
+
+export let currying = function(first) {
     return (...args) => {
-        return Promise.resolve(this(...args)).then(next)
+        this(first, ...args)
+    }
+}
+
+export let uncurrying = function() {
+    return (context, ...args) => {
+        this.apply(context, ...args)
     }
 }
 
 //object helper
-
-
-//array helper
+export let equal = function(obj) {
+    if (this::isString()) {
+        return String(this) === obj
+    } else if (this::isNumber()) {
+        return Number(this) === obj
+    } else if (this::isBoolean()) {
+        return Boolean(this) === obj
+    }
+    return this === obj
+}
 
 //srting helper
 export let elem = function(context = document) {
@@ -51,72 +80,73 @@ export let elems = function(context = document) {
     return context.querySelectorAll(this.toString())
 }
 
-export let $on = function(handle = noop, capture = false) {
-    let [type, selector] = this.toString().split(':')
-    selector::elem().addEventListener(type, handle, capture)
+export let into = function(dom) {
+    dom.innerHTML = this.toString()
 }
 
-export let $off = function(handle = noop, capture = false) {
-    let [type, selector] = this.toString().split(':')
-    selector::elem().removeEventListener(type, handle, capture)
-}
+export let directive = function(model, directive) {
+    let root = this::isString() ? this::elem() : this
 
-export let $helper = function(model, helper) {
-    this
-    ::elem()
-    .querySelectorAll('[data-helper]')
-    ::each(node => {
-        let handler = helper[node.dataset.helper]
-        if (handler::isFunction()) {
-            return handler.call(node, model[node.dataset.helper])
-        }
-        Object.keys(handler).forEach(key => {
-            let handle = handler[key]
-            let args = model[key]
-            handle.call(node, args)
+    root
+        ::find('[data-directive]')::each(node => {
+            let handler = directive[node.dataset.directive]
+            if (!handler) {
+                return
+            }
+            if (handler::isFunction()) {
+                return handler.call(node, model[node.dataset.directive])
+            }
+            Object.keys(handler).forEach(key => {
+                let handle = handler[key]
+                let args = model[key]
+                handle.call(node, args)
+            })
         })
-    })
 }
 
-export let { $watch, $unwatch } = (function() {
+export let { watch, unwatch } = (function() {
 
     let eventStore = {}
     let trigger = e => {
-        let { currentTarget, type } = e
+        let { target, type } = e
         let events = eventStore[type]
         events.forEach(entry => {
-            let elems = entry.selector::elems()
-            let isMatch = elems::include(target)
-            isMatch >= 0 && entry.handle.call(target, e)
+            let nodes = entry.selector::elems()
+            nodes::include(target) && entry.handle.call(target, e)
         })
     }
-
-    return {
-        $watch(handle) {
-            let [type, selector] = this.toString().split(':')
-            if (!eventStore[type]) {
-                eventStore[type] = []
-                document.addEventListener(type, trigger, false)
-            }
-            eventStore[type].push({
-                selector: selector,
-                handle: handle
-            })
-        },
-        $unwatch(handle) {
-            let [type, selector] = this.toString().split(':')
-            let store = eventStore[type]
-            if (!store::isArray()) {
-                return
-            }
-            for (let i = store.length - 1; i >= 0; i--) {
-                let item = store[i]
-                if (item.selector === selector && item.handle === handle) {
-                    store.splace(i, 1)
-                }
+    let watch = function (handle) {
+        if (this::isObject()) {
+            return Object.keys(this).forEach(key => key::watch(this[key]))
+        }
+        let [type, selector] = this.toString().split(':').map(str => str.trim())
+        if (!eventStore[type]) {
+            eventStore[type] = []
+            document.addEventListener(type, trigger, false)
+        }
+        eventStore[type].push({
+            selector: selector,
+            handle: handle
+        })
+    }
+    let unwatch = function (handle) {
+        if (this::isObject()) {
+            return Object.keys(this).forEach(key => key::unwatch(this[key]))
+        }
+        let [type, selector] = this.toString().split(':')
+        let store = eventStore[type]
+        if (!store::isArray()) {
+            return
+        }
+        for (let i = store.length - 1; i >= 0; i--) {
+            let item = store[i]
+            if (item.selector === selector && item.handle === handle) {
+                store.splace(i, 1)
             }
         }
     }
+
+    return { watch, unwatch }
 }())
 
 //number helper
@@ -139,14 +169,34 @@ export let include = function(node) {
     return Array.from(this).indexOf(node) !== -1
 }
 
+export let find = function(selector) {
+    return this.querySelectorAll(selector)
+}
 
+export let attr = function(attrName, value) {
+    if (value == null) {
+        return this.getAttribute(attrName)
+    } else {
+        this.setAttribute(attrName, value)
+    }
+}
 
+export let addClass = function(className) {
+    this.classList.add(className)
+}
 
+export let removeClass = function(className) {
+    this.classList.remove(className)
+}
 
+export let on = function(type, handle = noop, capture = false) {
+    this.addEventListener(type, handle, capture)
+}
 
+export let off = function(type, handle = noop, capture = false) {
+    this.removeEventListener(type, handle, capture)
+}
 
-
-
-
-
-
+export let html = function(html) {
+    this.innerHTML = html
+}
