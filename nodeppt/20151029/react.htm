@@ -1,0 +1,498 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.2.2
+    site: https://github.com/ksky521/nodePPT
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>深度体验 React - By Jade</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    <link rel="stylesheet" media="print" href="./css/pdf.css">
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>深度体验 React</h1>
+<h2>分享者：Jade</h2>
+<h2>时间：2015.10.29</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>目录</h1>
+<h2>Web 技术现状</h2>
+<h2>分析 React</h2>
+<h2>分析 Flux 架构</h2>
+<h2>造一个 React</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>JavaScript 技术爆炸</h1>
+<div class="subSlide"><article>
+<h2>快速迭代</h2>
+<ul>
+<li>语言标准: ECMAScript5(2009年12月)、ECMAScript2015(2015年6月)、ECMAScript2016(2016年)....</li>
+<li>浏览器迭代周期：6周</li>
+<li>NPM 包数量：16万+</li>
+<li>前端库与框架：每天学一个，一辈子都学不完</li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>《JavaScript 高级程序设计》作者 Nicholas C. Zakas</h2>
+<blockquote>
+<p>Web平台的快速发展让人眼花缭乱，有时候甚至让人头晕目眩。想象一下，一个新入行的人，学什么都无法深入是什么感受？每过6个星期（浏览器的新版本发布），都有新的做事方法加入进来，简直就是无穷无尽的轮回，我相信所有人都希望跳脱这个困境。</p>
+</blockquote>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>世界级JavaScript专家 Peter-Paul Koch</h2>
+<blockquote>
+<p>我们越来越多地以模仿原生的方式来推动Web向前发展，可我们不能脱离原生再造一个原生。试图填补一切的工具大爆炸，让我们眩晕，压得我们喘不过气来。而这些说的正是大多数浏览器今天的功能。这不是我想要的Web的未来。</p>
+</blockquote>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>jQuery 创始人和技术领袖 John Resig 2015年8月17日：</h2>
+<blockquote>
+<p>Just realized that I&#39;m trying to learn a JS framework that&#39;s so new that I need to search Twitter mentions for tutorials.</p>
+</blockquote>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>前端技术栈（2015年）</h2>
+<h2>ES2015、react、react-router、redux、css-modules、nodejs、npm、gulp、webpack、babel、mocha、eslint、material-design-lite</h2>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>React 全家桶</h2>
+<ul>
+<li><code>react v0.14</code>(133k)</li>
+<li><code>react-router v1.0.0-rc3</code>(48k)</li>
+<li><code>relay v0.4.0</code>(197k)</li>
+<li><code>react-motion v0.3.1</code>(27k)</li>
+<li><code>immutable-js v3.7.5</code>(56k)</li>
+<li>133 + 48 + 197 + 27 + 56 = <code>461kb</code></li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>前端代码一则</h2>
+<pre><code class="javascript">import React, { Component } from &#39;react&#39;
+import CSSModules from &#39;react-css-modules&#39;
+import styles from &#39;./styles&#39;
+import { route } from &#39;react-director&#39;
+
+@route(&#39;/greet/:user&#39;)
+@CSSModules(styles)
+export default class Greet extends Component {
+    render() {
+      return &lt;div styleName=&quot;greet&quot;&gt;Hello { this.props.user }&lt;/div&gt;
+    }
+}
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>如何在技术浪潮中自处？</h1>
+<div class="subSlide"><article>
+<h2>两种知识类型</h2>
+<ul>
+<li>核心知识<ul>
+<li>换一门语言，换一个框架，依然适用的基础知识</li>
+<li>解决特定问题的核心理念与算法描述</li>
+</ul>
+</li>
+<li>文档型知识：特定问题的解决方案的使用说明信息</li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>技术选型思路</h2>
+<ul>
+<li>尽可能选择离「<a href="https://github.com/seajs/seajs/issues/1605" target="_blank">时间的源头</a>」更近的</li>
+<li>尽可能选择社区生态系统更大更成熟的</li>
+<li>尽可能选择更贴近最新语言标准的</li>
+</ul>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 是什么？</h1>
+<h2>Facebook: A JAVASCRIPT LIBRARY FOR BUILDING USER INTERFACES</h2>
+<ul>
+<li>JUST THE UI</li>
+<li>VIRTUAL DOM</li>
+<li>DATA FLOW</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Facebook 对 React 项目投入了多少？</h1>
+<h2>2013 年开源至今</h2>
+<h2>5600+ commits</h2>
+<h2>535+ contributors</h2>
+<h2>100+ <a href="https://github.com/facebook/react/blob/master/.mailmap" target="_blank">核心开发人员</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 可以做什么？</h1>
+<h2>Learn Once, Write Anywhere</h2>
+<ul>
+<li>ReactJS 写 <a href="https://github.com/Lucifier129/Isomorphism-react-todomvc" target="_blank">Isomorphism Web</a> 应用</li>
+<li>React-Native 写 (Android/IOS) 应用</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 如何做到支持多终端以及同构？</h1>
+<ul>
+<li>前提1：JavaScript 是跨平台的(浏览器/Android/IOS)</li>
+<li>前提2：JavaScript 有服务端运行时环境 node.js</li>
+<li>奥义：JSX/virtual-dom 映射到不同平台</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>JSX/virtual-dom 是什么鬼？</h1>
+<ul>
+<li><code>virtual-dom</code>: a simpler programming model and better performance</li>
+<li><code>JSX</code>:XML-like syntax</li>
+<li><code>关系</code>：JSX 是创建 virtual-dom 的可选语法糖</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>JSX</h1>
+<h2>使用前:命令式风格</h2>
+<pre><code class="javascript">React.createElement(
+  &quot;a&quot;,
+  {
+    id: &quot;a_vacationLink&quot;,
+    title: &quot;旅游&quot;,
+    href: &quot;http://vacations.ctrip.com&quot;
+  },
+  &quot;旅游&quot;
+);
+</code></pre>
+<h2>使用后：声明式风格</h2>
+<pre><code class="javascript">&lt;a id=&quot;a_vacationLink&quot; title=&quot;旅游&quot; href=&quot;http://vacations.ctrip.com&quot;&gt;旅游&lt;/a&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>virtual-dom 的本质</h1>
+<h2>JSON 数据</h2>
+<h2>往大里说是 AST （抽象语法树）</h2>
+<h2>往小里说是「配置信息」</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>证明 virtual-dom 是配置信息</h1>
+<div class="subSlide"><article>
+<pre><code class="javascript">var vdom = React.createElement(
+  &quot;a&quot;,
+  {
+    id: &quot;a_vacationLink&quot;,
+    title: &quot;旅游&quot;,
+    href: &quot;http://vacations.ctrip.com&quot;
+  },
+  &quot;旅游&quot;
+);
+React.render(vdom, document.body)
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<pre><code class="javascript">var config = {
+    type: &#39;a&#39;,
+    props: {
+        id: &quot;a_vacationLink&quot;,
+        title: &quot;旅游&quot;,
+        href: &quot;http://vacations.ctrip.com&quot;,
+        children: &quot;旅游&quot;
+    },
+    _isReactElement: true
+}
+React.render(config, document.body)
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 的 Component 又是什么？</h1>
+<div class="subSlide"><article>
+<h2>ES5 语法</h2>
+<pre><code class="javascript">var Link = React.createClass({
+    getInitialState: function() {
+      return { count: 0}
+    },
+    count: function(type) {
+      var count = this.state.count
+      if (type === &#39;INCREMENT&#39;) { count++ }
+      else if (type === &#39;DECREMENT&#39;) { count-- }
+      this.setState({ count: count })
+    },
+    render: function() {
+     var INCREMENT = this.count.bind(this, &#39;INCREMENT&#39;)
+     var DECREMENT = this.count.bind(this, &#39;DECREMENT&#39;)
+      return (
+        &lt;div&gt;
+                &lt;span&gt;count: { this.state.count }&lt;/span&gt;
+                {&#39; &#39;}
+                &lt;button onclick={INCREMENT}&gt;+&lt;/button&gt;
+                {&#39; &#39;}
+                &lt;button onclick={DECREMENT}&gt;-&lt;/button&gt;
+        &lt;/div&gt;
+      )
+    }
+})
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>ES2015 语法</h2>
+<pre><code class="javascript">class Link extends React.Component {
+    constructor() {
+      this.state = { count: 0}
+    },
+    count: function(type) {
+      var count = this.state.count
+      if (type === &#39;INCREMENT&#39;) { count++ }
+      else if (type === &#39;DECREMENT&#39;) { count-- }
+      this.setState({ count: count })
+    },
+    render: function() {
+     var INCREMENT = this.count.bind(this, &#39;INCREMENT&#39;)
+     var DECREMENT = this.count.bind(this, &#39;DECREMENT&#39;)
+      return (
+        &lt;div&gt;
+                &lt;span&gt;count: { this.state.count }&lt;/span&gt;
+                {&#39; &#39;}
+                &lt;button onclick={INCREMENT}&gt;+&lt;/button&gt;
+                {&#39; &#39;}
+                &lt;button onclick={DECREMENT}&gt;-&lt;/button&gt;
+        &lt;/div&gt;
+      )
+}
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>配置语法（仅供探讨，请勿用于生产环境）</h2>
+<pre><code class="javascript">function Link(props) { this.props = props; }
+Link.prototype.render = function() { return {
+    type: &#39;a&#39;,
+    props: this.props,
+    _isReactElement: true
+}}
+var config = { type: Link,
+    props: {
+        id: &quot;a_vacationLink&quot;,
+        href: &quot;http://vacations.ctrip.com&quot;,
+        children: &quot;旅游&quot;
+    },
+    _isReactElement: true
+}
+React.render(config, document.body)
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>小结</h1>
+<h2>vitrual-dom 本质是 JSON 格式的配置信息</h2>
+<h2>React Component 提供管理动态配置的能力</h2>
+<h2>调用 React.render 渲染 vdom 到真实的 DOM</h2>
+<h2>调用 React.renderToString 渲染 vdom 到 string</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>小测</h1>
+<div class="subSlide"><article>
+<h2>virtual-dom 比 real-dom 快多少？</h2>
+<h2>遍历属性</h2>
+<pre><code class="javascript">var div = document.createElement(&#39;div&#39;)
+console.time(&#39;div&#39;)
+for (var i = 0; i &lt; 10000; i += 1) {
+  for (var key in div) {}
+}
+console.timeEnd(&#39;div&#39;)
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>virtual-dom 可以多快？</h2>
+<h2>可以用 vdom 写出流畅的动画效果</h2>
+<h2><a href="https://github.com/chenglou/react-motion" target="_blank">react-motion</a></h2>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Flux 架构图</h1>
+<p><img src="./img/flux.png" /></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Flux 理念</h1>
+<ul>
+<li>用 action 隔离对 state 操作</li>
+<li>掌握 state 变化的方式和时机</li>
+<li>将组件间通讯转化为 state 操作</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>各种 Flux 实现</h1>
+<ul>
+<li>facebook/flux(官方出品)</li>
+<li>reflux/refluxjs</li>
+<li>goatslacker/alt</li>
+<li>BinaryMuse/fluxxor</li>
+<li>yahoo/fluxible</li>
+<li>rackt/redux (目前最火)</li>
+<li>Lucifier129/refer(这是硬广)</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>refer 硬广时间</h1>
+<div class="subSlide"><article>
+<h2>基本用法</h2>
+<pre><code class="javascript">import { createStore } from &#39;refer&#39;
+const handlers = {
+    &quot;UPDATE_TODO&quot;: text =&gt; state =&gt; {...state, text },
+    &quot;UPDATE_COMPLETED&quot;: completed =&gt; state =&gt; {...state, completed }
+}
+const store = createStore(handlers, { text: &#39;default text&#39;, completed: false })
+const { UPDATE_TODO, UPDATE_COMPLETED } = store.actions
+store.getState() //{ text: &#39;default text&#39;, completed: false }
+UPDATE_TODO(&#39;测试&#39;) // store.dispatch(&quot;UPDATE_TODO&quot;, &quot;测试&quot;)
+UPDATE_COMPLETED(true) // store.dispatch(&quot;UPDATE_COMPLETED&quot;, true)
+store.getState() // { text: &#39;测试&#39;, completed: true }
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>生命周期</h2>
+<h3>特殊的 actionType，能拿到 { currentState, nextState?, key, value } 数据</h3>
+<ul>
+<li><code>@DISPATCH</code>: store.dispatch 调用时触发</li>
+<li><code>@SHOULD_DISPATCH</code>: store.dispatch 应该终止吗？</li>
+<li><code>@SHOULD_UPDATE</code>: store.dispatch 应该更新吗？</li>
+<li><code>@WILL_UPDATE</code>: store.dispatch 即将更新 state</li>
+<li><code>@DID_UPDATE</code>: store.dispatch 已经更新 state</li>
+<li><code>@THROW_ERROR</code>: store.dispatch 出现错误</li>
+<li><code>@ASYNC_START</code>: store.dispatch 的更新方式为异步，开始</li>
+<li><code>@ASYNC_END</code>: store.dispatch 的更新方式为异步，结束</li>
+<li><code>@SYNC</code>: store.dispatch 的更新方式为同步</li>
+</ul>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>造一个 React</h1>
+<div class="subSlide"><article>
+<h2>refer + <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank">virtual-dom</a> = refer-dom ≈ react</h2>
+<h3>模拟 react 核心 API</h3>
+<ul>
+<li><code>React.createElement</code>: 创建 virtual-dom</li>
+<li><code>React.Component</code>: React 组件兼容 ES2015 的 class</li>
+<li><code>React.createClass</code>: React 组件 ES3 语法</li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>refer-dom 可以无缝跑 react 代码</h2>
+<ul>
+<li>打包工具里配置 alias，将 react 指向 refer-dom 即可</li>
+<li>refer-dom 目前 40k 不到，节省 90k 以上文件体积</li>
+<li>js-repaint-perfs <a href="https://cdn.rawgit.com/Lucifier129/js-repaint-perfs/master/react/refer.html" target="_blank">demo</a></li>
+<li>react-motion <a href="lucifier129.github.io/refer-dom-demos/index.html" target="_blank">demo</a></li>
+</ul>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Q&amp;A 时间</h1>
+<p><img src="./img/qa.jpg" /></p>
+
+</article></section></slide>
+        <!--slide class="slide thank-you-slide segue nobackground">
+            <article class="flexbox vleft auto-fadein">
+                <h2>Q &amp; A</h2>
+                <h3>&lt;Thank You!&gt;</h3>
+            </article>
+        </slide-->
+        <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+              <h2 style="color: white;">Powered By nodePPT v1.2.2</h2>
+            </article>
+          </slide>
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = location.pathname.split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/hljs-0.8.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+<!--placeholder-->
+</body>
+</html>
