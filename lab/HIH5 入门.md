@@ -4,7 +4,7 @@
 
 HIH5 是以 Backbone 为核心的移动端轻量级单页应用框架。提供良好的 API 封装，让用户只需要关心每个 VIEW 的渲染，其余的动作都交给框架完成。
 
-HiH5 的用法非常简单易学。示例 [线上 demo 地址](http://lucifier129.github.io/hih5-demo/index.html), [Github 地址](https://github.com/Lucifier129/Lucifier129.github.io/hih5-demo)
+HiH5 的用法非常简单易学。示例 [线上 demo 地址](http://lucifier129.github.io/hih5-demo/index.html), [Github 地址](https://github.com/Lucifier129/Lucifier129.github.io/tree/master/hih5-demo)
 
 ## 第一步，引入 HiH5
 
