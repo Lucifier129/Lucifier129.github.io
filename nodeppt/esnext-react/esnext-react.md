@@ -8,6 +8,15 @@ theme: dark
 ## 时间：2015.12.09
 
 [slide]
+# Web 开发者渴望什么？
+
+- 轻量(TODO): `mobile first`
+- 高性能：`virtual-dom`
+- 组件化：`React.Component` && `React.createClass` && `stateless Component`
+- 多终端：`learn once, write anywhere`(React-Native)
+- SEO：服务端渲染 `React.renderToString`
+
+[slide]
 # React 为什么这么大？
 ## React v0.14 体积 130 kb
 
@@ -22,15 +31,6 @@ theme: dark
 - 实现浏览器运行时 props 验证系统 `React.PropTypes`
 - 兼容低版本浏览器（ie8+）
 - 重建 dom 事件系统
-
-[slide]
-# Web 开发者渴望从 React 里得到什么？
-
-- 轻量: `mobile first`
-- 高性能：`virtual-dom`
-- 组件化：`React.Component` && `React.createClass` && `stateless Component`
-- 多终端：`learn once, write anywhere`
-- SEO：服务端渲染 `React.renderToString`
 
 [slide]
 # 实现 virtual-dom 与 component 的成本？
@@ -77,8 +77,8 @@ let createElement = (type, props, ...children) => {
 ### 命令式
 ```javascript
 var link = React.createElement('a', {
-	href: 'https://www.strikingly.com/'
-}, 'strikingly')
+    href: 'https://www.strikingly.com/'
+}, 's','t','r','i','k','i','n','g','l','y')
 ```
 ### 声明式
 ```html
@@ -87,7 +87,7 @@ var link = <a href="https://www.strikingly.com/">strikingly</a>
 [/subslide]
 
 [slide]
-＃ 第二步 virtual-dom -> real-dom
+# 第二步 virtual-dom -> real-dom
 ## 深度优先，递归遍历树形结构，创建 dom 元素
 ```javascript
 var create = function(vnode) {
@@ -225,7 +225,7 @@ class Component {
 
 [slide]
 # 第六步 实现 createClass
-## 反模式之 `autobind` & `mixins`
+## 添加 `autobind` & `mixins`
 
 ```javascript
 export let createClass = options => {
@@ -256,5 +256,34 @@ export let createClass = options => {
 ```
 
 [slide]
+# 为什么要造轮子？
+## 造轮子是学习和研究的最佳途径
 
+- 了解底层机制的运作方式
+- 掌握性能优化的基本思路
+- 激发良性竞争
+- 促进对现有工具的反思
 
+[slide]
+# 反思和展望
+
+[subslide]
+## virtual-dom open standard
+
+- 效仿 Promises/A+ 标准化历程
+- 开源 virtual-dom 单元测试
+- 社区里涌现多个实现，良性竞争(es6-promise|bluebird|q)
+- `react-es3`、`react-es5`、`react-mobile`...
+
+==========
+## 浏览器原生实现 virtual-dom
+
+- `document.createVirtualDOM`: 创建 virtual-dom
+- `document.createVirtualComponent`: 创建 virtual-component
+- `document.renderVirtualDOM` : 渲染 virtual-dom
+
+[/subslide]
+
+[slide]
+# Q&A 时间
+<img src="/img/qa.jpg" />

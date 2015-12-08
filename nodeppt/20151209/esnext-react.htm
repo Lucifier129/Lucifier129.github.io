@@ -1,0 +1,389 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.3.8
+    site: https://github.com/ksky521/nodePPT
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用 ES2015 一步步打造轻量级 ReactJS - By Jade</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    
+<link rel="stylesheet" href="./css/theme.dark.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>用 ES2015 一步步打造轻量级 ReactJS</h1>
+<h2>分享者：Jade</h2>
+<h2>时间：2015.12.09</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Web 开发者渴望什么？</h1>
+<ul>
+<li>轻量(TODO): <code>mobile first</code></li>
+<li>高性能：<code>virtual-dom</code></li>
+<li>组件化：<code>React.Component</code> &amp;&amp; <code>React.createClass</code> &amp;&amp; <code>stateless Component</code></li>
+<li>多终端：<code>learn once, write anywhere</code>(React-Native)</li>
+<li>SEO：服务端渲染 <code>React.renderToString</code></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 为什么这么大？</h1>
+<h2>React v0.14 体积 130 kb</h2>
+<p><img src="./img/dove.jpg" /></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 并不局限于 View</h1>
+<h2>React 没有提供按需打包的方式</h2>
+<ul>
+<li>为多终端设计</li>
+<li>支持服务端渲染 <code>React.renderToString</code></li>
+<li>实现浏览器运行时 props 验证系统 <code>React.PropTypes</code></li>
+<li>兼容低版本浏览器（ie8+）</li>
+<li>重建 dom 事件系统</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>实现 virtual-dom 与 component 的成本？</h1>
+<h2>js-repain-perf: <a href="https://cdn.rawgit.com/Lucifier129/esnext-react/master/examples/js-repaint-perf/react/index.html" target="_blank">react</a> <a href="https://cdn.rawgit.com/Lucifier129/js-repaint-perfs/master/react/refer.html" target="_blank">refer-dom</a> <a href="https://cdn.rawgit.com/Lucifier129/esnext-react/master/examples/js-repaint-perf/react/esnext.html" target="_blank">esnext-react</a></h2>
+<ul>
+<li>react(<code>130kb</code>): 始祖</li>
+<li>refer-dom(<code>37kb</code>): 基于 refer 与 virtual-dom 库(请勿用于生产环境)</li>
+<li>esnext-react(<code>13kb</code>): ES2015 实现， 无依赖(请勿用于生产环境)</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>esnext-react 体积小的秘密</h1>
+<h2><code>just virtual-dom and component</code></h2>
+<ul>
+<li>使用浏览器自带的事件系统： dom.onclick = handleChild</li>
+<li>只为现代 web 浏览器设计: ES5+</li>
+<li>不支持服务端渲染</li>
+<li>不支持 PropTypes 验证</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>麻雀虽小，五脏俱全</h1>
+<h2><a href="https://cdn.rawgit.com/Lucifier129/esnext-react/master/examples/demos/index.html" target="_blank">react-motion-demo</a></h2>
+<ul>
+<li><code>React.createElement</code>: 创建 virtual-dom</li>
+<li><code>React.createClass</code>: 创建 Component</li>
+<li><code>React.Component</code>: 支持 ES2015 classes</li>
+<li><code>React.render</code>: 渲染 virtual-dom 到 real-dom</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>第一步 创建虚拟 dom</h1>
+<div class="subSlide"><article>
+<h2>工厂函数递归调用，创建树形数据结构</h2>
+<pre><code class="javascript">let createElement = (type, props, ...children) =&gt; {
+    return {
+        type,
+        props,
+        children
+    }
+}
+</code></pre>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>JSX 预编译模板，声明式写法</h2>
+<h3>命令式</h3>
+<pre><code class="javascript">var link = React.createElement(&#39;a&#39;, {
+    href: &#39;https://www.strikingly.com/&#39;
+}, &#39;s&#39;,&#39;t&#39;,&#39;r&#39;,&#39;i&#39;,&#39;k&#39;,&#39;i&#39;,&#39;n&#39;,&#39;g&#39;,&#39;l&#39;,&#39;y&#39;)
+</code></pre>
+<h3>声明式</h3>
+<pre><code class="html">var link = &lt;a href=&quot;https://www.strikingly.com/&quot;&gt;strikingly&lt;/a&gt;
+</code></pre>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>第二步 virtual-dom -&gt; real-dom</h1>
+<h2>深度优先，递归遍历树形结构，创建 dom 元素</h2>
+<pre><code class="javascript">var create = function(vnode) {
+    switch (true) {
+        case isStr(vnode) || isNum(vnode):
+            return document.createTextNode(vnode)
+        case isFn(vnode.type):
+            return create(vnode.type({ ...props, children }))
+        default:
+            let elem = document.createElement(vnode.type)
+            isObj(props) &amp;&amp; setProps(elem, props)
+            children.length &gt; 0 &amp;&amp; children.forEach(child =&gt; 
+                elem.appendChild(create(child))
+            )
+            return elem
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>第三步 diff 比较两个 virtual-dom</h1>
+<h2>性能来自捷径和取舍</h2>
+<pre><code class="javascript">let diff = (vnode, newVnode) =&gt; {
+    let type
+    switch (true) {
+        case vnode === newVnode:
+            return
+        case newVnode == null:
+            type = REMOVE
+            break
+        case vnode == null:
+            type = CREATE
+            break
+        case vnode.tagName !== newVnode.tagName:
+            type = REPLACE
+            break
+        case (isStr(vnode) || isNum(vnode) || isStr(newVnode) || isNum(newVnode)) &amp;&amp; vnode != newVnode:
+            type = REPLACE
+            break
+        case !!(vnode.props || newVnode.props):
+            type = PROPS
+            break
+    }
+    let children = diffChildren(vnode, newVnode)
+    return { type, vnode, newVnode, ...children }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>第四步 patch 更新补丁</h1>
+<h2>集中 dom 更新操作，减少 repaint 和 reflow</h2>
+<pre><code class="javascript">let patch = (node, patches, parent) =&gt; {
+    if (!patches) {
+        return node
+    }
+    let { vnode, newVnode, type, childrenType } = patches
+    let newNode
+    parent = node ? node.parentNode : parent
+    switch (type) {
+        case CREATE:
+            newNode = create(newVnode)
+            appendChild(parent, newNode)
+            break
+        case REMOVE:
+            removeChild(parent, node)
+            break
+        case REPLACE:
+            newNode = create(newVnode)
+            replaceChild(parent, newNode, node)
+            break
+        case PROPS:
+            applyProps(node, vnode.props, newVnode.props)
+            break
+        case WIDGET:
+            newVnode.update(vnode, node)
+            break
+    }
+
+    switch (childrenType) {
+        case REMOVE:
+            node.innerHTML = &#39;&#39;
+            break
+        case CREATE:
+            patches.newChildren.forEach(child =&gt; addChild(node, child))
+            break
+        case REPLACE:
+            let children = Array.prototype.slice.call(node.childNodes)
+            patches.childrenPatches.forEach((childPatches, index) =&gt; {
+                patch(children[index], childPatches, node)    
+            })
+            break
+    }
+
+    return newNode || node
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>第五步 实现一个 Component class</h1>
+<h2>模拟 react 组件 api</h2>
+<pre><code class="javascript">class Component {
+    constructor(props) {
+        this.props = props
+        this.state = {}
+        this.refs = {}
+    }
+    setState(nextState, callback) {
+        //do some thing
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return true
+    }
+    componentWillUpdate(nextProps, nextState) {}
+    componentDidUpdate(prevProps, prevState) {}
+    componentWillReceiveProps(nextProps) {}
+    componentWillMount() {}
+    componentDidMount() {}
+    componentWillUnmount() {}
+    forceUpdate(callback) {
+        //do some thing
+        this.componentWillUpdate(nextProps, nextState)
+        //do some thing
+        this.componentDidUpdate(props, state)
+        if (isFn(callback)) {
+            callback()
+        }
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>第六步 实现 createClass</h1>
+<h2>添加 <code>autobind</code> &amp; <code>mixins</code></h2>
+<pre><code class="javascript">export let createClass = options =&gt; {
+    let mixins = options.mixins || []
+    let defaultProps = isFn(options.getDefaultProps) ? options.getDefaultProps() : null
+    let Klass = class extends Component {
+        constructor(props) {
+            super(props)
+            bindContext(this, Klass.prototype)
+            if (isObj(defaultProps)) {
+                this.componentWillReceiveProps(props)
+            }
+            if (isFn(this.getInitialState)) {
+                this.state = this.getInitialState()
+            }
+        }
+    }
+    combineMixins(Klass.prototype, mixins.concat(options))
+    if (isObj(options.statics)) {
+        for (let key in options.statics) {
+            if (options.statics.hasOwnProperty(key)) {
+                Klass[key] = options.statics[key]
+            }
+        }
+    }
+    return Klass
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>为什么要造轮子？</h1>
+<h2>造轮子是学习和研究的最佳途径</h2>
+<ul>
+<li>了解底层机制的运作方式</li>
+<li>掌握性能优化的基本思路</li>
+<li>激发良性竞争</li>
+<li>促进对现有工具的反思</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>反思和展望</h1>
+<div class="subSlide"><article>
+<h2>virtual-dom open standard</h2>
+<ul>
+<li>效仿 Promises/A+ 标准化历程</li>
+<li>开源 virtual-dom 单元测试</li>
+<li>社区里涌现多个实现，良性竞争(es6-promise|bluebird|q)</li>
+<li><code>react-es3</code>、<code>react-es5</code>、<code>react-mobile</code>...</li>
+</ul>
+
+</article></div>
+<div class="subSlide"><article>
+<h2>浏览器原生实现 virtual-dom</h2>
+<ul>
+<li><code>document.createVirtualDOM</code>: 创建 virtual-dom</li>
+<li><code>document.createVirtualComponent</code>: 创建 virtual-component</li>
+<li><code>document.renderVirtualDOM</code> : 渲染 virtual-dom</li>
+</ul>
+
+</article></div>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Q&amp;A 时间</h1>
+<p><img src="./img/qa.jpg" /></p>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodePPT v1.3.8</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
