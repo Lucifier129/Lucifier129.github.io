@@ -15,7 +15,25 @@
     <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
     <link rel="stylesheet" href="./css/font-awesome.css">
     
-<link rel="stylesheet" href="./css/theme.dark.css">
+<!-- <link rel="stylesheet" href="./css/theme.dark.css"> -->
+<script>
+! function() {
+	var addLink = function(theme) {
+		var link = document.createElement('link')
+		link.setAttribute('rel', 'stylesheet')
+		link.href = './css/theme.' + theme + '.css'
+		document.head.appendChild(link)
+	}
+	var search = location.search
+	var themes = ['blue', 'dark', 'green', 'light', 'moon'];
+	for (var i = 0; i < themes.length; i++) {
+		if (search.indexOf(themes[i]) !== -1) {
+			return addLink(themes[i])
+		}
+	}
+	return addLink(themes[1])
+}();
+</script>
 </head>
 <body>
 <div class="slides">
