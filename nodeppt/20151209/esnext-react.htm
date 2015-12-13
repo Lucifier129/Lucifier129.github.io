@@ -88,16 +88,16 @@
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>实现 virtual-dom 与 component 的成本？</h1>
-<h2>js-repain-perf: <a href="https://cdn.rawgit.com/Lucifier129/esnext-react/master/examples/js-repaint-perf/react/index.html" target="_blank">react</a> <a href="https://cdn.rawgit.com/Lucifier129/js-repaint-perfs/master/react/refer.html" target="_blank">refer-dom</a> <a href="https://cdn.rawgit.com/Lucifier129/esnext-react/master/examples/js-repaint-perf/react/esnext.html" target="_blank">esnext-react</a></h2>
+<h2>js-repain-perf: <a href="https://cdn.rawgit.com/Lucifier129/react-lite/master/examples/js-repaint-perf/react/index.html" target="_blank">react</a> <a href="https://cdn.rawgit.com/Lucifier129/js-repaint-perfs/master/react/refer.html" target="_blank">refer-dom</a> <a href="https://cdn.rawgit.com/Lucifier129/react-lite/master/examples/js-repaint-perf/react/lite.html" target="_blank">react-lite</a></h2>
 <ul>
 <li>react(<code>130kb</code>): 始祖</li>
 <li>refer-dom(<code>37kb</code>): 基于 refer 与 virtual-dom 库(请勿用于生产环境)</li>
-<li>esnext-react(<code>13kb</code>): ES2015 实现， 无依赖(请勿用于生产环境)</li>
+<li>react-lite(<code>13kb</code>): ES2015 实现， 无依赖(请勿用于生产环境)</li>
 </ul>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
-<h1>esnext-react 体积小的秘密</h1>
+<h1>react-lite 体积小的秘密</h1>
 <h2><code>just virtual-dom and component</code></h2>
 <ul>
 <li>使用浏览器自带的事件系统： dom.onclick = handleChild</li>
@@ -109,7 +109,7 @@
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>麻雀虽小，五脏俱全</h1>
-<h2><a href="https://cdn.rawgit.com/Lucifier129/esnext-react/master/examples/demos/index.html" target="_blank">react-motion-demo</a></h2>
+<h2><a href="https://cdn.rawgit.com/Lucifier129/react-lite/master/examples/demos/index.html" target="_blank">react-motion-demo</a></h2>
 <ul>
 <li><code>React.createElement</code>: 创建 virtual-dom</li>
 <li><code>React.createClass</code>: 创建 Component</li>
