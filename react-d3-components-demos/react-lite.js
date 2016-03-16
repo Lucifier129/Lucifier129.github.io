@@ -1,5 +1,5 @@
 /*!
- * react-lite.js v0.0.29
+ * react-lite.js v0.15.2
  * (c) 2016 Jade Gu
  * Released under the MIT License.
  */
@@ -15,6 +15,11 @@
 
   var SVGNamespaceURI = 'http://www.w3.org/2000/svg';
   var COMPONENT_ID = 'liteid';
+
+  var VELEMENT = 2;
+  var VSTATELESS = 3;
+  var VCOMPONENT = 4;
+  var VCOMMENT = 5;
 
   var propAlias = {
       // svg attributes alias
@@ -303,29 +308,17 @@
       oncontextmenu: TRUE
   };
 
-  var isType = function isType(type) {
-  	return function (obj) {
-  		return obj != null && Object.prototype.toString.call(obj) === '[object ' + type + ']';
-  	};
+  var isStr = function isStr(obj) {
+  	return typeof obj === 'string';
   };
-  var isObj = isType('Object');
-  var isStr = isType('String');
-  var isFn = isType('Function');
-  var isBln = isType('Boolean');
-  var isArr = Array.isArray || isType('Array');
-  var isUndefined = function isUndefined(obj) {
-  	return obj === undefined;
+  var isFn = function isFn(obj) {
+  	return typeof obj === 'function';
   };
-  var isComponent = function isComponent(obj) {
-  	return obj && obj.prototype && 'forceUpdate' in obj.prototype;
+  var isBln = function isBln(obj) {
+  	return typeof obj === 'boolean';
   };
-  var isStatelessComponent = function isStatelessComponent(obj) {
-  	return isFn(obj) && (!obj.prototype || !('forceUpdate' in obj.prototype));
-  };
+  var isArr = Array.isArray;
 
-  var hasOwn = function hasOwn(obj, key) {
-  	return Object.prototype.hasOwnProperty.call(obj, key);
-  };
   var noop = function noop() {};
   var identity = function identity(obj) {
   	return obj;
@@ -338,20 +331,18 @@
   	};
   };
 
-  var flattenChildren = function flattenChildren(list, iteratee, record) {
+  var flattenChildren = function flattenChildren(list, iteratee, a, b) {
   	var len = list.length;
   	var i = -1;
-  	record = record || [];
 
   	while (len--) {
   		var item = list[++i];
   		if (isArr(item)) {
-  			flattenChildren(item, iteratee, record);
-  		} else if (!isUndefined(item) && !isBln(item)) {
-  			record.push(iteratee(item, record.length) || item);
+  			flattenChildren(item, iteratee, a, b);
+  		} else {
+  			iteratee(item, a, b);
   		}
   	}
-  	return record;
   };
 
   var eachItem = function eachItem(list, iteratee) {
@@ -362,7 +353,7 @@
 
   var mapValue = function mapValue(obj, iteratee) {
   	for (var key in obj) {
-  		if (hasOwn(obj, key)) {
+  		if (obj.hasOwnProperty(key)) {
   			iteratee(obj[key], key);
   		}
   	}
@@ -371,13 +362,13 @@
   var mapKey = function mapKey(oldObj, newObj, iteratee) {
   	var keyMap = {};
   	for (var key in oldObj) {
-  		if (hasOwn(oldObj, key)) {
+  		if (oldObj.hasOwnProperty(key)) {
   			keyMap[key] = true;
   			iteratee(key);
   		}
   	}
   	for (var key in newObj) {
-  		if (hasOwn(newObj, key) && keyMap[key] !== true) {
+  		if (newObj.hasOwnProperty(key) && keyMap[key] !== true) {
   			iteratee(key);
   		}
   	}
@@ -400,17 +391,6 @@
   var uid = 0;
   var getUid = function getUid() {
   	return ++uid;
-  };
-
-  var mergeProps = function mergeProps(props, children, defaultProps) {
-  	var result = extend(extend({}, defaultProps), props);
-  	var childrenLen = children.length;
-  	if (childrenLen === 1) {
-  		result.children = children[0];
-  	} else if (childrenLen > 1) {
-  		result.children = children;
-  	}
-  	return result;
   };
 
   var EVENT_KEYS = /^on/i;
@@ -446,8 +426,8 @@
   	} else {
   		if (value == null) {
   			elem.removeAttribute(key);
-  		} else if (attributesNS[originalKey] === true) {
-  			elem.setAttributeNS(key, value);
+  		} else if (attributesNS.hasOwnProperty(originalKey)) {
+  			elem.setAttributeNS(attributesNS[originalKey], key, value);
   		} else {
   			elem.setAttribute(key, value);
   		}
@@ -455,18 +435,12 @@
   };
   var setProps = function setProps(elem, props) {
   	for (var key in props) {
-  		if (hasOwn(props, key)) {
+  		if (props.hasOwnProperty(key)) {
   			setProp(elem, key, props[key]);
   		}
   	}
   };
-  var removeProps = function removeProps(elem, props) {
-  	for (var key in props) {
-  		if (hasOwn(props, key)) {
-  			removeProp(elem, key, props[key]);
-  		}
-  	}
-  };
+
   var removeProp = function removeProp(elem, key, oldValue) {
   	if (key === 'children') {
   		return;
@@ -480,7 +454,7 @@
   		removeStyle(elem, oldValue);
   	} else if (isInnerHTMLKey(key)) {
   		elem.innerHTML = '';
-  	} else if (attrbutesConfigs[key] === true || !(key in elem)) {
+  	} else if (!(key in elem) || attrbutesConfigs[key] === true) {
   		elem.removeAttribute(key);
   	} else if (isFn(oldValue)) {
   		elem[key] = null;
@@ -490,7 +464,6 @@
   		elem[key] = false;
   	} else {
   		try {
-  			elem[key] = undefined;
   			delete elem[key];
   		} catch (e) {
   			//pass
@@ -510,7 +483,7 @@
   	if (value === oldValue) {
   		return;
   	}
-  	if (isUndefined(value)) {
+  	if (value === undefined) {
   		removeProp($elem, key, oldValue);
   		return;
   	}
@@ -528,17 +501,6 @@
   };
 
   var patchProps = function patchProps(elem, props, newProps) {
-  	if (props === newProps) {
-  		return;
-  	}
-  	if (!props && newProps) {
-  		setProps(elem, newProps);
-  		return;
-  	} else if (!newProps && props) {
-  		removeProps(elem, props);
-  		return;
-  	}
-
   	$elem = elem;
   	$props = props;
   	$newProps = newProps;
@@ -547,23 +509,23 @@
   };
 
   var removeStyle = function removeStyle(elem, style) {
-  	if (!isObj(style)) {
+  	if (!style) {
   		return;
   	}
   	var elemStyle = elem.style;
   	for (var key in style) {
-  		if (hasOwn(style, key)) {
+  		if (style.hasOwnProperty(key)) {
   			elemStyle[key] = '';
   		}
   	}
   };
   var setStyle = function setStyle(elem, style) {
-  	if (!isObj(style)) {
+  	if (!style) {
   		return;
   	}
   	var elemStyle = elem.style;
   	for (var key in style) {
-  		if (hasOwn(style, key)) {
+  		if (style.hasOwnProperty(key)) {
   			setStyleValue(elemStyle, key, style[key]);
   		}
   	}
@@ -629,199 +591,323 @@
   var noop$1 = noop;
   var refs = null;
 
-  function Vtext(text) {
-      this.text = text;
-  }
-
-  var VtextPrototype = Vtext.prototype;
-  VtextPrototype.isVdom = true;
-  VtextPrototype.init = function (parentNode) {
-      var textNode = document.createTextNode(this.text);
-      appendNode(parentNode, textNode);
-      return textNode;
+  var createVelem = function createVelem(type, props) {
+      return {
+          vtype: VELEMENT,
+          type: type,
+          props: props,
+          refs: refs
+      };
   };
-  VtextPrototype.update = function (newVtext, textNode) {
-      if (newVtext.text !== this.text) {
-          textNode.replaceData(0, textNode.length, newVtext.text);
+
+  var createVstateless = function createVstateless(type, props) {
+      return {
+          vtype: VSTATELESS,
+          id: getUid(),
+          type: type,
+          props: props
+      };
+  };
+
+  var createVcomponent = function createVcomponent(type, props) {
+      return {
+          vtype: VCOMPONENT,
+          id: getUid(),
+          type: type,
+          props: props,
+          refs: refs
+      };
+  };
+
+  var createVcomment = function createVcomment(comment) {
+      return {
+          vtype: VCOMMENT,
+          comment: comment
+      };
+  };
+
+  var initVnode = function initVnode(vnode, parentContext, namespaceURI) {
+      var vtype = vnode.vtype;
+
+      var node = null;
+      if (!vtype) {
+          node = document.createTextNode(vnode);
+      } else if (vtype === VELEMENT) {
+          node = initVelem(vnode, parentContext, namespaceURI);
+      } else if (vtype === VCOMPONENT) {
+          node = initVcomponent(vnode, parentContext, namespaceURI);
+      } else if (vtype === VSTATELESS) {
+          node = initVstateless(vnode, parentContext, namespaceURI);
+      } else if (vtype === VCOMMENT) {
+          node = document.createComment(vnode.comment);
       }
-      return textNode;
-  };
-  VtextPrototype.destroy = function (textNode) {
-      removeNode(textNode);
+      return node;
   };
 
-  function Velem(type, props) {
-      this.type = type;
-      this.props = props;
-      this.refs = refs;
-  }
+  var updateVnode = function updateVnode(vnode, newVnode, node, parentContext) {
+      var newNode = node;
+      var vtype = vnode.vtype;
 
-  var VelemPrototype = Velem.prototype;
-  VelemPrototype.isVdom = true;
-  VelemPrototype.init = function (parentNode, parentContext) {
-      var type = this.type;
-      var props = this.props;
+      if (vtype === VELEMENT) {
+          newNode = updateVelem(vnode, newVnode, node, parentContext);
+      } else if (vtype === VCOMPONENT) {
+          newNode = updateVcomponent(vnode, newVnode, node, parentContext);
+      } else if (vtype === VSTATELESS) {
+          newNode = updateVstateless(vnode, newVnode, node, parentContext);
+      }
 
-      var node = undefined;
-      if (type === 'svg' || parentNode.namespaceURI === SVGNamespaceURI) {
+      return newNode;
+  };
+
+  var destroyVnode = function destroyVnode(vnode, node) {
+      var vtype = vnode.vtype;
+
+      if (vtype === VELEMENT) {
+          destroyVelem(vnode, node);
+      } else if (vtype === VCOMPONENT) {
+          destroyVcomponent(vnode, node);
+      } else if (vtype === VSTATELESS) {
+          destroyVstateless(vnode, node);
+      }
+  };
+
+  var initVelem = function initVelem(velem, parentContext, namespaceURI) {
+      var type = velem.type;
+      var props = velem.props;
+
+      var node = null;
+
+      if (type === 'svg' || namespaceURI === SVGNamespaceURI) {
           node = document.createElementNS(SVGNamespaceURI, type);
+          namespaceURI = SVGNamespaceURI;
       } else {
           node = document.createElement(type);
       }
-      var children = props.children;
 
-      if (isArr(children)) {
-          children = props.children = flattenChildren(children, getVnode);
-      } else if (children !== undefined && !isBln(children)) {
-          children = props.children = [getVnode(children)];
-      } else {
-          children = props.children = undefined;
-      }
-
-      if (children) {
-          var len = children.length;
-          var i = -1;
-          while (len--) {
-              children[++i].init(node, parentContext);
-          }
-      }
+      initChildren(node, props.children, parentContext);
       setProps(node, props);
-      appendNode(parentNode, node);
-      attachRef(this, node);
+
+      if (velem.ref !== null) {
+          attachRef(velem.refs, velem.ref, node);
+      }
+
       return node;
   };
-  VelemPrototype.update = function (newVelem, node, parentNode, parentContext) {
-      var props = this.props;
+
+  var initChildren = function initChildren(node, children, parentContext) {
+      node.vchildren = [];
+      if (isArr(children)) {
+          flattenChildren(children, collectVchild, node, parentContext);
+      } else {
+          collectVchild(children, node, parentContext);
+      }
+  };
+
+  var updateChildren = function updateChildren(node, newChildren, parentContext) {
+      var vchildren = node.vchildren;
+      var childNodes = node.childNodes;
+      var namespaceURI = node.namespaceURI;
+
+      var newVchildren = node.vchildren = [];
+      if (isArr(newChildren)) {
+          flattenChildren(newChildren, collectNewVchild, newVchildren, vchildren);
+      } else {
+          collectNewVchild(newChildren, newVchildren, vchildren);
+      }
+
+      for (var i = 0, len = newVchildren.length; i < len; i++) {
+          var newItem = newVchildren[i];
+          var newVnode = newItem.vnode;
+          var oldItem = newItem.prev;
+          var newChildNode = null;
+          if (oldItem) {
+              newChildNode = oldItem.node;
+              newItem.prev = null;
+              if (oldItem.index !== newItem.index) {
+                  attachNode(node, newChildNode, childNodes[newItem.index], vchildren);
+              }
+              if (newVnode !== oldItem.vnode) {
+                  if (!newVnode.vtype) {
+                      // textNode
+                      newChildNode.nodeValue = newVnode;
+                  } else {
+                      newChildNode = updateVnode(oldItem.vnode, newVnode, newChildNode, parentContext);
+                  }
+              }
+          } else {
+              newChildNode = initVnode(newVnode, parentContext, namespaceURI);
+              attachNode(node, newChildNode, childNodes[newItem.index], vchildren);
+          }
+          newItem.node = newChildNode;
+      }
+
+      for (var i = 0, len = vchildren.length; i < len; i++) {
+          var item = vchildren[i];
+          destroyVnode(item.vnode, item.node);
+          node.removeChild(item.node);
+      }
+  };
+
+  var attachNode = function attachNode(node, newNode, existNode, vchildren) {
+      if (!existNode) {
+          node.appendChild(newNode);
+      } else if (existNode !== newNode) {
+          for (var i = 0, len = vchildren.length; i < len; i++) {
+              var item = vchildren[i];
+              if (item.node === existNode) {
+                  vchildren.splice(i, 1);
+                  destroyVnode(item.vnode, item.node);
+                  node.replaceChild(newNode, existNode);
+                  return;
+              }
+          }
+          node.insertBefore(newNode, existNode);
+      }
+  };
+
+  var collectVchild = function collectVchild(vchild, node, parentContext) {
+      if (vchild == null || isBln(vchild)) {
+          return false;
+      }
+      vchild = vchild.vtype ? vchild : '' + vchild;
+
+      var childNode = initVnode(vchild, parentContext, node.namespaceURI);
+      node.appendChild(childNode);
+      node.vchildren.push({
+          vnode: vchild,
+          node: childNode,
+          index: node.vchildren.length
+      });
+  };
+
+  var collectNewVchild = function collectNewVchild(newVchild, newVchildren, vchildren) {
+      if (newVchild == null || isBln(newVchild)) {
+          return false;
+      }
+
+      var oldItem = null;
+      newVchild = newVchild.vtype ? newVchild : '' + newVchild;
+
+      var _newVchild = newVchild;
+      var refs = _newVchild.refs;
+      var type = _newVchild.type;
+      var key = _newVchild.key;
+
+      for (var i = 0, len = vchildren.length; i < len; i++) {
+          var item = vchildren[i];
+          var vnode = item.vnode;
+          if (vnode === newVchild || vnode.refs === refs && vnode.type === type && vnode.key === key) {
+              oldItem = item;
+              vchildren.splice(i, 1);
+              break;
+          }
+      }
+
+      newVchildren.push({
+          prev: oldItem,
+          vnode: newVchild,
+          index: newVchildren.length
+      });
+  };
+
+  var updateVelem = function updateVelem(velem, newVelem, node, parentContext) {
+      var props = velem.props;
 
       var newProps = newVelem.props;
       var oldHtml = props.dangerouslySetInnerHTML && props.dangerouslySetInnerHTML.__html;
-      var children = props.children;
       var newChildren = newProps.children;
 
-      if (isArr(newChildren)) {
-          newChildren = newProps.children = flattenChildren(newChildren, getVnode);
-      } else if (newChildren !== undefined && !isBln(newChildren)) {
-          newChildren = newProps.children = [getVnode(newChildren)];
-      } else {
-          newChildren = newProps.children = undefined;
-      }
-
-      if (oldHtml == null && children) {
-          var childNodes = node.childNodes;
-          if (newChildren) {
-              var len = newChildren.length;
-              var i = -1;
-              while (len--) {
-                  var newVchild = newChildren[++i];
-                  var vchild = children[i];
-                  if (vchild) {
-                      compareTwoTrees(vchild, newVchild, childNodes[i], node, parentContext);
-                  } else {
-                      newVchild.init(node, parentContext);
-                  }
-              }
-          }
-          var childrenLen = children.length;
-          var newChildrenLen = newChildren && newChildren.length || 0;
-
-          // destroy old children not in the newChildren
-          while (childrenLen > newChildrenLen) {
-              childrenLen -= 1;
-              children[childrenLen].destroy(childNodes[childrenLen]);
-          }
+      if (oldHtml == null && node.vchildren.length) {
+          updateChildren(node, newChildren, parentContext);
           patchProps(node, props, newProps);
       } else {
           // should patch props first, make sure innerHTML was cleared
           patchProps(node, props, newProps);
-          if (newChildren) {
-              var len = newChildren.length;
-              var i = -1;
-              while (len--) {
-                  newChildren[++i].init(node, parentContext);
+          initChildren(node, newChildren, parentContext);
+      }
+      if (velem.ref !== null) {
+          if (newVelem.ref !== null) {
+              attachRef(newVelem.refs, newVelem.ref, node);
+          } else {
+              detachRef(velem.refs, velem.ref);
+          }
+      } else {
+          attachRef(newVelem.refs, newVelem.ref, node);
+      }
+      return node;
+  };
+
+  var destroyVelem = function destroyVelem(velem, node) {
+      var props = velem.props;
+      var vchildren = node.vchildren;
+
+      for (var i = 0, len = vchildren.length; i < len; i++) {
+          var item = vchildren[i];
+          destroyVnode(item.vnode, item.node);
+      }
+
+      if (velem.ref !== null) {
+          detachRef(velem.refs, velem.ref);
+      }
+      node.eventStore = node.vchildren = null;
+      for (var key in props) {
+          if (props.hasOwnProperty(key) && EVENT_KEYS.test(key)) {
+              key = getEventName(key);
+              if (notBubbleEvents[key] === true) {
+                  node[key] = null;
               }
           }
       }
-      updateRef(this, newVelem, node);
-      return node;
-  };
-  VelemPrototype.destroy = function (node) {
-      var children = this.props.children;
-
-      if (children) {
-          var childNodes = node.childNodes;
-          var $removeNode = removeNode;
-          removeNode = noop$1;
-          var len = children.length;
-          var i = -1;
-          while (len--) {
-              children[++i].destroy(childNodes[i]);
-          }
-          removeNode = $removeNode;
-      }
-      detachRef(this);
-      removeNode(node);
   };
 
-  function VstatelessComponent(type, props) {
-      this.id = getUid();
-      this.type = type;
-      this.props = props;
-  }
-
-  var VstatelessComponentPrototype = VstatelessComponent.prototype;
-  VstatelessComponentPrototype.isVdom = true;
-  VstatelessComponentPrototype.init = function (parentNode, parentContext) {
-      var vtree = renderVstatelessComponent(this, parentContext);
-      var node = vtree.init(parentNode, parentContext);
+  var initVstateless = function initVstateless(vstateless, parentContext, namespaceURI) {
+      var vnode = renderVstateless(vstateless, parentContext);
+      var node = initVnode(vnode, parentContext, namespaceURI);
       node.cache = node.cache || {};
-      node.cache[this.id] = vtree;
+      node.cache[vstateless.id] = vnode;
       return node;
   };
-  VstatelessComponentPrototype.update = function (newVstatelessComponent, node, parentNode, parentContext) {
-      var id = this.id;
-      var vtree = node.cache[id];
+  var updateVstateless = function updateVstateless(vstateless, newVstateless, node, parentContext) {
+      var id = vstateless.id;
+      var vnode = node.cache[id];
       delete node.cache[id];
-      var newVtree = renderVstatelessComponent(newVstatelessComponent, parentContext);
-      var newNode = compareTwoTrees(vtree, newVtree, node, parentNode, parentContext);
+      var newVnode = renderVstateless(newVstateless, parentContext);
+      var newNode = compareTwoVnodes(vnode, newVnode, node, parentContext);
       newNode.cache = newNode.cache || {};
-      newNode.cache[newVstatelessComponent.id] = newVtree;
+      newNode.cache[newVstateless.id] = newVnode;
       if (newNode !== node) {
           extend(newNode.cache, node.cache);
       }
       return newNode;
   };
-  VstatelessComponentPrototype.destroy = function (node) {
-      var id = this.id;
-      var vtree = node.cache[id];
+  var destroyVstateless = function destroyVstateless(vstateless, node) {
+      var id = vstateless.id;
+      var vnode = node.cache[id];
       delete node.cache[id];
-      vtree.destroy(node);
+      destroyVnode(vnode, node);
   };
 
-  var renderVstatelessComponent = function renderVstatelessComponent(vstatelessComponent, parentContext) {
-      var factory = vstatelessComponent.type;
-      var props = vstatelessComponent.props;
+  var renderVstateless = function renderVstateless(vstateless, parentContext) {
+      var factory = vstateless.type;
+      var props = vstateless.props;
 
       var componentContext = getContextByTypes(parentContext, factory.contextTypes);
-      var vtree = factory(props, componentContext);
-      if (vtree && vtree.render) {
-          vtree = vtree.render();
+      var vnode = factory(props, componentContext);
+      if (vnode && vnode.render) {
+          vnode = vnode.render();
       }
-      return getVnode(vtree);
+      if (vnode === null || vnode === false) {
+          vnode = createVcomment('react-empty: ' + getUid());
+      } else if (!vnode || !vnode.vtype) {
+          throw new Error('@' + factory.name + '#render:You may have returned undefined, an array or some other invalid object');
+      }
+      return vnode;
   };
 
-  function Vcomponent(type, props) {
-      this.id = getUid();
-      this.type = type;
-      this.props = props;
-      this.refs = refs;
-  }
-
-  var VcomponentPrototype = Vcomponent.prototype;
-  VcomponentPrototype.isVdom = true;
-  VcomponentPrototype.init = function (parentNode, parentContext) {
-      var Component = this.type;
-      var props = this.props;
-      var id = this.id;
+  var initVcomponent = function initVcomponent(vcomponent, parentContext, namespaceURI) {
+      var Component = vcomponent.type;
+      var props = vcomponent.props;
+      var id = vcomponent.id;
 
       var componentContext = getContextByTypes(parentContext, Component.contextTypes);
       var component = new Component(props, componentContext);
@@ -831,23 +917,26 @@
       cache.parentContext = parentContext;
       updater.isPending = true;
       component.props = component.props || props;
+      component.context = component.context || componentContext;
       if (component.componentWillMount) {
           component.componentWillMount();
           component.state = updater.getState();
       }
-      var vtree = renderComponent(component, parentContext);
-      var node = vtree.init(parentNode, vtree.context);
+      var vnode = renderComponent(component, parentContext);
+      var node = initVnode(vnode, vnode.context, namespaceURI);
       node.cache = node.cache || {};
       node.cache[id] = component;
-      cache.vtree = vtree;
+      cache.vnode = vnode;
       cache.node = node;
       cache.isMounted = true;
       pendingComponents.push(component);
-      attachRef(this, component);
+      if (vcomponent.ref !== null) {
+          attachRef(vcomponent.refs, vcomponent.ref, component);
+      }
       return node;
   };
-  VcomponentPrototype.update = function (newVcomponent, node, parentNode, parentContext) {
-      var id = this.id;
+  var updateVcomponent = function updateVcomponent(vcomponent, newVcomponent, node, parentContext) {
+      var id = vcomponent.id;
       var component = node.cache[id];
       var updater = component.$updater;
       var cache = component.$cache;
@@ -864,23 +953,33 @@
           updater.isPending = false;
       }
       updater.emitUpdate(nextProps, componentContext);
-      updateRef(this, newVcomponent, component);
+      if (vcomponent.ref !== null) {
+          if (newVcomponent.ref !== null) {
+              attachRef(newVcomponent.refs, newVcomponent.ref, component);
+          } else {
+              detachRef(vcomponent.refs, vcomponent.ref);
+          }
+      } else {
+          attachRef(newVcomponent.refs, newVcomponent.ref, component);
+      }
       return cache.node;
   };
-  VcomponentPrototype.destroy = function (node) {
-      var id = this.id;
+  var destroyVcomponent = function destroyVcomponent(vcomponent, node) {
+      var id = vcomponent.id;
       var component = node.cache[id];
       var cache = component.$cache;
       delete node.cache[id];
-      detachRef(this);
+      if (vcomponent.ref !== null) {
+          detachRef(vcomponent.refs, vcomponent.ref);
+      }
       component.setState = component.forceUpdate = noop$1;
       if (component.componentWillUnmount) {
           component.componentWillUnmount();
       }
-      cache.vtree.destroy(node);
+      destroyVnode(cache.vnode, node);
       delete component.setState;
       cache.isMounted = false;
-      cache.node = cache.parentContext = cache.vtree = component.refs = component.context = null;
+      cache.node = cache.parentContext = cache.vnode = component.refs = component.context = null;
   };
 
   var getContextByTypes = function getContextByTypes(curContext, contextTypes) {
@@ -898,11 +997,14 @@
 
   var renderComponent = function renderComponent(component, parentContext) {
       refs = component.refs;
-      var vtree = component.render();
-      if (isUndefined(vtree)) {
-          throw new Error('component can not render undefined');
+      var vnode = component.render();
+
+      if (vnode === null || vnode === false) {
+          vnode = createVcomment('react-empty: ' + getUid());
+      } else if (!vnode || !vnode.vtype) {
+          throw new Error('@' + component.constructor.name + '#render:You may have returned undefined, an array or some other invalid object');
       }
-      vtree = getVnode(vtree);
+
       var curContext = refs = null;
       if (component.getChildContext) {
           curContext = component.getChildContext();
@@ -912,8 +1014,8 @@
       } else {
           curContext = parentContext;
       }
-      vtree.context = curContext;
-      return vtree;
+      vnode.context = curContext;
+      return vnode;
   };
 
   var pendingComponents = [];
@@ -936,73 +1038,31 @@
       }
   };
 
-  function compareTwoTrees(vtree, newVtree, node, parentNode, parentContext) {
+  function compareTwoVnodes(vnode, newVnode, node, parentContext) {
       var newNode = node;
-      var isReplace = null;
 
-      if (vtree === newVtree) {
-          return newNode;
-      } else if (newVtree === undefined) {
-          vtree.destroy(node);
-      } else if (vtree === undefined) {
-          newNode = newVtree.init(parentNode, parentContext);
-      } else if (vtree.type !== newVtree.type) {
-          isReplace = true;
-      } else if (newVtree.key !== null) {
-          if (vtree.key === null || newVtree.key !== vtree.key) {
-              isReplace = true;
-          }
-      } else if (vtree.key !== null) {
-          isReplace = true;
-      }
-
-      if (isReplace) {
-          var $removeNode = removeNode;
-          removeNode = noop$1;
-          vtree.destroy(node);
-          removeNode = $removeNode;
-          newNode = newVtree.init(function (nextNode) {
-              return parentNode.replaceChild(nextNode, node);
-          }, parentContext);
-      } else {
-          newNode = vtree.update(newVtree, node, parentNode, parentContext);
+      if (newVnode == null) {
+          // remove
+          destroyVnode(vnode, node);
+          node.parentNode.removeChild(node);
+      } else if (vnode.type !== newVnode.type || newVnode.key !== vnode.key) {
+          // replace
+          destroyVnode(vnode, node);
+          newNode = initVnode(newVnode, parentContext, node.namespaceURI);
+          node.parentNode.replaceChild(newNode, node);
+      } else if (vnode !== newVnode) {
+          // same type and same key -> update
+          newNode = updateVnode(vnode, newVnode, node, parentContext);
       }
 
       return newNode;
   }
 
-  var removeNode = function removeNode(node) {
-      // if node.parentNode had set innerHTML, do nothing
-      if (node && node.parentNode) {
-          node.parentNode.removeChild(node);
-      }
-  };
-  var appendNode = function appendNode(parentNode, node) {
-      // for replacing node
-      if (isFn(parentNode)) {
-          parentNode(node);
-      } else {
-          parentNode.appendChild(node);
-      }
-  };
-
-  var getVnode = function getVnode(vnode) {
-      if (vnode === null) {
-          vnode = new Velem('noscript', {});
-      } else if (!vnode || !vnode.isVdom) {
-          vnode = new Vtext('' + vnode);
-      }
-      return vnode;
-  };
-
   var getDOMNode = function getDOMNode() {
       return this;
   };
 
-  var attachRef = function attachRef(vtree, refValue) {
-      var refKey = vtree.ref;
-      var refs = vtree.refs;
-
+  var attachRef = function attachRef(refs, refKey, refValue) {
       if (!refs || refKey == null || !refValue) {
           return;
       }
@@ -1017,10 +1077,7 @@
       }
   };
 
-  var detachRef = function detachRef(vtree) {
-      var refKey = vtree.ref;
-      var refs = vtree.refs;
-
+  var detachRef = function detachRef(refs, refKey) {
       if (!refs || refKey == null) {
           return;
       }
@@ -1028,13 +1085,6 @@
           refKey(null);
       } else {
           delete refs[refKey];
-      }
-  };
-
-  var updateRef = function updateRef(vtree, newVtree, refValue) {
-      if (vtree.ref !== newVtree.ref) {
-          detachRef(vtree);
-          attachRef(newVtree, refValue);
       }
   };
 
@@ -1187,7 +1237,7 @@
   		var nextContext = $cache.context || {};
   		var parentContext = $cache.parentContext;
   		var node = $cache.node;
-  		var vtree = $cache.vtree;
+  		var vnode = $cache.vnode;
   		$cache.props = $cache.state = $cache.context = null;
   		$updater.isPending = true;
   		if (this.componentWillUpdate) {
@@ -1196,13 +1246,13 @@
   		this.state = nextState;
   		this.props = nextProps;
   		this.context = nextContext;
-  		var nextVtree = renderComponent(this, parentContext);
-  		var newNode = compareTwoTrees(vtree, nextVtree, node, node.parentNode, nextVtree.context);
+  		var newVnode = renderComponent(this, parentContext);
+  		var newNode = compareTwoVnodes(vnode, newVnode, node, newVnode.context);
   		if (newNode !== node) {
   			newNode.cache = newNode.cache || {};
   			extend(newNode.cache, node.cache);
   		}
-  		$cache.vtree = nextVtree;
+  		$cache.vnode = newVnode;
   		$cache.node = newNode;
   		clearPendingComponents();
   		if (this.componentDidUpdate) {
@@ -1228,7 +1278,7 @@
   	},
   	getDOMNode: function getDOMNode() {
   		var node = this.$cache.node;
-  		return node && node.tagName === 'NOSCRIPT' ? null : node;
+  		return node && node.nodeName === '#comment' ? null : node;
   	},
   	isMounted: function isMounted() {
   		return this.$cache.isMounted;
@@ -1276,7 +1326,9 @@
   		eventTypes[eventType] = true;
   	}
 
-  	if (eventType === 'onchange') {
+  	var nodeName = elem.nodeName;
+
+  	if (eventType === 'onchange' && (nodeName === 'INPUT' || nodeName === 'TEXTAREA')) {
   		addEvent(elem, 'oninput', listener);
   	}
   };
@@ -1291,7 +1343,9 @@
   	var eventStore = elem.eventStore || (elem.eventStore = {});
   	delete eventStore[eventType];
 
-  	if (eventType === 'onchange') {
+  	var nodeName = elem.nodeName;
+
+  	if (eventType === 'onchange' && (nodeName === 'INPUT' || nodeName === 'TEXTAREA')) {
   		delete eventStore['oninput'];
   	}
   };
@@ -1345,10 +1399,10 @@
   };
 
   var pendingRendering = {};
-  var vtreeStore = {};
-  var renderTreeIntoContainer = function renderTreeIntoContainer(vtree, container, callback, parentContext) {
-  	if (!vtree.isVdom) {
-  		throw new Error('cannot render ' + vtree + ' to container');
+  var vnodeStore = {};
+  var renderTreeIntoContainer = function renderTreeIntoContainer(vnode, container, callback, parentContext) {
+  	if (!vnode.vtype) {
+  		throw new Error('cannot render ' + vnode + ' to container');
   	}
   	var id = container[COMPONENT_ID] || (container[COMPONENT_ID] = getUid());
   	var argsCache = pendingRendering[id];
@@ -1356,10 +1410,10 @@
   	// component lify cycle method maybe call root rendering
   	// should bundle them and render by only one time
   	if (argsCache) {
-  		if (argsCache === TRUE) {
-  			pendingRendering[id] = argsCache = [vtree, callback, parentContext];
+  		if (argsCache === true) {
+  			pendingRendering[id] = argsCache = [vnode, callback, parentContext];
   		} else {
-  			argsCache[0] = vtree;
+  			argsCache[0] = vnode;
   			argsCache[2] = parentContext;
   			if (callback) {
   				argsCache[1] = argsCache[1] ? pipe(argsCache[1], callback) : callback;
@@ -1368,27 +1422,33 @@
   		return;
   	}
 
-  	pendingRendering[id] = TRUE;
-  	if (vtreeStore[id]) {
-  		compareTwoTrees(vtreeStore[id], vtree, container.firstChild, container, parentContext);
+  	pendingRendering[id] = true;
+  	var oldVnode = null;
+  	var rootNode = null;
+  	if (oldVnode = vnodeStore[id]) {
+  		rootNode = compareTwoVnodes(oldVnode, vnode, container.firstChild, parentContext);
   	} else {
-  		container.innerHTML = '';
-  		vtree.init(container, parentContext);
+  		rootNode = initVnode(vnode, parentContext, container.namespaceURI);
+  		var childNode = null;
+  		while (childNode = container.lastChild) {
+  			container.removeChild(childNode);
+  		}
+  		container.appendChild(rootNode);
   	}
-  	vtreeStore[id] = vtree;
+  	vnodeStore[id] = vnode;
   	var isPending = updateQueue.isPending;
   	updateQueue.isPending = true;
-  	clearPendingComponents(true);
+  	clearPendingComponents();
   	argsCache = pendingRendering[id];
   	delete pendingRendering[id];
 
   	var result = null;
   	if (isArr(argsCache)) {
   		result = renderTreeIntoContainer(argsCache[0], container, argsCache[1], argsCache[2]);
-  	} else if (isStr(vtree.type)) {
-  		result = container.firstChild;
-  	} else if (isComponent(vtree.type)) {
-  		result = container.firstChild.cache[vtree.id];
+  	} else if (vnode.vtype === VELEMENT) {
+  		result = rootNode;
+  	} else if (vnode.vtype === VCOMPONENT) {
+  		result = rootNode.cache[vnode.id];
   	}
 
   	if (!isPending) {
@@ -1403,13 +1463,13 @@
   	return result;
   };
 
-  var render = function render(vtree, container, callback) {
-  	return renderTreeIntoContainer(vtree, container, callback);
+  var render = function render(vnode, container, callback) {
+  	return renderTreeIntoContainer(vnode, container, callback);
   };
 
-  var unstable_renderSubtreeIntoContainer = function unstable_renderSubtreeIntoContainer(parentComponent, subVtree, container, callback) {
-  	var context = parentComponent.vtree ? parentComponent.vtree.context : parentComponent.$cache.parentContext;
-  	return renderTreeIntoContainer(subVtree, container, callback, context);
+  var unstable_renderSubtreeIntoContainer = function unstable_renderSubtreeIntoContainer(parentComponent, subVnode, container, callback) {
+  	var context = parentComponent.vnode ? parentComponent.vnode.context : parentComponent.$cache.parentContext;
+  	return renderTreeIntoContainer(subVnode, container, callback, context);
   };
 
   var unmountComponentAtNode = function unmountComponentAtNode(container) {
@@ -1417,9 +1477,11 @@
   		throw new Error('expect node');
   	}
   	var id = container[COMPONENT_ID];
-  	if (vtreeStore[id]) {
-  		vtreeStore[id].destroy(container.firstChild);
-  		delete vtreeStore[id];
+  	var vnode = null;
+  	if (vnode = vnodeStore[id]) {
+  		destroyVnode(vnode, container.firstChild);
+  		container.removeChild(container.firstChild);
+  		delete vnodeStore[id];
   		return true;
   	}
   	return false;
@@ -1449,7 +1511,7 @@
   });
 
   var isValidElement = function isValidElement(obj) {
-  	return obj != null && !!obj.isVdom;
+  	return obj != null && !!obj.vtype;
   };
 
   var cloneElement = function cloneElement(originElem, props) {
@@ -1481,37 +1543,69 @@
   	return factory;
   };
 
-  var createElement = function createElement(type, props) {
-  	for (var _len3 = arguments.length, children = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-  		children[_key3 - 2] = arguments[_key3];
+  var createElement = function createElement(type, props, children) {
+  	var createVnode = null;
+  	var argsLen = arguments.length;
+
+  	if (argsLen > 3) {
+  		children = [children];
+  		for (var i = 3; i < argsLen; i++) {
+  			children[i - 2] = arguments[i];
+  		}
   	}
 
-  	var Vnode = null;
+  	var varType = typeof type;
 
-  	if (isStr(type)) {
-  		Vnode = Velem;
-  	} else if (isComponent(type)) {
-  		Vnode = Vcomponent;
-  	} else if (isStatelessComponent(type)) {
-  		Vnode = VstatelessComponent;
+  	if (varType === 'string') {
+  		createVnode = createVelem;
+  	} else if (varType === 'function') {
+  		if (type.prototype && typeof type.prototype.forceUpdate === 'function') {
+  			createVnode = createVcomponent;
+  		} else {
+  			createVnode = createVstateless;
+  		}
   	} else {
   		throw new Error('React.createElement: unexpect type [ ' + type + ' ]');
   	}
 
   	var key = null;
   	var ref = null;
+  	var finalProps = {};
+  	var propValue = null;
   	if (props != null) {
-  		if (props.key !== undefined) {
-  			key = '' + props.key;
-  			delete props.key;
-  		}
-  		if (props.ref !== undefined) {
-  			ref = props.ref;
-  			delete props.ref;
+  		for (var propKey in props) {
+  			if (!props.hasOwnProperty(propKey)) {
+  				continue;
+  			}
+  			if (propKey === 'key') {
+  				if (props.key !== undefined) {
+  					key = '' + props.key;
+  				}
+  			} else if (propKey === 'ref') {
+  				if (props.ref !== undefined) {
+  					ref = props.ref;
+  				}
+  			} else if ((propValue = props[propKey]) !== undefined) {
+  				finalProps[propKey] = propValue;
+  			}
   		}
   	}
 
-  	var vnode = new Vnode(type, mergeProps(props, children, type.defaultProps));
+  	var defaultProps = type.defaultProps;
+
+  	if (defaultProps) {
+  		for (var propKey in defaultProps) {
+  			if (finalProps[propKey] === undefined) {
+  				finalProps[propKey] = defaultProps[propKey];
+  			}
+  		}
+  	}
+
+  	if (children !== undefined) {
+  		finalProps.children = children;
+  	}
+
+  	var vnode = createVnode(type, finalProps);
   	vnode.key = key;
   	vnode.ref = ref;
   	return vnode;
@@ -1556,12 +1650,13 @@
   	if (children == null) {
   		return children;
   	}
+  	var index = 0;
   	if (isArr(children)) {
-  		flattenChildren(children, function (child, index) {
-  			iteratee.call(context, child, index);
+  		flattenChildren(children, function (child) {
+  			iteratee.call(context, child, index++);
   		});
   	} else {
-  		iteratee.call(context, children, 0);
+  		iteratee.call(context, children, index);
   	}
   };
 
@@ -1672,17 +1767,11 @@
   };
 
   var combineMixinToClass = function combineMixinToClass(Component, mixin) {
-  	if (isObj(mixin.propTypes)) {
-  		extend(Component.propTypes, mixin.propTypes);
-  	}
-  	if (isObj(mixin.contextTypes)) {
-  		extend(Component.contextTypes, mixin.contextTypes);
-  	}
+  	extend(Component.propTypes, mixin.propTypes);
+  	extend(Component.contextTypes, mixin.contextTypes);
+  	extend(Component, mixin.statics);
   	if (isFn(mixin.getDefaultProps)) {
   		extend(Component.defaultProps, mixin.getDefaultProps());
-  	}
-  	if (isObj(mixin.statics)) {
-  		extend(Component, mixin.statics);
   	}
   };
 
@@ -1741,7 +1830,7 @@
   };
 
   var React = extend({
-      version: '0.14.7',
+      version: '0.15.1',
       cloneElement: cloneElement,
       isValidElement: isValidElement,
       createElement: createElement,
