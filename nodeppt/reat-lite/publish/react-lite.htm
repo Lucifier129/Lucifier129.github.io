@@ -1,0 +1,229 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.3.8
+    site: https://github.com/ksky521/nodePPT
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>React-Lite: 专注 WEB 平台的高性能 React.js - By 古映杰@ctrip</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    
+<!-- <link rel="stylesheet" href="./css/theme.dark.css"> -->
+<script>
+! function() {
+    var addLink = function(theme) {
+        var link = document.createElement('link')
+        link.setAttribute('rel', 'stylesheet')
+        link.href = './css/theme.' + theme + '.css'
+        document.head.appendChild(link)
+    }
+    var search = location.search
+    var themes = ['blue', 'dark', 'green', 'light', 'moon'];
+    for (var i = 0; i < themes.length; i++) {
+        if (search.indexOf(themes[i]) !== -1) {
+            return addLink(themes[i])
+        }
+    }
+    return addLink(themes[1])
+}();
+</script>
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React-Lite: 专注 WEB 平台的高性能 React.js</h1>
+<h2>分享者：古映杰@Ctrip</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React-Lite 是什么？</h1>
+<p>基于 React API 单元测试的轻量版实现 React-Lite(v0.15.9 <code>25kb</code>)
+<img src="./img/test.png" /></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React-Lite 解决什么问题？</h1>
+<h2>更小的体积，更强的性能 <a href="http://lucifier129.github.io/vdom-engine/examples/js-repaint-perf/" target="_blank">js-repaint-perf</a></h2>
+<ul>
+<li>高性能：<code>virtual-dom</code></li>
+<li>组件化：<code>React.Component</code> &amp;&amp; <code>stateless Component</code></li>
+<li>可维护性: 单向数据流<code>flux/redux</code></li>
+<li>轻量(TODO): <code>mobile first</code>(React-Lite 25kb)</li>
+<li>SEO：服务端渲染 <code>React.renderToString</code></li>
+<li>多终端：<code>learn once, write anywhere</code>(React-Native)</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 为什么这么大？</h1>
+<h2>React v15.0.1 压缩后体积 140+ kb</h2>
+<h2>当前所有 virtual-dom 实现中体积最大</h2>
+<p><img src="./img/dove.jpg" /></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>如何评价 React 源码？</h1>
+<h2>一流的思想，三流的实现</h2>
+<ul>
+<li>设计错误<ul>
+<li>API 冗长</li>
+<li>初始化渲染使用 <code>renderToString</code> + <code>innerHTML</code></li>
+</ul>
+</li>
+<li>工程化失控<ul>
+<li>2013年的 issue：<a href="https://github.com/facebook/react/issues/436" target="_blank">react-mobile</a>，<a href="http://stackoverflow.com/questions/19807946/why-is-reacts-filesize-so-big-given-its-small-api" target="_blank">Why is React&#39;s filesize so big?</a></li>
+<li>2016年 v15.0 版本的 <code>react-dom/react-server</code>，依然是两个空的 <code>placeholder</code> 包</li>
+</ul>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React-Lite 为什么体积小？</h1>
+<h2><code>just virtual-dom and component</code></h2>
+<ul>
+<li>事件系统基于浏览器原生实现的 w3c 事件标准</li>
+<li>砍掉 <code>renderToString</code></li>
+<li>置空 PropTypes 验证</li>
+<li>只考虑 web 平台，无需在 react-native 里复用代码</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React-Lite 能做什么？</h1>
+<h2>在 90% 以上的场景下完全替代 React</h2>
+<ul>
+<li>works with <code>react-bootstrap</code>: <a href="http://react-lite-with-bootstrap.herokuapp.com/" target="_blank">doc demo</a></li>
+<li>works with <code>ant-design</code>: <a href="http://lucifier129.github.io/ant-design/" target="_blank">demo</a></li>
+<li>works with <code>react-router</code>: <a href="http://react-lite-with-react-router.coding.io/" target="_blank">examples</a></li>
+<li>works with <code>react-motion</code>: <a href="http://lucifier129.github.io/react-motion-with-react-lite/index.html" target="_blank">demos</a></li>
+<li>works with <code>react-d3-components</code>: <a href="http://lucifier129.github.io/react-d3-components-demos/" target="_blank">demos</a></li>
+<li>works with <code>react-d3</code>: <a href="http://lucifier129.github.io/react-d3-demos/" target="_blank">demos</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>为什么要用 React-Lite ？</h1>
+<ul>
+<li>更小的体积</li>
+<li>更快的性能</li>
+<li>便捷的替换方式 <a href="https://github.com/Lucifier129/react-lite" target="_blank">webpack alias</a></li>
+<li>安全又稳定（一旦出现不能及时修复的问题，可随时替换回原版 React)</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React-Lite 的彩蛋</h1>
+<h2>依赖 jQuery 兼容 IE6+ 浏览器</h2>
+<h2>从 ES3 跃迁到 ES2015</h2>
+<ul>
+<li>vender: json2 + es5-shim + es5-sham + es6-promise + object-assign + requestAnimationFrame + jQuery + React-Lite = 160kb 左右</li>
+<li><a href="https://github.com/Lucifier129/fe-starter" target="_blank">workflow</a>: webpack + babel6 + es3ify + eslint-airbnb-config + npm</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>为什么要造轮子？</h1>
+<h2>造轮子是学习和研究的最佳途径</h2>
+<ul>
+<li>了解底层机制的运作方式</li>
+<li>掌握性能优化的基本思路</li>
+<li>激发良性竞争</li>
+<li>促进对现有工具的反思</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>谁在用 React-Lite</h1>
+<h2>首批吃螃蟹的勇士们</h2>
+<ul>
+<li>携程度假研发部，PC 新版融合填写页、团队游无线端h5(v6.15)部分页面</li>
+<li>机票研发部部分 h5 页面</li>
+<li>框架研发部 Lizard v3.0 集成 React-Lite (意向)</li>
+<li>部分外国友人(npm 每个月 1000 以上的下载量)</li>
+<li>以及在座的勇士们：）</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Q&amp;A 时间</h1>
+<p><img src="./img/qa.jpg" /></p>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodePPT v1.3.8</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
