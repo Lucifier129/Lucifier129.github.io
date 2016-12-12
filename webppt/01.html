@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>基于 IMVC 的新一代前端架构</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 基于 IMVC 的新一代前端架构
+                        古映杰@携程度假研发部
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 背景1：服务端 MVC 向前端迁移
+                        - 需求：前端承接了越来越多之前放在服务端实现的功能
+                        - 模式：前后端分离，减少沟通成本，提高开发效率
+                        - 方案：单页应用（SPA:Single-Page-Application），优化用户体验
+                        - 牺牲：服务端渲染（SSR:Server-Side-Rendering）
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 背景2：上一代前端 MVC 已经过时
+                        - Backbone.js 等老牌前端 MVC 框架不再受追捧
+                        - Vue、Angular 等 MVVM 框架崛起
+                        - React + Redux 架构风靡世界
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 背景3：当前流行方案不够满意
+                        - 臃肿的全家桶：React, Vue, Angular
+                        - 彼此互斥，选框架像押宝的赌博
+                        - 版本飙升，每六个月重构一次前端代码
+                        - 服务端渲染方案不够简洁
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 需求：功能完备，可替代，可定制，灵活组合
+                        - 只维护一套用 ES2015+ 开发的代码
+                        - 既是单页应用，又是多页应用（SPA + SSR）
+                        - 可以部署到任意发布路径 (Basename/RootPath)
+                        - 既可以用 Hash，也可以用 PushState (History/Router)
+                        - 既可以用 Requirejs，也可以用 Webpack 或其他 (Module-Loader)
+                        - 既可以用 React，也可以用 Vue, Handlebars 或其他 (View)
+                        - 既可以用 Backbone.Model，也可以用 Redux, Rxjs, Mobx 或其他(Model)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 同构设计：Isomorphic-MVC 
+                        - 同构代码：一套代码，既可以运行在浏览器端，也可以运行在服务端（node.js）
+                        - 同构渲染：renderToString VS renderToDOM
+                        - 同构 MVC：服务端和浏览器端共用一套 MVC 框架
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 分析：服务端 MVC 的运作机制简介
+                        - 用户访问网址 url
+                        - router 路由根据 url + pattern 匹配控制器(controller)模块
+                        - controller 从 model 里取数据，并注入 view 模板
+                        - view + data = html
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 分析：浏览器端 MVC 的运作机制简介
+                        - 用户访问网址 url，服务端吐出基本结构 index.html
+                        - 加载框架 js，框架根据 url + pattern 匹配控制器(controller)模块
+                        - 异步加载 controller.js 文件
+                        - controller.js 从 model 里发 ajax 异步取数据，注入 view 生成 html
+                        - controller.js 绑定事件(页面初始化结束)
+                        - 事件函数响应用户交互，更改 model
+                        - 框架将 model 的变化同步到 view
+                        - url 地址变化，框架销毁或隐藏 controller 实例和视图
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 整合：同构 MVC 的运作机制简介
+                        - 用户访问网址 url
+                        - 服务端 MVC 吐出首屏视图和初始化数据(initialState)
+                        - 浏览器端 MVC 继承服务端 MVC 的 html 和 intialState
+                        - 绑定事件函数，响应用户交互
+                        - 更新 model，同步 view
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 整合：抽象出同构 API
+                        - 以前：哪些可以同构？
+                        - 现在：哪些不可以同构？
+                        - 模块加载器（同步/异步）
+                        - 渲染引擎：（renderToString/renderToDOM）
+                        - ajax 请求（isomorphic-fetch）
+                        - 生命周期：init, update, destory
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 代码实现：Controller.js
+                        ```javascript
+                        export default class Controller {
+                            async init() {
+                                let response = await fetch(api.getUsers)
+                                let data = await response.json()
+                                return <View {...data} />
+                            }
+                            update() {}
+                            destroy() {}
+                        }
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 代码实现：routes.js
+                        ```javascript
+                        export default [
+                            {
+                                path: '/home',
+                                controller: require('../page/home/controller')
+                            },
+                            {
+                                path: '/list',
+                                controller: require('../page/list/controller')
+                            },
+                            {
+                                path: '/detail',
+                                controller: require('../page/detail/controller')
+                            },
+                        ]
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 代码实现：浏览器端 entry.js
+                        ```javascript
+                        const app = createApp({
+                            type: 'createHistory',
+                            basename: '/isomorphic-cnode',
+                            container: '#root',
+                            loader: webpackLoader,
+                            routes: routes,
+                            viewEngine: ReactDOM,
+                        })
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 代码实现：服务端 entry.js
+                        ```javascript
+                        let app = createApp({
+                            type: 'createHistory',
+                            basename: '/isomorphic-cnode',
+                            loader: commonjsLoader,
+                            routes: routes,
+                            viewEngine: ReactDOMServer,
+                        })
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 代码实现：服务端 page.js
+                        ```javascript
+                        // handle page
+                        server.get('*', async (req, res) => {
+                            try {
+                                let { content, controller } = await app.render(req.url)
+                                let initialState = controller.store.getState()
+                                let html = renderLayout({
+                                    ...defaults,
+                                    content,
+                                    initialState,
+                                })
+                                res.end(html)
+                            } catch (error) {
+                                res.writeHead(500)
+                                res.end(error.stack)
+                            }
+                        })
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 使用案例
+                        [isomorphic-cnode](https://github.com/Lucifier129/isomorphic-cnode)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Q & A
+                    </script>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
