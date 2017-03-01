@@ -1,0 +1,423 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>IMVC（同构 MVC）的前端实践</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-markdown>
+                    <script type="text/template">
+                        ## IMVC（同构 MVC）的前端实践
+                        古映杰@携程度假研发部
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## isomorphic 的概念
+                        - isomorphic [ˌaɪsə'mɔ:fɪk] 同形的，同构的
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Isomorphic JavaScript
+                        - http://isomorphic.net
+                        <div style="text-align: center">![IMVC](./img/02.jpg)</div>
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 同构的种类
+                        - 内容同构，做等价的事情
+                        ```javascript
+                        function add(a, b) {
+                            return a + b
+                        }
+                        ```
+                        - 形式同构，做一致的事情
+                        ```javascript
+                        function doSomething() {
+                            if (isServer) {
+                                // do something in server-side
+                            } else if (isClient) {
+                                // do something in client-side
+                            }
+                        }
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 同构的层次
+                        - function: setTimeout, lodash, moment
+                        - feature: react, redux, vue, vuex
+                        - framework：***isomorphic-mvc***, next.js, flux, mvvm
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 同构的价值
+                        - SEO-friendly
+                        - Speed
+                        - Easier code maintenance
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## client-side renderging
+                        ![IMVC](./img/03.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## server-side rendering
+                        ![IMVC](./img/04.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 同构是未来的趋势
+                        - 过去：fat-server, thin-client
+                        - 现在： thin-server, fat-client
+                        - 将来：shared, fat-server, fat-client
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## fat-server, thin-client
+                        ![IMVC](./img/05.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## thin-server, fat-client
+                        ![IMVC](./img/06.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## shared, fat-server, fat-client
+                        ![IMVC](./img/07.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 如何实现同构？
+                        - 第一要旨：全盘同构没有意义
+                        - 只在 client/server 有交集的部分做同构
+                        - 能够内容同构的直接复用
+                        - 内容不同构的封装成形式同构
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 形式同构的实现思路
+                        ![IMVC](./img/08.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 形式同构的实现思路
+                        ![IMVC](./img/09.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 形式同构的实现思路
+                        ![IMVC](./img/10.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Isomorphic-MVC 的目标
+                        - 用法简单，初学者也能快速上手
+                        - 只维护一套 ES2015+ 的代码
+                        - 既是单页应用，又是多页应用（SPA + SSR）
+                        - 可以部署到任意发布路径 (Basename/RootPath)
+                        - 一条命令启动完备的开发环境
+                        - 一条命令完成打包/部署过程
+                    </script>
+                </section>
+               <section data-markdown>
+                    <script type="text/template">
+                        ## Isomorphic-MVC 的技术选型
+                        - router: create-app = history + path-to-regexp
+                        - view: React = renderToDOM || renderToString
+                        - model: relite = redux-like library
+                        - ajax: isomorphic-fetch
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 为什么不直接用 React 全家桶？
+                        - 目前的 React 全家桶其实是野生的，Facebook 并不用
+                        - React-Router 的理念难以满足要求 [view-source](https://github.com/technology-ebay-de/universal-react-router4/blob/master/src/server/index.js)
+                        - Redux 适用于大型应用，而我们的主要场景是中小型
+                        - 升级频繁导致学习成本过高，需封装一层更简洁的 API
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 用 create-app 代替 react-router
+                        - history 是 react-router 依赖的底层库
+                        - path-to-regexp 是 expressjs 依赖的底层库
+                        - 在 View(React) 层和 Model 层之外实现 Controller 层
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## create-app 的同构理念
+                        ![IMVC](./img/01.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## create-app 的服务端渲染
+                        ```javascript
+                        const app = createApp(serverSettings)
+                        app.get('*', async (req, res, next) => {
+                          try {
+                            const { content } = app.render(req.url, serverContext)
+                            res.render('layout', { content })
+                          } catch(error) {
+                            next(error)
+                          }
+                        })
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## create-app 的配置理念
+                        ```javascript
+                        const app = createApp({
+                            type: 'createHistory',
+                            container: '#root',
+                            context: {
+                                isClient: true,
+                                isServer: false,
+                                ...injectFeatures
+                            },
+                            loader: webpackLoader|commonjsLoader,
+                            routes: routes,
+                            viewEngine: ReactDOM|ReactDOMServer,
+                        })
+                        app.start() || app.render(url, context)
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## create-app 的扁平化路由理念
+                        ```javascript
+                        // routes
+                        export default [{
+                            path: '/demo',
+                            controller: require('./home/controller')
+                        }, {
+                            path: '/demo/list',
+                            controller: require('./list/controller')
+                        }, {
+                            path: '/demo/detail',
+                            controller: require('./detail/controller')
+                        }]
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## create-app 的目录结构
+                        <pre>
+                        
+                        ├── src                       // 源代码目录                      
+                        │   ├── app-demo                 // demo目录
+                        │   ├── app-abcd                 // 项目 abcd 平台目录
+                        │   │   ├── components          // 项目共享组件
+                        │   │   ├── shared              // 项目共享方法
+                        │   │        └── BaseController // 继承基类 Controller 的项目层 Controller   
+                        │   │   ├── home                // 具体页面
+                        │   │   │   ├── controller.js  // 控制器
+                        │   │   │   ├── model.js       // 模型
+                        │   │   │   └── view.js        // 视图
+                        │   │   ├── *                   // 其他页面
+                        │   │   └── routes.js           // abc 项目扁平化路由
+                        │   ├── app-*                    // 其他项目
+                        │   ├── components               // 全局共享组件
+                        │   ├── shared                   // 全局共享文件
+                        │   │   └── BaseController      // 基类 Controller   
+                        │   ├── index.js                 // 全局 js 入口
+                        │   └── routes.js                // 全局扁平化路由
+                        ├── static // 源码 build 的目标静态文件夹
+                        </pre>
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## controller 的基本模式
+                        ```javascript
+                        class MyController extends BaseController {
+                          requireLogin = true // 是否依赖登陆态，BaseController 里自动处理
+                          View = View // 视图
+                          initialState = { count: 0 } // model 初始状态initialState
+                          actions = actions // model 状态变化的函数集合 actions
+                          handleIncre = () => { // 事件处理器，自动收集起来，传递给 View 组件
+                            let { history, store, fetch, location, context } = this // 功能分层
+                            let { INCREMENT } = store.actions
+                            INCREMENT() // 调用 action，更新 state， view 随之自动更新
+                          }
+                          async shouldComponentCreate() {} // 在这里鉴权，return false
+                          async componentWillCreate() {} // 在这里 fetch 首屏数据
+                          componentDidMount() {} // 在这里 fetch 非首屏数据
+                          pageWillLeave() {} // 在这里执行路由跳转离开前的逻辑
+                          windowWillUnload() {} // 在这里执行页面关闭前的逻辑
+                        }
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## redux 的简化版 relite
+                        ```javascript
+                        let EXEC_BY = (state, input) => {
+                            let value = parseFloat(input, 10)
+                            return isNaN(value) ? state : {
+                                ...state,
+                                count: state.count + value
+                            }
+                        }
+                        let EXEC_ASYNC = async (state, input) => {
+                            await delay(1000)
+                            return EXEC_BY(state, input)
+                        }
+                        let store = createStore(
+                          { EXEC_BY, EXEC_ASYNC },
+                          { count: 0 }
+                        )
+                        ```
+                        - actionType, actionCreator, reducer 合并
+                        - 自动 bindActionCreators，内置异步 action 的支持
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Isomorphic-MVC 的工程化设施
+                        - node.js 运行时，npm 包管理
+                        - expressjs 服务端框架
+                        - babel 编译 ES2015+ 代码到 ES5
+                        - webpack 打包和压缩源码
+                        - standard.js 检查代码规范
+                        - prettier.js + git-hook 代码自动美化排版
+                        - mocha 单元测试
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 如何实现代码实时热更新？
+                        - 目标：一个命令启动开发环境，修改代码不需重启进程
+                        - 做法：一个 webpack 服务于 client，另一个 webpack 服务于 server
+                        - client: express + webpack-dev-middleware 在内存里编译
+                        - server: memory-fs + webpack + vm-module
+                        - 服务端的 webpack 编译到内存模拟的文件系统，再用 node.js 内置的虚拟机模块执行后得到新的模块
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 如何处理 CSS 按需加载？
+                        - 问题根源：浏览器只在 dom-ready 之前会等待 css 资源加载后再渲染页面
+                        - 问题所在：当单页跳转到另一个 url，css 资源还没加载完，页面显示成混乱布局
+                        - 处理办法：将 css 视为预加载的 ajax 数据，以 style 标签的形式按需引入
+                        - 优化策略：用 context 缓存预加载数据，避免重复加载
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 如何实现代码切割、按需加载？
+                        ```javascript
+                        // webpack.config.js
+                        {
+                              test: /controller\.jsx?$/,
+                              loader: 'bundle-loader',
+                              query: {
+                                lazy: true,
+                                name: '[1]-[folder]',
+                                regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
+                              },
+                              exclude: /node_modules/
+                        }
+                        ```
+                        - 不使用 webpack-only 的语法 require.ensure
+                        - 在浏览器里 require 被编译为加载函数，异步加载
+                        - 在 node.js 里 require 是同步加载
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 如何处理静态资源的版本管理？
+                        ```javascript
+                        // webpack.config.js
+                        output = {
+                            path: outputPath,
+                            filename: '[name]-[hash:6].js',
+                            chunkFilename: '[name]-[chunkhash:6].js'
+                        }
+                        ```
+                        - 以代码的 hash 为文件名，增量发布
+                        - 用 webpack.stats.plugin.js 生成静态资源表
+                        - express 使用 stats.json 的数据渲染页面
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 如何管理命令行任务？
+                        - 使用 npm-scripts 完成 git、webpack、test, prettier 等任务的串并联逻辑
+                        - npm start 启动完整的开发环境
+                        - npm run start:client 启动不带服务端渲染的开发环境
+                        - npm run build 启动自动化编译，构建与压缩部署的任务
+                        - npm run build:show-prod 用 webpack-bundle-analyzer 可视化查看编译结果
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Q & A
+                    </script>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
