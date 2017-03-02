@@ -159,10 +159,10 @@
                <section data-markdown>
                     <script type="text/template">
                         ## Isomorphic-MVC 的技术选型
-                        - router: create-app = history + path-to-regexp
-                        - view: React = renderToDOM || renderToString
-                        - model: relite = redux-like library
-                        - ajax: isomorphic-fetch
+                        - Router: create-app = history + path-to-regexp
+                        - View: React = renderToDOM || renderToString
+                        - Model: relite = redux-like library
+                        - Ajax: isomorphic-fetch
                     </script>
                 </section>
                 <section data-markdown>
@@ -190,6 +190,27 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
+                        ## create-app 的配置理念
+                        ```javascript
+                        const app = createApp({
+                            type: 'createHistory',
+                            container: '#root',
+                            context: {
+                                isClient: true|false,
+                                isServer: false|true,
+                                ...injectFeatures
+                            },
+                            loader: webpackLoader|commonjsLoader,
+                            routes: routes,
+                            viewEngine: ReactDOM|ReactDOMServer,
+                        })
+                        app.start() || app.render(url, context)
+                        ```
+                        client-entry.js 和 server.entry.js 里有不同的配置
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
                         ## create-app 的服务端渲染
                         ```javascript
                         const app = createApp(serverSettings)
@@ -202,26 +223,7 @@
                           }
                         })
                         ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## create-app 的配置理念
-                        ```javascript
-                        const app = createApp({
-                            type: 'createHistory',
-                            container: '#root',
-                            context: {
-                                isClient: true,
-                                isServer: false,
-                                ...injectFeatures
-                            },
-                            loader: webpackLoader|commonjsLoader,
-                            routes: routes,
-                            viewEngine: ReactDOM|ReactDOMServer,
-                        })
-                        app.start() || app.render(url, context)
-                        ```
+                        简洁的，才是正确的。
                     </script>
                 </section>
                 <section data-markdown>
@@ -342,7 +344,7 @@
                     <script type="text/template">
                         ## 如何处理 CSS 按需加载？
                         - 问题根源：浏览器只在 dom-ready 之前会等待 css 资源加载后再渲染页面
-                        - 问题所在：当单页跳转到另一个 url，css 资源还没加载完，页面显示成混乱布局
+                        - 问题描述：当单页跳转到另一个 url，css 资源还没加载完，页面显示成混乱布局
                         - 处理办法：将 css 视为预加载的 ajax 数据，以 style 标签的形式按需引入
                         - 优化策略：用 context 缓存预加载数据，避免重复加载
                     </script>
@@ -387,11 +389,19 @@
                 <section data-markdown>
                     <script type="text/template">
                         ## 如何管理命令行任务？
-                        - 使用 npm-scripts 完成 git、webpack、test, prettier 等任务的串并联逻辑
+                        - 使用 npm-scripts 在 package.json 里完成 git、webpack、test、prettier 等任务的串并联逻辑
                         - npm start 启动完整的开发环境
                         - npm run start:client 启动不带服务端渲染的开发环境
                         - npm run build 启动自动化编译，构建与压缩部署的任务
                         - npm run build:show-prod 用 webpack-bundle-analyzer 可视化查看编译结果
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 实践案例
+                        - [isomorphic-cnode](https://github.com/Lucifier129/isomorphic-cnode)
+                        - [kanxinqing](http://kanxinqing.cn/)
+                        - [携程招商平台项目](http://vbooking.ctrip.fat13.qa.nt.ctripcorp.com/vbk/vendor/enroll/solicit?18999999902)(xfgao@ctrip.com)
                     </script>
                 </section>
                 <section data-markdown>
