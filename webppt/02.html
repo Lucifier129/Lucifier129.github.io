@@ -120,7 +120,7 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## 如何实现同构？
+                        ## 同构的实现策略
                         - 第一要旨：全盘同构没有意义
                         - 只在 client/server 有交集的部分做同构
                         - 能够内容同构的直接复用
@@ -214,9 +214,9 @@
                         ## create-app 的服务端渲染
                         ```javascript
                         const app = createApp(serverSettings)
-                        app.get('*', async (req, res, next) => {
+                        router.get('*', async (req, res, next) => {
                           try {
-                            const { content } = app.render(req.url, serverContext)
+                            const { content } = await app.render(req.url, serverContext)
                             res.render('layout', { content })
                           } catch(error) {
                             next(error)
