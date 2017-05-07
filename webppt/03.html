@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>IMVC（同构 MVC）的前端实践</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-markdown>
+                    <script type="text/template">
+                        ## IMVC（同构 MVC）的前端实践
+                        古映杰@携程度假研发部
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Web 开发的经典问题
+                        服务端渲染(SSR) VS 客户端渲染(CSR)
+                        ![IMVC](./img/12.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 传统 SSR 架构图
+                        ![IMVC](./img/05.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 传统 SSR 架构的优势
+                        - SEO 友好
+                        - 首次渲染速度快
+                        - 开发语言种类多(Ruby, Python, Java, PHP, ...etc)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 传统 SSR 架构的劣势
+                        - 大量的服务器请求
+                        - 页面频繁刷新，整体渲染速度慢
+                        - 前后端开发耦合，沟通成本高
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 基于 CSR 的 SPA 架构图
+                        Web 单页应用(Single-Page-Application)
+                        ![IMVC](./img/06.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 基于 CSR 的 SPA 架构的优势
+                        - 更少的服务器请求
+                        - 页面 Ajax 局部刷新，整体渲染速度快
+                        - 前后端分离，降低沟通成本，增加开发效率
+                        - 接近原生 App 的交互体验
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 基于 CSR 的 SPA 架构的劣势
+                        - SEO 不友好
+                        - 页面首次内容渲染慢
+                        - 开发语言相对单一(JavaScript || Compile-to-js)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## server-side rendering
+                        ![IMVC](./img/04.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## client-side renderging
+                        ![IMVC](./img/03.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## SSR VS CSR 的结论？
+                        - SSR 和 CSR 各有优势和劣势
+                        - 没有银弹，所有技术都有其取舍
+                        - 重 SEO 和 [首次加载速度](#/10) Web 项目，建议 SSR
+                        - 重 [交互体验](#/10) 和 SEO 无关的 Web 项目，建议 CSR
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## SSR VS CSR => SSR + CSR
+                        - SSR 和 CSR 从对立走向统一
+                        - 首次加载使用 SSR
+                        - 初始化完毕后，使用 CSR
+                        - 获得 SSR 和 CSR 的所有优势
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 实现 SSR + CSR 的一种粗暴办法
+                        - [SSR 做一遍，CSR 做一遍](#\12)
+                        - 开发成本成倍增加
+                        - SSR 和 CSR 的渲染不一致
+                        - 前后端开发依旧耦合
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 携程度假无线 Web 架构的演进
+                        - .NET MVC 架构 + V8 JS 引擎
+                        - SSR 部署路径 [/html5/tour/*](#/13)
+                        - CSR 部署路径 [/webapp/tour/*](#/13)
+                        - 共用同一套基于 CSR 的 SPA 代码
+                        - 只在部分有必要的页面实现 SSR
+                        - 前端工程师按照 .NET 特定规范实现 SSR
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 携程度假无线 Web 架构的演进
+                        - 从 .NET 迁移到 node.js 架构
+                        - 统一前后端渲染的语言为 JavaScript
+                        - SSR 和 CSR 都部署在 [/webapp/vacations/tour/*](#/14)
+                        - 共用同一套基于 CSR 的 SPA 代码
+                        - 只在部分有必要的页面实现 SSR
+                        - 前端工程师在 node.js 里为 SSR 做专门实现
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 携程度假无线 Web 架构的演进
+                        Isomorphic = SSR + CSR
+                        <div style="text-align: center">![IMVC](./img/02.jpg)</div>
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 携程度假无线 Web 架构的演进
+                        - Isomorphic-MVC 架构
+                        - 只维护一份代码，只部署一次
+                        - 首次加载，代码在 node.js 里做 SSR 渲染
+                        - 初始化后，代码在 browser 里做 CSR 渲染
+                        - 对 SEO 友好，快速的首屏渲染
+                        - 服务器请求数降低，交互体验媲美原生 APP
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## ISOMORPHIC 架构图
+                        ![IMVC](./img/07.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## THE VIEW OF IMVC
+                        ![IMVC](./img/16.jpg)
+                        Why? 为什么选择 React ？
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## React IS FOR ALL UI
+                        ![IMVC](./img/14.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## React IS FOR ALL UI
+                        ![IMVC](./img/15.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 携程在 React 技术上的积累和探索
+                        - React-Lite 专注于移动端的 25+kb 轻量级 React 实现
+                        - Ctrip-React-Naive 为携程业务深度定制的 RN 框架
+                        - Ctrip-React-Native-Web 让 RN 代码跑在浏览器上的框架
+                        - React-IMVC 基于 React 的同构 Web 应用框架
+                        - React-UMVC 基于 IMVC + RN + RN-Web 的通用前端框架
+                         - 从 Isomorphic 到 Universal
+                         - 一份 React-Naive 应用代码运行在四个平台
+                         - Browser, Server, IOS, Andriod
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## THE MODEL OF IMVC
+                        - Redux-Like 函数式状态管理机制
+                        - Pure-Function Action(纯函数)
+                        - Immutable-State(不可变状态)
+                        - Unidirectional Data Flow(单向数据流)
+                        - [Time-Travel](http://lucifier129.github.io/flappy-bird/)(时间旅行)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## THE CONTROLLER OF IMVC
+                        ```javascript
+                        class extends ReactIMVC.Controller {
+                            View = ReactComponent
+                            Model = createStore(actions, preloadState)
+                            async shouldComponentCreate() {}, // 是否渲染组件？
+                            async componentWillCreate() {}, // 即将渲染组件
+                            componentWillMount() {}, // 即将插入组件到 DOM 树
+                            componentDidMount() {}, // 组件已经插入 DOM 树
+                            componentWillUpdate() {}, // 组件即将更新
+                            componentDidUpdate() {}, // 组件已经更新
+                            componentWillUnmount() {}, // 组件即将从 DOM 树里移除
+                            pageWillLeave() {}, // 即将离开页面
+                            windowWillUnload() {}, // 浏览器窗口即将关闭
+                        }
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## REACT-IMVC 的目录结构
+                        多项目并存，支持灵活拆分和合并各个项目
+                        <pre>
+                        ├── src                       // 源代码目录                      
+                        │   ├── app-demo                 // demo目录
+                        │   ├── app-abcd                 // 项目 abcd 平台目录
+                        │   │   ├── components          // 项目共享组件
+                        │   │   ├── shared              // 项目共享方法
+                        │   │   │    └── BaseController // 继承基类 Controller 的项目层 Controller   
+                        │   │   ├── home                // 具体页面
+                        │   │   │   ├── controller.js  // 控制器
+                        │   │   │   ├── model.js       // 模型
+                        │   │   │   └── view.js        // 视图
+                        │   │   ├── *                   // 其他页面
+                        │   │   └── routes.js           // abc 项目扁平化路由
+                        │   ├── app-*                    // 其他项目
+                        │   ├── components               // 全局共享组件
+                        │   ├── shared                   // 全局共享文件
+                        │   │   └── BaseController      // 基类 Controller   
+                        │   └── index.js                 // 全局 js 入口
+                        │ 
+                        └── dest // 源码 build 的目标静态文件夹
+                        </pre>
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Isomorphic-MVC 的工程化设施
+                        - Node.js 服务端运行时
+                        - Npm 包依赖管理
+                        - Expressjs 服务端框架
+                        - Babel 语言编译
+                        - Webpack 打包和压缩源码
+                        - Standard.js 代码规范
+                        - Prettier.js + git-hook 代码自动美化排版
+                        - Mocha 单元测试
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Isomorphic-MVC 的开发特性
+                        - 用 ES2015+ 的最新语言特性开发 Web 应用
+                        - 代码变动后，无须重启进程，实时热更新
+                        - 切割 JavaScript 和 CSS 代码，按需加载
+                        - 用文件 hash 作为静态资源的版本号，增量发布
+                        - 一条命令启动整套开发环境
+                        - 一条命令编译、压缩、打包、部署源代码到远程仓库
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Q & A
+                    </script>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
