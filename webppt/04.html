@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>IMVC（同构 MVC）的前端实践</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown>
+                <script type="text/template">
+                        ## 从零开始编写 todo-imvc 应用
+                        工业聚@携程度假研发部
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## Web 开发的经典问题
+                        服务端渲染(Server-Side-Rendering)
+                        <br />
+                        客户端渲染(Client-Side-Rendering)
+                        ![IMVC](./img/12.png)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## 传统 SSR 架构图
+                        ![IMVC](./img/05.jpg)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## 传统 SSR 架构的优势
+                        - SEO 友好
+                        - 首次渲染速度快
+                        - 开发语言种类多(Ruby, Python, Java, PHP, ...etc)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## 传统 SSR 架构的劣势
+                        - 大量的服务器请求
+                        - 页面频繁刷新，整体渲染速度慢
+                        - 前后端开发耦合，沟通成本高
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## 基于 CSR 的 SPA 架构图
+                        Web 单页应用(Single-Page-Application)
+                        ![IMVC](./img/06.jpg)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## 基于 CSR 的 SPA 架构的优势
+                        - 更少的服务器请求
+                        - 页面 Ajax 局部刷新，整体渲染速度快
+                        - 前后端分离，降低沟通成本，增加开发效率
+                        - 接近原生 App 的交互体验
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## 基于 CSR 的 SPA 架构的劣势
+                        - SEO 不友好
+                        - 页面首次内容渲染慢
+                        - 开发语言相对单一(JavaScript || Compile-to-js)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## server-side rendering
+                        ![IMVC](./img/04.jpg)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## client-side renderging
+                        ![IMVC](./img/03.jpg)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## SSR VS CSR 的结论？
+                        - SSR 和 CSR 各有优势和劣势
+                        - 没有银弹，所有技术都有其取舍
+                        - 重 SEO 和 [首次加载速度](#/10) Web 项目，建议 SSR
+                        - 重 [交互体验](#/10) 和 SEO 无关的 Web 项目，建议 CSR
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## SSR VS CSR => SSR + CSR
+                        - SSR 和 CSR 从对立走向统一
+                        - 首次加载使用 SSR
+                        - 初始化完毕后，使用 CSR
+                        - 获得 SSR 和 CSR 的所有优势
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## Isomorphic
+                         Server Side Rendering + Client Side Rendering
+                        <div style="text-align: center">![IMVC](./img/02.jpg)</div>
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## ISOMORPHIC 架构图
+                        ![IMVC](./img/07.jpg)
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## Isomorphic-MVC 框架
+                        - 只维护一份代码
+                        - 首次加载，代码在 node.js 里做 SSR 渲染(ReactDOMServer.renderToString)
+                        - 初始化后，代码在 browser 里做 CSR 渲染(ReactDOM.render)
+                        - 对 SEO 友好、快速的首屏渲染、降低服务器请求数、交互体验好
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## Isomorphic-MVC 的开发特性
+                        - 用 ES2015+ 的最新语言特性开发 Web 应用
+                        - 代码变动后，无须重启进程，实时热更新
+                        - 切割 JavaScript 和 CSS 代码，按需加载
+                        - 用文件 hash 作为静态资源的版本号，增量发布
+                        - 一条命令启动整套开发环境
+                        - 一条命令编译、压缩、打包
+                    </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                            ## THE VIEW OF IMVC
+                            ![IMVC](./img/16.jpg)
+                            Why? 为什么选择 React ？
+                        </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                            ## React IS FOR ALL UI
+                            ![IMVC](./img/14.jpg)
+                        </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                            ## React IS FOR ALL UI
+                            ![IMVC](./img/15.jpg)
+                        </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                            ## IMVC 的同构理念
+                            ![IMVC](./img/01.jpg)
+                        </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                            ## 使用 React-IMVC 框架
+                            开发 Todo List App
+                        </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                        ## Q & A
+                    </script>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+</body>
+
+</html>
