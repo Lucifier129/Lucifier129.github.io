@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>面向前端工程师的机器学习引导课</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 面向前端工程师的机器学习引导课
+                        古映杰@携程度假研发部
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 什么是人工智能（AI）?
+                        智能行为和现象有不同的来源
+                        - 自然智能：由自然选择塑造的生物体
+                        - 人工智能：由人类设计和制造的机器
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## AI 的两大分类?
+                        - 强人工智能：拥有自我意识，具备解决通用问题的能力
+                        - 弱人工智能：没有自我意识，具备解决特定问题的能力
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 强智能之拉普拉斯妖
+                        - 知道宇宙中每个原子确切的位置和动量
+                        - 通过牛顿定律推演出宇宙的过去以及未来。
+                        ![28](./img/28.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 弱智能之麦克斯韦妖
+                        - 麦克斯韦妖看守暗门，观察分子运动速度
+                        - 使较快的向某侧流动，较慢向另一侧流动
+                        - 经过充分长的时间，两侧温差会越来越大
+                        ![28](./img/29.jpg)
+                    </script>
+                </section>
+                
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 什么是机器学习?
+                        - 英文：Machine Learning
+                        - 实现人工智能的其中一种方式
+                        - 学习：随着经验的增加，解决问题的能力得到提升
+                        - 机器学习：用数据训练程序以优化其表现的算法
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 机器学习的分类?
+                        ***Supervised*** vs ***Unsupervised***
+                        - 监督学习：训练数据里包含了答案
+                        - 非监督学习：训练数据里不包含答案
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 什么是深度学习?
+                        - Deep Learning
+                        - 实现机器学习的其中一种方式
+                        - 人工神经网络：用计算机模拟大脑神经元运作模式
+                        - 深度神经网络：隐藏层数量很多的人工神经网络
+                        - 深度学习：用大量数据训练深度神经网络的算法
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## AI & ML & DL & GA 的关系 
+                        ![17](./img/17.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 前端工程师与人工智能
+                        - 人类
+                        - 程序员
+                        - 前端工程师
+                        - AI 程序员
+                        - AI 前端工程师
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 前端工程师与人工智能
+                        - 编程语言、开源社区、IDE 等持续发展
+                        - 五年前高级程序员才能做到的事情
+                        - 现在一个的普通程序员也有望做到
+                        - 开发人工智能的门槛会逐渐降低
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 前端工程师与人工智能
+                        UI 开发的三种模式
+                        - 手写标签和样式代码，生成页面
+                        - 可视化拖拽 UI 组建，生成页面
+                        - [直接输入设计稿，输出可用页面](https://github.com/tonybeltramelli/pix2code)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 数学知识回顾：什么是导数？
+                        ### ![19](./img/19.png)
+                        ![18](./img/18.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 数学知识回顾：什么是复合函数？
+                        函数组合：f(g(x))
+                        ### ![21](./img/21.png)
+                        ### ![22](./img/22.png)
+                        ### ![23](./img/23.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 数学知识回顾：什么是链式法则？
+                        函数组合的求导法则：f(g(x))
+                        ### ![24](./img/24.png)
+                        ### ![25](./img/25.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 数学知识回顾：什么是梯度下降？
+                        最低点的<strong style="color:#ea088a">方向</strong>位于导数的反方向
+                        ### ![26](./img/26.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 数学知识回顾：什么是学习率？
+                        <strong style="color:#ea088a">learning rate</strong> 去最低点的步伐大小
+                        ### ![26](./img/27.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 前端人工智障之拟合线段中心点
+                        [在线 DEMO](https://lucifier129.github.io/simple-machine-learning-demo/01/index.html) 和 [源代码](https://github.com/Lucifier129/simple-machine-learning-demo/blob/master/01/index.js)
+                        ### ![30](./img/30.png)
+                        ### ![31](./img/31.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 前端人工智障之拟合矩形中心点
+                        [在线 DEMO](https://lucifier129.github.io/simple-machine-learning-demo/02/index.html) 和 [源代码](https://github.com/Lucifier129/simple-machine-learning-demo/blob/master/02/index.js)
+                        ### ![30](./img/33.png)
+                        ### ![31](./img/32.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 前端人工智障之线性回归
+                        [在线 DEMO](https://lucifier129.github.io/simple-machine-learning-demo/03/index.html) 和 [源代码](https://github.com/Lucifier129/simple-machine-learning-demo/blob/master/03/index.js)
+                        ### ![34](./img/34.png)
+                        ### ![35](./img/35.png)
+                        ### ![36](./img/36.png)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 什么是感知机(Perceptrons)？
+                        ### ![Perceptrons](./img/37.jpg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## 什么是感知机(Perceptrons)？
+                        ### ![Perceptrons](./img/37.jpg)
+                    </script>
+                </section>
+                
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Q & A
+                    </script>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
