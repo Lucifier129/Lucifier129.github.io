@@ -1,0 +1,139 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Make Front End MVC Great Again</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown>
+                <script type="text/template">
+                    ## Make Front End MVC Great Again
+                    工业聚@Ctrip
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## MVC 与 OOP
+                    Model-Controller-View && Object-Oriented Programming
+                    - MVC 和 OOP 都有一个原始解读(Original)
+                    - 在多种编程语言里都有不尽相同的体现
+                    - 只有原始的那一个，才是真正的 MVC 或 OOP ？
+                    - Particular MVC architectures can <strong style="color:#ea088a">vary significantly</strong> from the traditional description --wiki
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## MVC 的开放定义
+                    from wiki
+                    - <strong style="color:#ea088a">Model</strong> : manages the data, logic and rules of the application
+                    - <strong style="color:#ea088a">View</strong> : can be any output representation of information
+                    - <strong style="color:#ea088a">Controller</strong> : accepts input and converts it to commands for the model or view
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## 多层次 MVC 架构
+                    user-input -> controller -> model -> view
+                    - 在浏览器里输入 url
+                    - 到用户看到界面过程中
+                    - 经历了多少层 MVC 架构
+                    - 上一层的  view 输出
+                    - 是下一层 MVC 的 input 输入
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## 第一层：Backend MVC
+                    rails, django, .net-mvc, express.js...
+                    - url -> dns -> ip
+                    - path -> router -> controller
+                    - model -> view -> html
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## 第二层：Browser MVC
+                    IE, Chrome, Firefox, Safari, Opera...
+                    - html -> window/tab-controller
+                    - DOM: Document Object Model
+                    - CSSOM: CSS Object Model
+                    - DOM + CSSOM -> RenderTree(View)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## 第三层：Front-End MVC
+                    Backbone, Angularjs, Knockout...
+                    - html -> window/tab-controller
+                    - DOM: Document Object Model
+                    - CSSOM: CSS Object Model
+                    - DOM + CSSOM -> RenderTree(View)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## 前端 MVC 已死？
+                    [Is Model-View-Controller dead on the front end?](https://medium.freecodecamp.org/is-mvc-dead-for-the-frontend-35b4d1fe39ec)
+                    ![mvc](./img/mvc-01.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## 前端 MVC 已死？
+                    - winner: component-based && unidirectional architectures
+                    - loser: Backbone, Angular v1
+                </script>
+            </section>
+
+
+            
+            <section data-markdown>
+                <script type="text/template">
+                    ## Q & A
+                    关注我的公众号，了解更多前端玩法
+                    <img style="display:block; width:500px; margin:0 auto; background:white" src="./img/wx.jpg" />
+                </script>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+</body>
+
+</html>
