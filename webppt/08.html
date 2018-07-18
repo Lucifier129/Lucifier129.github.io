@@ -1,0 +1,525 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Functional Programming in React</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown>
+                <script type="text/template">
+                    ## Functional Programming in React
+                    工业聚@Ctrip
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## A way to improve React skill
+                    - Step 1: Learn some JavaScript
+                    - Step 2: Learn some [React](https://reactjs.org/)
+                    - Step 3: Learn some [Haskell](https://en.wikibooks.org/wiki/Haskell)
+                    - Step 4: Learn some [Category Theory](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)
+                    - Step 5: Go to step 1
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Your Impression about FP
+                    - Programming tricks
+                    - Programming design patterns
+                    - Programming paradigm
+                    - Computer Science
+                    - Mathematics
+                    - Philosophy
+                    - Others
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## FP vs Non-FP
+                    - Non-FP: Discover mathematics from programming
+                    - FP: Apply mathematics to programming
+                    - The best practices in Non-FP follow the principle of FP
+                    - Such like avoid global state, Defensive Programming, comosable and so on
+                    - The FP parts of a codebase are always safest parts.
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Calculation and Effect
+                    The code is all about Calculation and [Effect](./img/183-world-annihilation.png)
+                    - Calculation is an Effect of Code
+                    - Code with not only Calculation Effect means Side Effects
+                    - Code with only Calculation Effect means Purity
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Pure Function
+                    - Works like Math formula
+                    - Always return the same result when got the same arguments
+                    - No other effects
+                    ```javascript
+                    const add = (x, y) => x + y
+                    // immutable variable
+                    const person = { firstname: 'Jade', lastname: 'Gu' } 
+                    // 'person' is just works like alias
+                    const getFullName = person => `${person.firstname} ${person.lastname}` 
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Impure Function
+                    Programming in an unsafe way
+                    - Your code change the Environment irreversibly
+                    - The Environment your code depends on become unexpected
+                    ```javascript
+                    // depends on the memory of the computer
+                    let count = 0 
+                    // different result with the same arguments
+                    let getCount = () => Count++
+                    let setCount = n => count = n // n may not be number
+                    // cause side effects in console
+                    let printCount = () => console.log(id) 
+                    // cause side effects in DOM
+                    let renderCount = () => document.getElementById('count').innerHTML = count
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Why Purity matters?
+                    Remove a non-existent element will make your app crash
+                    - Side Effects are dangerous
+                    - Side Effects are hard to reason about
+                    - Side Effects don't scale
+                    - Side Effects make thing became more complex than it should be
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## The higher-order function
+                    Our best friends in Front-end Development
+                    - A function returns another function
+                    - A function takes another function as the argument
+                    ```javascript
+                    // map is higher-order function
+                    const map = (list, f) => list.map(f)
+                    // filter is also higher-order function
+                    const filter = f => list => list.filter(f)
+                    // ajax is higher-order function
+                    ajax(url, data, successCallback, errorCallback)
+                    // fs.readFile is higher-order function
+                    fs.readFile('/filename.txt', (error, data) => {})
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## [A little JavaScript problem](http://lisperator.net/blog/a-little-javascript-problem/)
+                    - No arrays, No object, no dot operator, no for-loop, no while-loop
+                    - How to solve the problem without the data structure?
+                    ```javascript
+                    var numbers = range(1, 10);
+                    numbers = map(numbers, function (n) { return n * n });
+                    numbers = reverse(numbers);
+                    foreach(numbers, console.log);
+                    /* output:
+                        100
+                        81
+                        64
+                        49
+                        36
+                        25
+                        16
+                        9
+                        4
+                        1
+                    */
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## The power of Function
+                    Lambda calculus
+                    - We can just use Function do all possiable calculus in computer
+                    - All programming language features can be desugered into Function
+                    [![solution](./img/a-little-js-problem.jpg)](https://codesandbox.io/s/xjjpxmvl1z)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## What is the consistency of the following?
+                    - String
+                    - Array
+                    - Object
+                    - Tree
+                    - Promise
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Mapable and Functor
+                    - map(string, char => char)
+                    - map(array, item => item)
+                    - map(object, value => value)
+                    - map(tree, node => node)
+                    - map(promise, asyncValue => asyncValue)
+                    ```haskell
+                    fmap id = id
+                    fmap (g . f) = fmap g . fmap f
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## What is the consistency of the following?
+                    - Number
+                    - String
+                    - Array
+                    - Function
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Addition of numbers
+                    - <strong style="color:#ea088a">0</strong> is identity value
+                    - <strong style="color:#ea088a">+</strong> is associative operation
+                    ```javascript
+                    0 + n = n
+                    n + 0 = n
+                    (0 + 1) + 2 = 0 + (1 + 2)
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Multiplication of numbers
+                    - <strong style="color:#ea088a">1</strong> is identity value
+                    - <strong style="color:#ea088a">*</strong> is associative operation
+                    ```javascript
+                    1 * n = n
+                    n * 1 = n
+                    (1 * 2) * 3 = 1 * (2 * 3)
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Concatenation of array
+                    - <strong style="color:#ea088a">[]</strong> is identity value
+                    - <strong style="color:#ea088a">++</strong> is associative operation
+                    ```javascript
+                    [] ++ [1,2,3] = [1,2,3]
+                    [1,2,3] ++ [] = [1,2,3]
+                    [1,2] ++ [3] ++ [4] = [1,2] ++ ([3] ++ [4])
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Concatenation of string
+                    - <strong style="color:#ea088a">""</strong> is identity value
+                    - <strong style="color:#ea088a">+</strong> is associative operation
+                    ```javascript
+                    "abc" + "" = "abc"
+                    "" + "abc" = "abc"
+                    "abc" + "xyz" + "123" = "abc" + ("xyz" + "123")
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Composition of Functions
+                    - <strong style="color:#ea088a">id</strong> is identity value
+                    - <strong style="color:#ea088a">compose</strong> is associative operation
+                    ```haskell
+                    id = \x -> x
+                    f . id = f
+                    id . f = f
+                    (f . g) . h = f . (g . h)
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Monoid
+                    a monoid is an algebraic structure with a single associative binary operation and an identity element.
+                    - All of the identity value named <strong style="color:#ea088a">mempty</strong>
+                    - All of the associative operation named <strong style="color:#ea088a">mappend</strong>
+                    ```haskell
+                    class Monoid a where
+                        mempty  :: a
+                        mappend :: a -> a -> a
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Source of power of React
+                    Why React works better than jQuery in complex web app?
+                    - jQuery is lack in side effects management
+                    - The methods in $.fn mostly perform Side Effects
+                    - React splits UI Dev into two parts: JSX && Renderer
+                    - JSX can be Pure Function without Side Effects and are easy to compose.
+                    - Renderer(ReactDOM/ReactNative) performs Side Effects later
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Functional setState
+                    The common question: [Why is setState async?](https://github.com/facebook/react/issues/11527)
+                    - Some people want setState performs side-effects immediately
+                    - setState is optimized by performing batches updates if possible
+                    - setState(updater[, callback]) is higher-order function
+                    ```javascript
+                    // imperative style
+                    this.setState(newState)
+                    this.setState(anotherState)
+                    console.log(this.state)
+                    // functional style
+                    this.setState(state => update(state), () => console.log(this.state))
+                    this.setState(state => update(state), () => console.log(this.state))
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## [Higher-Order Component](https://reactjs.org/docs/higher-order-components.html)
+                    HOC is the subset of the higher-order function
+                    - a higher-order component is a function that takes a component and returns a new component.
+                    ```javascript
+                    const defaultProps = defaults => InputComponent => {
+                        const OutputComponent = props => <InputComponent {...defaults} {...props} />
+                        return OutputComponent
+                    }
+                    const ComponentWithDefaultProps = defaultProps({ name: 'Jade' })(MyComponent)
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## [Render props](https://reactjs.org/docs/render-props.html)
+                    Render props is the subset of the higher-order function
+                    - A component with a render prop takes a function that returns a React element and calls it instead of implementing its own render logic
+                    ```javascript
+                    <Mouse>
+                        {mouse => (
+                          <p>The mouse position is {mouse.x}, {mouse.y}</p>
+                        )}
+                    </Mouse>
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## [React Suspense](https://medium.com/@lmatteis/react-suspense-for-the-layman-caae7f48686f)
+                    Based on the idea of FP: [algebraic-effects](https://www.eff-lang.org/handlers-tutorial.pdf)
+                    - fetch data without async/await
+                    ```javascript
+                    const commentInfoFetcher = createFetcher(
+                    fetchCommentInfo // function that returns a fetch() promise  
+                    )
+                    function CommentsInfo({ commentId }) {
+                    const commentInfo = commentInfoFetcher.read(commentId)
+                    return <div>
+                        Title: {commentInfo.title}
+                        Description: {commentInfo.description}
+                    </div>
+                    }
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## algebraic-effects
+                    Rise and Resume
+                    - never resume -> Exception effect
+                    - resume once -> Promise/Generator/State
+                    - resume multiple times
+                    ```javascript
+                    with(handler) {
+                        const forename = prompt('What is your forename?')
+                        const surname = prompt ('What is your surname?')
+                        return([forename, surname].join(' '))
+                    }
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## algebraic-effects in javascript
+                    [Sebastian proposed two years ago](https://esdiscuss.org/topic/one-shot-delimited-continuations-with-effect-handlers)
+                    ```javascript
+                    function otherFunction() {
+                        console.log(1);
+                        let a = perform { x: 1, y: 2 };
+                        console.log(a);
+                        return a;
+                      }
+                      
+                      do try {
+                        let b = otherFunction();
+                        b + 1;
+                      } catch effect -> [{ x, y }, continuation] {
+                        console.log(2);
+                        let c = continuation(x + y);
+                        console.log(c);
+                        c + 1;
+                      }
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## [algebraic-effects in javascript](https://codesandbox.io/s/mz6o0onzzp)
+                    (throw + catch ≈ rise) && (re-run ≈ resume)
+                    - throw promise -> catch promise -> promise.then(reRun)
+                    - throw observable -> catch observable -> observable.subscribe(reRun)
+                    ```javascript
+                    const main = operators => {
+                        let { fetchJSON, interval } = operators;
+                        let data = fetchJSON("https://api.github.com/repos/zeit/next.js");
+                        let count = interval(1000 / 60);
+                        let angle = count % 360;
+                        let root = document.getElementById("root");
+                        root.style.transform = `rotate(${angle}deg)`;
+                        root.innerHTML = data.stargazers_count;
+                      };
+                      
+                      withHandler({ interval, fetchJSON })(main);
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Tail call optimization for js
+                    A special case of algebraic-effects
+                    - Optimizing tail-resumptions to a regular function call
+                    - [Tail call optimization demo](https://codesandbox.io/s/oo4n38y0y9)
+                    ```javascript
+                    const tco = f => {
+                        let isCalling = false
+                        return (...args) => {
+                            if (isCalling) throw args
+                            while (true) {
+                                try {
+                                    isCalling = true
+                                    return f(...args)
+                                } catch(params) {
+                                    if (params instanceof Error) throw params
+                                    args = params
+                                } finally {
+                                    isCalling = false
+                                }
+                            }
+                        }
+                    } 
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Unsafe resumption
+                    why did React deprecated componentWill*?
+                    - Many React Dev perform side-effects in componentWill*
+                    - Re-render component with the same props and state should be safe
+                    - Solution: performs side-effects in componentDid*
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## reactive react
+                    [Put react in rxjs](https://codesandbox.io/s/rmkwjx0rrq)
+                    - toReactComponent :: observable -> react-component
+                    ```javascript
+                    const App = from("hello rxjs-react!").pipe(
+                        concatMap(char => of(char).pipe(delay(300))),
+                        scan((str, char) => str + char, ""),
+                        toReactComponent(text => {
+                            return (
+                            <div>
+                                <h1>{text}</h1>
+                            </div>
+                            );
+                        })
+                    );
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## reactive react
+                    [Put rxjs in react](https://codesandbox.io/s/9o6ym1jrr4)
+                    - reactive :: component -> reactive-component
+                    ```javascript
+                    const App = reactive(() => {
+                        const hello$ = from('hello rxjs-react!').pipe(
+                            concatMap(char => of(char).pipe(delay(300))),
+                            scan((str, char) => str + char, ''),
+                            map(text => <h1>{text}</h1>)
+                        )
+                        return <div>{hello$}</div>
+                    })
+                    ```
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## conclusion
+                    - FP is awesome in web dev when using it in a right way(Such like React)
+                    - JS is not friendly enough for FP (e.g algebraic-effects)
+                    - Learning FP can improve our understanding of programming
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Q & A
+                    关注我的公众号，了解更多前端玩法
+                    <img style="display:block; width:500px; margin:0 auto; background:white" src="./img/wx.jpg" />
+                </script>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+</body>
+
+</html>
