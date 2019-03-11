@@ -1,0 +1,235 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>度假动态化 GraphQL 查询平台介绍</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">度假动态化 [GraphQL](http://m.ctrip.com/graphql) 查询平台介绍</h2>
+                    古映杰@度假研发部
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">什么是 GraphQL？</h2>
+                    Facebook 2015 年开源的 API 查询语言
+                    <img style="height:500px;" src="./10/12.png" alt="">
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">GraphQL-前端友好的查询语言</h2>
+                    - 查询语法跟查询结果相近
+                    - 能精确查询想要的字段
+                    - 能合并多个请求到一个查询语句
+                    - 无接口版本管理问题
+                    - 代码即文档
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    JSON 是一个 key-value pair 风格的数据表示
+
+                    ![](./10/11.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    查询语句应包含跟结果一致的 key 之间的层次结构关系
+
+                    ![](./10/10.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    删除语法冗余
+
+                    ![](./10/09.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    设计传参语法
+
+                    ![](./10/08.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    设计别名映射语法
+
+                    ![](./10/19.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    设计变量参数，增加安全程度和动态能力
+
+                    ![](./10/07.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    如何对字段做条件判断以及其它计算？——指令
+
+                    ![](./10/06.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">设计一门前端友好的查询语言</h2>
+
+                    如何减少重复字段的编写？——片段
+
+                    ![](./10/05.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">GraphQL vs RESTful vs RPC vs ORM</h2>
+                    GraphQL 跟其它技术选型并非对立，可以互通有无
+
+                    - GraphQL 是一种查询语法
+                    - GraphQL 服务需要实现 resolver 函数
+                    - resovler 解析查询语句里的字段、参数和指令
+                    - resolver 可以调用其它 GraphQL, RESTful, RPC 或 ORM 接口获取数据
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">RESTful in GraphQL</h2>
+                    <img src="./10/13.png" style="height:350px" alt="">
+                    <img src="./10/14.png" style="height:350px" alt="">
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">RPC in GraphQL</h2>
+                    <img src="./10/16.png" style="height:330px" alt="">
+                    <img src="./10/15.png" style="height:330px" alt="">
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">GraphQL 作为 API-Gateway</h2>
+
+                    前端 -> [GraphQL](https://m.ctrip.com/graphql) -> 微服务
+
+                    ![](./10/04.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">静态类型的 GraphQL 服务</h2>
+                    数据类型传递链路：database -> 微服务 -> GraphQL -> 前端
+
+                    ![](./10/17.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">动态类型的 GraphQL 服务</h2>
+                    [graphql-dynamic](https://github.com/Lucifier129/graphql-dynamic): schema-less, directive-driven GraphQL
+
+                    ![](./10/18.png)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">为什么不选择静态类型的 GraphQL？</h2>
+                    - 类型传递成本高，需要 backend 接口提供完备，高时效性的类型结构契约
+                    - resolver 维护成本高，对开发者的接口设计能力有更高要求
+                    - 难以实现一个通用的 GraphQL 服务
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">为什么选择动态类型的 GraphQL？</h2>
+                    - 无类型传递成本
+                    - resolver 维护成本低
+                    - 可以实现通用的 GraphQL 服务，拿来即用
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">如何使用动态 GraphQL 查询平台？</h2>
+                    三种方式
+                    - 直接调用部署在 [Gateway](https://sec-m.ctrip.com/restapi/vacations/graphql) 的 [/graphql](https://m.ctrip.com/graphql) 接口
+                    - 使用[@ctrip/graphq-client](http://npm.release.ctripcorp.com/package/@ctrip/graphql-client) 提供的 api 调用上述接口
+                    - 使用 [@ctrip/graphql](http://npm.release.ctripcorp.com/package/@ctrip/graphql)，在自己的 node.js 服务里部署一个 /graphql 路由
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    <h2 style="text-transform:none">GraphQL 相关资料</h2>
+                    - [GraphQL 查询语法速查表](https://devhints.io/graphql#queries)
+                    - [度假 GraphQL IDE 地址](https://m.ctrip.com/graphql)
+                    - [度假 GraphQL 查询平台仓库](http://git.dev.sh.ctripcorp.com/vacation-H5/graphql)
+                    - [graphql-dynamic 文档](https://github.com/Lucifier129/graphql-dynamic)
+                    - [@ctrip/graphql-client 仓库](http://git.dev.sh.ctripcorp.com/vacation-H5/graphql-client)
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Q & A
+                </script>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+</body>
+
+</html>
